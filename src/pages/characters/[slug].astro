@@ -1,0 +1,7 @@
+---
+import {getCollection, render} from 'astro:content'; import CharacterLayout from '../../layouts/CharacterLayout.astro';
+export async function getStaticPaths(){const entries=await getCollection('characters'); return entries.map(entry=>({params:{slug:entry.data.slugName},props:{entry}}));}
+const {entry}=Astro.props; const missing=Object.entries(entry.data).filter(([,v])=>v==='TBD').map(([k])=>k); if(missing.length) console.warn(`[character:${entry.data.slugName}] missing: ${missing.join(', ')}`);
+const {Content}=await render(entry);
+---
+<CharacterLayout entry={entry}><Content/></CharacterLayout>

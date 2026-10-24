@@ -1,0 +1,1 @@
+export default function Page(){return <article className="prose-page mx-auto max-w-3xl px-4 py-12"><h1 className="font-serif text-5xl">About FourthWingDragon</h1><p>This independent fan reference organizes dragon colors, tail types, quizzes and reading guides for Empyrean readers.</p></article>}

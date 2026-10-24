@@ -1,0 +1,1 @@
+export default function Page(){return <article className="prose-page mx-auto max-w-3xl px-4 py-12"><h1 className="font-serif text-5xl">Privacy</h1><p>This site does not require an account. Quiz answers remain in the browser session and are not submitted to a database.</p></article>}

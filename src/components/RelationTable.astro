@@ -1,0 +1,4 @@
+---
+const {related=[]}=Astro.props;
+---
+{related.length>0&&<section><h2>Relationships</h2><table><tbody>{related.map((r:any)=><tr><td>{r.slug?<a href={`/characters/${r.slug}/`}>{r.name}</a>:r.name}</td><td>{r.relation}</td></tr>)}</tbody></table></section>}

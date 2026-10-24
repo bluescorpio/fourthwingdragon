@@ -1,0 +1,6 @@
+---
+const {slug}=Astro.props;
+const other=slug==='ridoc'?'violet-sorrengail':'ridoc';
+const otherName=slug==='ridoc'?'Violet Sorrengail':'Ridoc';
+---
+<p class="bordered">Continue with <a href={`/characters/${other}/`}>{otherName}'s character page</a>, browse the <a href="/fourth-wing-characters/">character index</a>, or compare <a href="/dragons/">dragon types</a>.</p>

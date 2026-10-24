@@ -1,0 +1,4 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'; import {getCollection} from 'astro:content'; const dragons=await getCollection('dragons');
+---
+<BaseLayout title="Fourth Wing Dragon Types — Colors, Tails & Canon Notes" description="A source-conscious overview of Fourth Wing dragon types, colors and tails with unresolved details clearly marked." breadcrumbs={[{name:'Dragons',href:'/dragons/'}]}><h1>Fourth Wing Dragon Types</h1><p class="muted">This catalog records only supplied data. Unverified fields remain out of the reader-facing facts.</p><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-top:2rem">{dragons.map(d=><article class="bordered"><h2>{d.data.name}</h2><p>{d.data.summary}</p><span class="muted">Verification pending</span></article>)}</div></BaseLayout>

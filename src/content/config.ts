@@ -1,0 +1,5 @@
+import { defineCollection, z } from 'astro:content';
+const related = z.array(z.object({name:z.string(),relation:z.string(),slug:z.string()})).default([]);
+const characterSchema=z.object({fullName:z.string().default('TBD'),knownAs:z.string(),slugName:z.string(),role:z.string(),squad:z.string(),wing:z.string(),signet:z.string().default('TBD'),dragon:z.string().default('TBD'),dragonColor:z.string().default('TBD'),firstAppearance:z.string().default('TBD'),homeProvince:z.string().default('TBD'),family:z.string().optional(),status:z.string().default('TBD'),related,portrait:z.string(),accentColor:z.string(),targetKeyword:z.string(),title:z.string(),description:z.string(),contentStatus:z.enum(['draft','verified']).default('draft')});
+const dragonSchema=z.object({name:z.string(),slugName:z.string(),color:z.string(),tail:z.string(),summary:z.string(),contentStatus:z.enum(['draft','verified']).default('draft')});
+export const collections={characters:defineCollection({type:'content',schema:characterSchema}),dragons:defineCollection({type:'content',schema:dragonSchema})};
