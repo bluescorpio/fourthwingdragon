@@ -1,5 +1,22 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro'; import {getCollection} from 'astro:content';
-const characters=await getCollection('characters');
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+const characters = await getCollection('characters', ({ data }) => data.contentStatus === 'verified');
+const organization = { '@type': 'Organization', '@id': 'https://fourthwingdragon.com/#organization', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/' };
+const data = { '@context': 'https://schema.org', '@graph': [organization, { '@type': 'WebSite', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/', publisher: { '@id': organization['@id'] } }] };
 ---
-<BaseLayout title="Fourth Wing Dragons & Characters — Empyrean Series Guide" description="A source-conscious fan guide to Fourth Wing dragons, Empyrean characters and the relationships between them." breadcrumbs={[]}><h1>Fourth Wing Dragons and Characters</h1><p class="muted">Explore a growing, source-conscious reference to the Empyrean series. Character pages separate confirmed details from research placeholders.</p><div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:2rem"><a class="bordered" href="/fourth-wing-characters/"><h2>Fourth Wing Characters</h2><p>Browse one page per character.</p></a><a class="bordered" href="/dragons/"><h2>Dragon Types</h2><p>Review the dragon catalog and verification status.</p></a></div><section><h2>Featured character pages</h2><ul>{characters.map(c=><li><a href={`/characters/${c.data.slugName}/`}>{c.data.knownAs}</a></li>)}</ul></section></BaseLayout>
+<BaseLayout title="Fourth Wing Dragons & Characters — Empyrean Series Guide" description="Explore an independent Empyrean fan reference, with character and dragon indexes, source notes and clearly marked publication status.">
+  <h1>Fourth Wing Dragons and Characters</h1>
+  <p class="muted">An independent fan reference to the Empyrean series. Profiles appear here after their source review is complete.</p>
+  <div class="grid cards">
+    <a class="bordered" href="/fourth-wing-characters/"><h2>Fourth Wing Characters</h2><p>Browse published character profiles.</p></a>
+    <a class="bordered" href="/dragons/"><h2>Dragon Types</h2><p>Explore the dragon reference index.</p></a>
+  </div>
+  <section><h2>Character guides</h2>
+    {characters.length > 0
+      ? <ul>{characters.map(c => <li><a href={`/characters/${c.data.slugName}/`}>{c.data.knownAs}</a></li>)}</ul>
+      : <p class="muted">Character guides are undergoing source review. No profiles are published yet.</p>}
+  </section>
+  <p>Read <a href="/about/">about this project</a>, our <a href="/privacy/">privacy and cookie policy</a>, and the <a href="/disclaimer/">fan-site disclaimer</a>.</p>
+  <script type="application/ld+json" set:html={JSON.stringify(data)} />
+</BaseLayout>

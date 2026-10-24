@@ -1,1 +1,0 @@
-export default function Page(){return <article className="prose-page mx-auto max-w-3xl px-4 py-12"><h1 className="font-serif text-5xl">Terms</h1><p>Use this fan reference for personal, non-commercial reading and entertainment. Content is presented as-is.</p></article>}

@@ -1,9 +1,0 @@
-export const SITE_NAME = "FourthWingDragon";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://fourthwingdragon.com";
-export const SITE_TAGLINE = "Dragon types, quizzes and guides for the Empyrean series.";
-export const DEFAULT_TITLE = "Fourth Wing Dragons – Types, Colors, Tails & Quizzes";
-export const DEFAULT_DESCRIPTION = "A fan-made reference to the dragons of Rebecca Yarros' Empyrean series: every color and tail type, what they mean for riders, plus quizzes, a dragon name generator and Threshing explainers.";
-export const SOCIAL_IMAGE = { url: "/og-image.png", width: 1200, height: 630, alt: "Fourth Wing Dragons — fan reference" };
-export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || null;
-export const DISCLAIMER_SHORT = "Unofficial fan site. Not affiliated with Rebecca Yarros or Entangled Publishing.";
-export const CANON_SOURCES = [{ label: "Rebecca Yarros — official site", url: "https://www.rebeccayarros.com/fourthwing/" }, { label: "Dragonkind (official)", url: "https://dragonkind.com/" }] as const;

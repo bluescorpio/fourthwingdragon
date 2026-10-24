@@ -1,4 +1,19 @@
 ---
-const {related=[]}=Astro.props;
+interface Props {
+  related: { name: string; relation: string; slug?: string }[];
+  liveSlugs: string[];
+}
+const { related = [], liveSlugs } = Astro.props;
+const live = new Set(liveSlugs);
 ---
-{related.length>0&&<section><h2>Relationships</h2><table><tbody>{related.map((r:any)=><tr><td>{r.slug?<a href={`/characters/${r.slug}/`}>{r.name}</a>:r.name}</td><td>{r.relation}</td></tr>)}</tbody></table></section>}
+{related.length > 0 && <section aria-label="Relationships">
+  <table class="bordered">
+    <thead><tr><th>Character</th><th>Relationship</th><th>Read more</th></tr></thead>
+    <tbody>{related.map(r => <tr>
+      <td>{r.name}</td><td>{r.relation}</td>
+      <td>{r.slug && live.has(r.slug)
+        ? <a href={`/characters/${r.slug}/`}>{r.name}</a>
+        : <span class="muted">no page yet</span>}</td>
+    </tr>)}</tbody>
+  </table>
+</section>}

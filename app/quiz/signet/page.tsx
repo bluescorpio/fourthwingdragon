@@ -1,1 +1,0 @@
-import {QuizRunner} from "@/components/quiz/quiz-runner"; import {signetQuiz} from "@/lib/quizzes"; export default function Page(){return <div className="mx-auto max-w-3xl px-4 py-12"><h1 className="font-serif text-5xl">{signetQuiz.h1}</h1><div className="mt-8"><QuizRunner quiz={signetQuiz}/></div></div>}

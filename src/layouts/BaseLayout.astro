@@ -3,8 +3,46 @@ import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-interface Props { title:string; description:string; breadcrumbs?:{name:string;href:string}[]; type?:string }
-const {title,description,breadcrumbs=[]}=Astro.props;
-const canonical=new URL(Astro.url.pathname,Astro.site ?? 'https://fourthwingdragon.com');
+interface Props {
+  title: string;
+  description: string;
+  breadcrumbs?: { name: string; href: string }[];
+  noindex?: boolean;
+}
+const { title, description, breadcrumbs = [], noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://fourthwingdragon.com');
+const trail = [{ name: 'Home', href: '/' }, ...breadcrumbs.filter(b => b.href !== '/')];
+const breadcrumbData = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: trail.map((b, i) => ({
+    '@type': 'ListItem', position: i + 1, name: b.name,
+    item: new URL(b.href, Astro.site ?? 'https://fourthwingdragon.com').href,
+  })),
+};
 ---
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width"/><title>{title}</title><meta name="description" content={description}/><link rel="canonical" href={canonical}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><script type="application/ld+json" set:html={JSON.stringify({'@context':'https://schema.org','@type':'BreadcrumbList',itemListElement:breadcrumbs.map((b,i)=>({'@type':'ListItem',position:i+1,name:b.name,item:new URL(b.href,Astro.site ?? 'https://fourthwingdragon.com')}))})}/></head><body><SiteHeader/><main><Breadcrumbs items={breadcrumbs}/><slot/></main><SiteFooter/></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL('/og-image.png', canonical)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="FourthWingDragon — Unofficial Empyrean fan reference" />
+    <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData).replaceAll('<', '\\u003c')} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <SiteHeader />
+    <main id="main-content"><Breadcrumbs items={trail} /><slot /></main>
+    <SiteFooter />
+  </body>
+</html>

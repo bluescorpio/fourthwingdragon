@@ -1,4 +1,7 @@
 ---
-const {fields}=Astro.props;
+interface Props { fields: [string, string][] }
+const { fields } = Astro.props;
 ---
-<dl class="bordered grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:2rem 0">{fields.map(([label,value]:[string,string])=><div><dt class="muted">{label}</dt><dd>{value}</dd></div>)}</dl>
+<dl class="bordered grid info-card">
+  {fields.map(([label, value]) => <div><dt class="muted">{label}</dt><dd>{value}</dd></div>)}
+</dl>

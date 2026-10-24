@@ -1,4 +1,7 @@
 ---
-const {items=[]}=Astro.props;
+interface Props { items: { name: string; href: string }[] }
+const { items } = Astro.props;
 ---
-{items.length>0&&<nav aria-label="Breadcrumb" class="muted"><a href="/">Home</a>{items.filter((i:any)=>i.href!=='/').map((i:any)=><span> / <a href={i.href}>{i.name}</a></span>)}</nav>}
+<nav aria-label="Breadcrumb" class="muted">
+  {items.map((item, i) => <span>{i > 0 && ' / '}<a href={item.href}>{item.name}</a></span>)}
+</nav>

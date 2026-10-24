@@ -1,6 +1,15 @@
 ---
-const {slug}=Astro.props;
-const other=slug==='ridoc'?'violet-sorrengail':'ridoc';
-const otherName=slug==='ridoc'?'Violet Sorrengail':'Ridoc';
+interface Props {
+  slug: string;
+  related: { name: string; slug?: string }[];
+  liveSlugs: string[];
+}
+const { slug, related = [], liveSlugs } = Astro.props;
+const live = new Set(liveSlugs);
+const picks = related.filter(r => r.slug && live.has(r.slug) && r.slug !== slug).slice(0, 2);
 ---
-<p class="bordered">Continue with <a href={`/characters/${other}/`}>{otherName}'s character page</a>, browse the <a href="/fourth-wing-characters/">character index</a>, or compare <a href="/dragons/">dragon types</a>.</p>
+<p class="bordered">
+  Continue with {picks.map((r, i) => <>{i > 0 && ', '}<a href={`/characters/${r.slug}/`}>{r.name}'s character page</a>, </>)}
+  the <a href="/fourth-wing-characters/">character index</a>
+  or compare <a href="/dragons/">dragon types</a>.
+</p>

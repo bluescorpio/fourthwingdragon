@@ -1,5 +1,47 @@
 ---
-import BaseLayout from './BaseLayout.astro'; import InfoCard from '../components/InfoCard.astro'; import RelationTable from '../components/RelationTable.astro'; import Disclaimer from '../components/Disclaimer.astro'; import RelatedReading from '../components/RelatedReading.astro';
-const {entry,body}=Astro.props; const d=entry.data; const hidden=(v:string)=>v==='TBD'; const fields=[['Full name',d.fullName],['Role',d.role],['Squad',d.squad],['Wing',d.wing],['Signet',d.signet],['Dragon',d.dragon],['Dragon color',d.dragonColor],['First appearance',d.firstAppearance],['Home province',d.homeProvince],['Status',d.status]].filter(([,v])=>!hidden(v));
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import InfoCard from '../components/InfoCard.astro';
+import RelationTable from '../components/RelationTable.astro';
+import RelatedReading from '../components/RelatedReading.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import { show } from '../lib/fields';
+interface Props {
+  entry: CollectionEntry<'characters'>;
+  noindex?: boolean;
+  headings: { depth: number; slug: string; text: string }[];
+  liveSlugs: string[];
+  dateModified?: string;
+}
+const { entry, noindex = false, headings, liveSlugs, dateModified } = Astro.props;
+const d = entry.data;
+const fields: [string, string][] = [
+  ['Full name', show(d.fullName)], ['Role', show(d.role)],
+  ['Squad', show(d.squad)], ['Wing', show(d.wing)], ['Signet', show(d.signet)],
+  ['Dragon', show(d.dragon)], ['Dragon color', show(d.dragonColor)],
+  ['First appearance', show(d.firstAppearance === 'unknown' ? undefined : d.firstAppearance?.replaceAll('-', ' '))],
+  ['Home province', show(d.homeProvince)], ['Status', show(d.status)],
+];
+const person = { '@context': 'https://schema.org', '@type': 'Person', name: d.fullName ?? d.knownAs };
+const article = {
+  '@context': 'https://schema.org', '@type': 'Article', headline: d.title,
+  dateModified,
+  author: { '@type': 'Organization', name: 'FourthWingDragon' },
+};
 ---
-<BaseLayout title={d.title} description={d.description} breadcrumbs={[{name:'Home',href:'/'},{name:'Characters',href:'/fourth-wing-characters/'},{name:d.knownAs,href:`/characters/${d.slugName}/`}]}> <article><header><img src={d.portrait} alt={`${d.knownAs} portrait`} width="640" height="360" loading="eager" fetchpriority="high"/><h1>{d.knownAs}: Fourth Wing Character Guide</h1><p class="muted">A source-conscious guide to {d.knownAs}, with canon facts separated from research placeholders.</p></header><InfoCard fields={fields}/><nav class="bordered" aria-label="Table of contents"><strong>On this page</strong><ul>{['Background and Origins','Signet and Powers',d.knownAs==='Violet'?'Her Dragon':'His Dragon','Personality and Relationships','Story Arc: Fourth Wing','Story Arc: Iron Flame','Story Arc: Onyx Storm','Fan Theories and Debates'].map((x)=><li><a href={`#${x.toLowerCase().replaceAll(' ','-')}`}>{x}</a></li>)}</ul></nav><div class="prose"><slot/></div><RelationTable related={d.related}/><RelatedReading slug={d.slugName}/><Disclaimer/></article></BaseLayout>
+<BaseLayout title={d.title} description={d.description} noindex={noindex}
+  breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }, { name: d.knownAs, href: `/characters/${d.slugName}/` }]}>
+  <article>
+    <header>
+      <div class="portrait-frame" aria-hidden="true">{d.knownAs.charAt(0)}</div>
+      <h1>{d.knownAs}: Fourth Wing Character Guide</h1>
+    </header>
+    <InfoCard fields={fields} />
+    <TableOfContents items={headings.filter(h => h.depth === 2).map(h => [h.text, h.slug])} />
+    <div class="prose"><slot /></div>
+    <RelationTable related={d.related} liveSlugs={liveSlugs} />
+    <RelatedReading slug={d.slugName} related={d.related} liveSlugs={liveSlugs} />
+    <script type="application/ld+json" set:html={JSON.stringify(person).replaceAll('<', '\\u003c')} />
+    <script type="application/ld+json" set:html={JSON.stringify(article).replaceAll('<', '\\u003c')} />
+  </article>
+</BaseLayout>

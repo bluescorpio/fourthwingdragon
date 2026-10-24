@@ -1,9 +1,10 @@
 ---
-name: Black dragons
-slugName: black
-color: black
-tail: TBD
-summary: A catalog entry awaiting canon verification.
-contentStatus: draft
+name: "Black dragons"
+slugName: "black"
+summary: ""
+targetKeyword: "fourth wing dragon"
+title: "Fourth Wing Dragon Types — Black Dragons Reference Guide"
+description: "An unpublished editorial record for a future dragon reference, awaiting specific source material before any descriptions are released."
+research: []
+contentStatus: "draft"
 ---
-[FACT: Dragon color and tail details to be verified.]
