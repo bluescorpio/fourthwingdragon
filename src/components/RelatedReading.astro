@@ -1,4 +1,5 @@
 ---
+import { isPublishedPath } from '../lib/publication';
 interface Props {
   slug: string;
   related: { name: string; slug?: string; href?: string }[];
@@ -6,10 +7,14 @@ interface Props {
 }
 const { slug, related = [], liveSlugs } = Astro.props;
 const live = new Set(liveSlugs);
-const picks = related.filter(r => r.slug && live.has(r.slug) && r.slug !== slug).slice(0, 2);
+const picks = related.flatMap(item => {
+  const href = item.slug ? `/characters/${item.slug}/` : item.href;
+  if (!href || !isPublishedPath(href)) return [];
+  const character = href.match(/^\/characters\/([^/]+)\/$/);
+  if (character && (!live.has(character[1]) || character[1] === slug)) return [];
+  return [{ name: item.name, href }];
+});
 ---
-<p class="bordered">
-  Continue with {picks.map(r => <><a href={`/characters/${r.slug}/`}>{r.name}'s character page</a>, </>)}
-  the <a href="/fourth-wing-characters/">character index</a>
-  or browse the <a href="/dragons/">dragon index</a>.
-</p>
+{picks.length > 0 && <nav class="bordered" aria-label="Keep reading">
+  <ul>{picks.map(item => <li><a href={item.href}>{item.name}</a></li>)}</ul>
+</nav>}

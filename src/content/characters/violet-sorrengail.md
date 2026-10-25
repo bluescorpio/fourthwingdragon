@@ -5,7 +5,7 @@ slugName: "violet-sorrengail"
 targetKeyword: "violet sorrengail"
 title: "Violet Sorrengail: Fourth Wing Profile and Publisher Reference"
 description: "Find Violet Sorrengail, Fourth Wing, Rebecca Yarros, and the Empyrean series on this page, with a publisher reference and character navigation."
-contentStatus: "verified"
+contentStatus: "published"
 lastVerified: "2026-10-25"
 sources:
   - label: "Entangled Publishing: Fourth Wing"
@@ -25,11 +25,3 @@ verificationNotes: []
 Violet Sorrengail. Fourth Wing. Rebecca Yarros. Empyrean.
 
 Source: [Entangled Publishing: Fourth Wing](https://www.entangledpublishing.com/books/fourth-wing).
-
-## Keep Reading
-
-- [Fourth Wing characters](/fourth-wing-characters/)
-- [Dragon index](/dragons/)
-- [Ridoc Gamlyn](/characters/ridoc/)
-- [Rhiannon Matthias](/characters/rhiannon-matthias/)
-- [Aaric Graycastle](/characters/aaric-graycastle/)

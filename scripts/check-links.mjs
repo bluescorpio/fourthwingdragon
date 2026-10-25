@@ -52,7 +52,7 @@ for (const [page, targets] of outgoing) {
   const sources = inbound.get(page);
   const character = page.startsWith('/characters/');
   console.log(page + ': out=' + targets.size + ' in=' + sources.size);
-  if (sources.size < 1) fail('[orphan] ' + page);
+  if (sources.size < 1 && !pages.get(page).html.includes('noindex')) fail('[orphan] ' + page);
   if (character) {
     const characterOut = [...targets].filter(t => t.startsWith('/characters/')).length;
     const aggregate = targets.has('/fourth-wing-characters/') || targets.has('/dragons/');

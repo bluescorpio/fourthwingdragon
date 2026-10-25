@@ -1,6 +1,13 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
+// Read the shared literal list without requiring Node's TypeScript runtime support.
+const unpublishedSource = await readFile('src/data/unpublished.ts', 'utf8');
+const unpublishedArray = unpublishedSource.match(/UNPUBLISHED_PATHS[^=]*=\s*\[([\s\S]*?)\]/)?.[1];
+if (unpublishedArray === undefined) throw new Error('Missing UNPUBLISHED_PATHS');
+const unpublished = new Set([...unpublishedArray.replace(/\/\/[^\n]*/g, '').matchAll(/['"]([^'"]+)['"]/g)].map(match => match[1]));
+const isLive = data => data.contentStatus === 'published' && !unpublished.has(`/characters/${data.slugName}/`);
+
 const contentDir = 'src/content/characters';
 const pagesDir = 'src/pages';
 const markerPatterns = [/\[FACT:/, /\bTBD\b/, /<!--\s*src:/i, /<!--\s*TODO/i];
@@ -87,7 +94,7 @@ for (const name of await readdir(contentDir)) {
   const { data, body } = entry;
   if (!data.slugName) report(file, 'missing slugName');
   if (!data.contentStatus) report(file, 'missing contentStatus');
-  if (!['draft', 'verified'].includes(data.contentStatus)) report(file, 'unsupported contentStatus');
+  if (!['draft', 'published'].includes(data.contentStatus)) report(file, 'unsupported contentStatus');
   for (const source of data.sources ?? []) {
     try {
       const url = new URL(source.url);
@@ -112,7 +119,8 @@ for (const name of await readdir(contentDir)) {
 
 const inbound = new Map([...characters.keys()].map((slug) => [slug, new Set()]));
 for (const [slug, character] of characters) {
-  const relatedSlugs = (character.data.related ?? []).flatMap((item) => item.slug ? [item.slug] : []);
+  if (!isLive(character.data)) continue;
+  const relatedSlugs = (character.data.related ?? []).flatMap((item) => item.slug && characters.has(item.slug) && isLive(characters.get(item.slug).data) ? [item.slug] : []);
   const targets = new Set([...characterLinks(character.body), ...relatedSlugs].filter(target => target !== slug));
   character.targets = targets;
   for (const target of targets) {
@@ -120,25 +128,29 @@ for (const [slug, character] of characters) {
     if (!recipient) report(character.file, 'links to unknown character /characters/' + target + '/');
     else {
       inbound.get(target).add('character:' + slug);
-      if (recipient.data.contentStatus !== 'verified') report(character.file, 'links to non-verified character /characters/' + target + '/ (' + recipient.data.contentStatus + ')');
+      if (!isLive(recipient.data)) report(character.file, 'links to unpublished character /characters/' + target + '/ (' + recipient.data.contentStatus + ')');
     }
   }
 }
 
 for (const file of await astroFiles(pagesDir)) {
   const text = await readFile(file, 'utf8');
+  if (unpublished.has('/' + file.slice(pagesDir.length + 1).replace(/index\.astro$/, '').replace(/\.astro$/, '/'))) continue;
+  if (/getCollection\('characters', isPublishedCharacter\)/.test(text) && !file.includes('[slug]')) {
+    for (const [slug, character] of characters) if (isLive(character.data)) inbound.get(slug).add('page:' + file);
+  }
   for (const slug of new Set(characterLinks(text))) if (inbound.has(slug)) inbound.get(slug).add('page:' + file);
 }
 
 for (const [slug, character] of characters) {
-  if (character.data.contentStatus !== 'verified') continue;
+  if (!isLive(character.data)) continue;
   const characterOutlinks = [...character.targets].filter((target) => characters.has(target)).length;
-  if (characterOutlinks < 2) report(character.file, 'verified page has ' + characterOutlinks + ' character outlinks (minimum 2)');
+  if (characterOutlinks < 2) report(character.file, 'published page has ' + characterOutlinks + ' character outlinks (minimum 2)');
   const relatedHrefs = (character.data.related ?? []).flatMap((item) => item.href ? [item.href] : []);
   const allLinks = new Set([...characterLinks(character.body), ...relatedHrefs]);
-  if (!character.body.includes('](/fourth-wing-characters/)') && !allLinks.has('/fourth-wing-characters/')) report(character.file, 'verified page is missing /fourth-wing-characters/');
-  if (!character.body.includes('](/dragons/)') && !allLinks.has('/dragons/')) report(character.file, 'verified page is missing /dragons/');
-  if (!(character.data.sources ?? []).some((source) => source.primary === true)) report(character.file, 'verified page has no source with primary: true');
+  if (!character.body.includes('](/fourth-wing-characters/)') && !allLinks.has('/fourth-wing-characters/')) report(character.file, 'published page is missing /fourth-wing-characters/');
+  if (!unpublished.has('/dragons/') && !character.body.includes('](/dragons/)') && !allLinks.has('/dragons/')) report(character.file, 'published page is missing /dragons/');
+  if (!(character.data.sources ?? []).some((source) => source.primary === true)) report(character.file, 'published page has no source with primary: true');
   const count = inbound.get(slug).size;
   console.log(slug + ': out=' + characterOutlinks + ' in=' + count);
   if (count < 3) report(character.file, 'has ' + count + ' inbound links (minimum 3)');

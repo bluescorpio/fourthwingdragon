@@ -5,7 +5,7 @@ slugName: "aaric-graycastle"
 targetKeyword: "aaric graycastle"
 title: "Aaric Graycastle: Fourth Wing Profile and Publisher Reference"
 description: "Find Aaric Graycastle in the publisher's Threshing Day character list, including the phrase \"the restless royal\" and links to other character pages."
-contentStatus: "verified"
+contentStatus: "published"
 lastVerified: "2026-10-25"
 sources:
   - label: "Entangled Publishing: Threshing Day"
@@ -29,11 +29,3 @@ Source: [Entangled Publishing: Threshing Day](https://www.entangledpublishing.co
 ## Name Spelling
 
 The publisher's list uses **Graycastle**. Neither **Greycastle** nor **Tauri** appears in that list.
-
-## Keep Reading
-
-- [Fourth Wing characters](/fourth-wing-characters/)
-- [Dragon index](/dragons/)
-- [Ridoc Gamlyn](/characters/ridoc/)
-- [Rhiannon Matthias](/characters/rhiannon-matthias/)
-- [Violet Sorrengail](/characters/violet-sorrengail/)

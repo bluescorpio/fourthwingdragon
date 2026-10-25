@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { isPublishedCharacter, isPublishedPath } from '../lib/publication';
 import { getCollection } from 'astro:content';
-const characters = await getCollection('characters', ({ data }) => data.contentStatus === 'verified');
+const characters = await getCollection('characters', isPublishedCharacter);
 const organization = { '@type': 'Organization', '@id': 'https://fourthwingdragon.com/#organization', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/' };
 const data = { '@context': 'https://schema.org', '@graph': [organization, { '@type': 'WebSite', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/', publisher: { '@id': organization['@id'] } }] };
 ---
@@ -10,7 +11,7 @@ const data = { '@context': 'https://schema.org', '@graph': [organization, { '@ty
   <p class="muted">Browse character names, publisher references, and the Empyrean navigation index.</p>
   <div class="grid cards">
     <a class="bordered" href="/fourth-wing-characters/"><h2>Fourth Wing Characters</h2><p>Browse published character profiles.</p></a>
-    <a class="bordered" href="/dragons/"><h2>Dragon Index</h2><p>Browse the site navigation index.</p></a>
+    {isPublishedPath('/dragons/') && <a class="bordered" href="/dragons/"><h2>Dragon Index</h2><p>Browse the site navigation index.</p></a>}
   </div>
   <section><h2>Character guides</h2>
     {characters.length > 0

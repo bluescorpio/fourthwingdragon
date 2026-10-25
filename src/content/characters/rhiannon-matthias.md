@@ -5,7 +5,7 @@ slugName: "rhiannon-matthias"
 targetKeyword: "rhiannon matthias"
 title: "Rhiannon Matthias: Fourth Wing Profile and Publisher Reference"
 description: "Find Rhiannon Matthias in the publisher's Threshing Day character list, including the phrase \"the clever friend\" and links to other character pages."
-contentStatus: "verified"
+contentStatus: "published"
 lastVerified: "2026-10-25"
 sources:
   - label: "Entangled Publishing: Threshing Day"
@@ -25,11 +25,3 @@ verificationNotes: []
 Rhiannon Matthias, the clever friend.
 
 Source: [Entangled Publishing: Threshing Day](https://www.entangledpublishing.com/books/threshing-day).
-
-## Keep Reading
-
-- [Fourth Wing characters](/fourth-wing-characters/)
-- [Dragon index](/dragons/)
-- [Ridoc Gamlyn](/characters/ridoc/)
-- [Aaric Graycastle](/characters/aaric-graycastle/)
-- [Violet Sorrengail](/characters/violet-sorrengail/)

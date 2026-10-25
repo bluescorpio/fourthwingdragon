@@ -1,9 +1,10 @@
 ---
+import { isPublishedCharacter } from '../../lib/publication';
 import { getCollection, render } from 'astro:content';
 import { stat } from 'node:fs/promises';
 import CharacterLayout from '../../layouts/CharacterLayout.astro';
 export async function getStaticPaths() {
-  const entries = await getCollection('characters', ({ data }) => data.contentStatus === 'verified');
+  const entries = await getCollection('characters', isPublishedCharacter);
   const liveSlugs = entries.map(entry => entry.data.slugName);
   return entries.map(entry => ({ params: { slug: entry.data.slugName }, props: { entry, liveSlugs } }));
 }

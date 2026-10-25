@@ -5,7 +5,7 @@ slugName: "ridoc"
 targetKeyword: "ridoc fourth wing"
 title: "Ridoc Gamlyn: Fourth Wing Character and Publisher Reference"
 description: "Find Ridoc Gamlyn in the publisher's Threshing Day character list, including the phrase \"the jokester\" and links to other character pages."
-contentStatus: "verified"
+contentStatus: "published"
 lastVerified: "2026-10-25"
 sources:
   - label: "Entangled Publishing: Threshing Day"
@@ -25,11 +25,3 @@ verificationNotes: []
 Ridoc Gamlyn, the jokester.
 
 Source: [Entangled Publishing: Threshing Day](https://www.entangledpublishing.com/books/threshing-day).
-
-## Keep Reading
-
-- [Fourth Wing characters](/fourth-wing-characters/)
-- [Dragon index](/dragons/)
-- [Rhiannon Matthias](/characters/rhiannon-matthias/)
-- [Aaric Graycastle](/characters/aaric-graycastle/)
-- [Violet Sorrengail](/characters/violet-sorrengail/)
