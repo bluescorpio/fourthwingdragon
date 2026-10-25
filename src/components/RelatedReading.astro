@@ -1,7 +1,7 @@
 ---
 interface Props {
   slug: string;
-  related: { name: string; slug?: string }[];
+  related: { name: string; slug?: string; href?: string }[];
   liveSlugs: string[];
 }
 const { slug, related = [], liveSlugs } = Astro.props;
@@ -11,5 +11,5 @@ const picks = related.filter(r => r.slug && live.has(r.slug) && r.slug !== slug)
 <p class="bordered">
   Continue with {picks.map((r, i) => <>{i > 0 && ', '}<a href={`/characters/${r.slug}/`}>{r.name}'s character page</a>, </>)}
   the <a href="/fourth-wing-characters/">character index</a>
-  or compare <a href="/dragons/">dragon types</a>.
+  or browse the <a href="/dragons/">dragon index</a>.
 </p>

@@ -1,0 +1,22 @@
+{
+  "checkedOn": "2026-10-25",
+  "sources": [
+    {
+      "url": "https://www.entangledpublishing.com/books/threshing-day",
+      "title": "Threshing Day",
+      "excerpts": [
+        "Ridoc Gamlyn, the jokester.",
+        "Rhiannon Matthias, the clever friend.",
+        "Aaric Graycastle, the restless royal."
+      ],
+      "listSpellingAbsent": ["Greycastle", "Tauri"],
+      "method": "Read the publisher HTML and decoded publisher metadata. Names and phrases matched exactly."
+    },
+    {
+      "url": "https://www.entangledpublishing.com/books/fourth-wing",
+      "title": "Fourth Wing",
+      "termsConfirmed": ["Violet Sorrengail", "Rebecca Yarros", "Empyrean"],
+      "method": "Read the publisher HTML. Only these names and titles were retained; no synopsis events were retained."
+    }
+  ]
+}

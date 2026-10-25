@@ -1,21 +1,35 @@
 ---
-fullName: "Violet Sorrengail"
 knownAs: "Violet"
+fullName: "Violet Sorrengail"
 slugName: "violet-sorrengail"
-firstAppearance: "fourth-wing"
-related: []
 targetKeyword: "violet sorrengail"
-title: "Violet — Fourth Wing Character: Sources and Profile Guide"
-description: "An editorial reference for Violet Sorrengail, with source notes and a clear distinction between checked material and unpublished research."
-research:
-  - "https://www.rebeccayarros.com/fourthwing/"
-contentStatus: "draft"
+title: "Violet Sorrengail: Fourth Wing Profile and Publisher Reference"
+description: "Find Violet Sorrengail, Fourth Wing, Rebecca Yarros, and the Empyrean series on this page, with a publisher reference and character navigation."
+contentStatus: "verified"
+lastVerified: "2026-10-25"
+sources:
+  - label: "Entangled Publishing: Fourth Wing"
+    url: "https://www.entangledpublishing.com/books/fourth-wing"
+    primary: true
+related:
+  - { name: "Ridoc Gamlyn", slug: "ridoc" }
+  - { name: "Rhiannon Matthias", slug: "rhiannon-matthias" }
+  - { name: "Aaric Graycastle", slug: "aaric-graycastle" }
+  - { name: "Fourth Wing characters", href: "/fourth-wing-characters/" }
+  - { name: "Dragon index", href: "/dragons/" }
+verificationNotes: []
 ---
 
-<h2 id="background-and-origins">Background and Origins</h2>
+## Publisher Reference
 
-Violet Sorrengail expected to join the Scribe Quadrant. Instead, her mother orders her to compete for a place among Navarre's dragon riders. The author's synopsis places this conflict at Basgiath War College, where Violet must rely on her intelligence to navigate dangerous training and rival candidates. <!-- src: official -->
+Violet Sorrengail. Fourth Wing. Rebecca Yarros. Empyrean.
 
-This editorial draft covers only source-supported introductory material. Details about abilities, dragon bonds, relationships and later story events remain unpublished until their source review is complete.
+Source: [Entangled Publishing: Fourth Wing](https://www.entangledpublishing.com/books/fourth-wing).
 
-Source: [Rebecca Yarros — Fourth Wing](https://www.rebeccayarros.com/fourthwing/).
+## Keep Reading
+
+- [Fourth Wing characters](/fourth-wing-characters/)
+- [Dragon index](/dragons/)
+- [Ridoc Gamlyn](/characters/ridoc/)
+- [Rhiannon Matthias](/characters/rhiannon-matthias/)
+- [Aaric Graycastle](/characters/aaric-graycastle/)

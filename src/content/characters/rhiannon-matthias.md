@@ -1,20 +1,35 @@
 ---
-fullName: "Rhiannon Matthias"
 knownAs: "Rhiannon"
+fullName: "Rhiannon Matthias"
 slugName: "rhiannon-matthias"
-related: []
-targetKeyword: "rhiannon fourth wing"
-title: "Rhiannon — Fourth Wing Character: Sources and Profile Guide"
-description: "An editorial reference for Rhiannon Matthias, with source notes and a clear distinction between checked material and unpublished research."
-research:
-  - "https://www.entangledpublishing.com/"
-contentStatus: "draft"
+targetKeyword: "rhiannon matthias"
+title: "Rhiannon Matthias: Fourth Wing Profile and Publisher Reference"
+description: "Find Rhiannon Matthias in the publisher's Threshing Day character list, including the phrase \"the clever friend\" and links to other character pages."
+contentStatus: "verified"
+lastVerified: "2026-10-25"
+sources:
+  - label: "Entangled Publishing: Threshing Day"
+    url: "https://www.entangledpublishing.com/books/threshing-day"
+    primary: true
+related:
+  - { name: "Ridoc Gamlyn", slug: "ridoc" }
+  - { name: "Aaric Graycastle", slug: "aaric-graycastle" }
+  - { name: "Violet Sorrengail", slug: "violet-sorrengail" }
+  - { name: "Fourth Wing characters", href: "/fourth-wing-characters/" }
+  - { name: "Dragon index", href: "/dragons/" }
+verificationNotes: []
 ---
 
-<h2 id="background-and-origins">Background and Origins</h2>
+## Publisher Reference
 
-The publisher's website names Rhiannon Matthias in its Empyrean character material. <!-- src: publisher -->
+Rhiannon Matthias, the clever friend.
 
-This editorial draft covers only source-supported introductory material. Details about abilities, dragon bonds, relationships and later story events remain unpublished until their source review is complete.
+Source: [Entangled Publishing: Threshing Day](https://www.entangledpublishing.com/books/threshing-day).
 
-Source: [Entangled Publishing](https://www.entangledpublishing.com/).
+## Keep Reading
+
+- [Fourth Wing characters](/fourth-wing-characters/)
+- [Dragon index](/dragons/)
+- [Ridoc Gamlyn](/characters/ridoc/)
+- [Aaric Graycastle](/characters/aaric-graycastle/)
+- [Violet Sorrengail](/characters/violet-sorrengail/)

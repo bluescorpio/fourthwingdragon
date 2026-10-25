@@ -5,12 +5,12 @@ const characters = await getCollection('characters', ({ data }) => data.contentS
 const organization = { '@type': 'Organization', '@id': 'https://fourthwingdragon.com/#organization', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/' };
 const data = { '@context': 'https://schema.org', '@graph': [organization, { '@type': 'WebSite', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/', publisher: { '@id': organization['@id'] } }] };
 ---
-<BaseLayout title="Fourth Wing Dragons & Characters — Empyrean Series Guide" description="Explore an independent Empyrean fan reference, with character and dragon indexes, source notes and clearly marked publication status.">
+<BaseLayout title="Fourth Wing Dragons & Characters — Empyrean Series Guide" description="Explore an independent Empyrean fan reference, with character and dragon indexes, publisher references and links between the character pages.">
   <h1>Fourth Wing Dragons and Characters</h1>
-  <p class="muted">An independent fan reference to the Empyrean series. Profiles appear here after their source review is complete.</p>
+  <p class="muted">Browse character names, publisher references, and the Empyrean navigation index.</p>
   <div class="grid cards">
     <a class="bordered" href="/fourth-wing-characters/"><h2>Fourth Wing Characters</h2><p>Browse published character profiles.</p></a>
-    <a class="bordered" href="/dragons/"><h2>Dragon Types</h2><p>Explore the dragon reference index.</p></a>
+    <a class="bordered" href="/dragons/"><h2>Dragon Index</h2><p>Browse the site navigation index.</p></a>
   </div>
   <section><h2>Character guides</h2>
     {characters.length > 0

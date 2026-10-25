@@ -4,9 +4,10 @@ import { getCollection } from 'astro:content';
 import { isKnown, UNKNOWN } from '../lib/fields';
 const dragons = await getCollection('dragons', ({ data }) => data.contentStatus === 'verified');
 ---
-<BaseLayout title="Fourth Wing Dragon Types — A Guide to Colors and Bonding" description="Explore the Fourth Wing dragon reference index, where entries are published only after their descriptions and source material have been reviewed." breadcrumbs={[{ name: 'Dragons', href: '/dragons/' }]}>
-  <h1>Fourth Wing Dragon Types</h1>
-  {dragons.length === 0 && <p class="muted">Dragon entries are undergoing source review. No entries are published yet.</p>}
+<BaseLayout title="Fourth Wing Dragon Index: Empyrean Character Navigation Guide" description="Use the Fourth Wing dragon index to navigate this fan site, browse character references, and find links to Entangled Publishing." breadcrumbs={[{ name: 'Dragons', href: '/dragons/' }]}>
+  <h1>Fourth Wing Dragon Index</h1>
+  {dragons.length === 0 && <p class="muted">This page provides navigation to the character references and publisher pages.</p>}
   <div class="grid cards">{dragons.map(d => <article class="bordered"><h2>{d.data.name}</h2><p>{isKnown(d.data.summary) ? d.data.summary : UNKNOWN}</p></article>)}</div>
+  <p>Character pages: <a href="/characters/ridoc/">Ridoc Gamlyn</a>, <a href="/characters/rhiannon-matthias/">Rhiannon Matthias</a>, <a href="/characters/aaric-graycastle/">Aaric Graycastle</a>, and <a href="/characters/violet-sorrengail/">Violet Sorrengail</a>.</p>
   <p>Browse the <a href="/fourth-wing-characters/">character index</a> or return to the <a href="/">Empyrean guide</a>.</p>
 </BaseLayout>

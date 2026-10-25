@@ -17,12 +17,23 @@ const characterSchema = z.object({
   homeProvince: z.string().optional(),
   family: z.string().optional(),
   status: z.string().optional(),
-  related: z.array(z.object({ name: z.string(), relation: z.string(), slug: z.string().optional() })).default([]),
+  related: z.array(z.object({
+    name: z.string(),
+    slug: z.string().optional(),
+    href: z.string().optional(),
+    relation: z.string().optional(),
+  })).default([]),
   accentColor: z.string().default('#c9a227'),
   targetKeyword: z.string(),
   title: z.string(),
-  description: z.string(),
-  research: z.array(z.string()).default([]),
+  description: z.string().max(160),
+  sources: z.array(z.object({
+    label: z.string(),
+    url: z.string().url().optional(),
+    primary: z.boolean(),
+  })).default([]),
+  verificationNotes: z.array(z.string()).default([]),
+  lastVerified: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   contentStatus: publication,
 });
 const dragonSchema = z.object({

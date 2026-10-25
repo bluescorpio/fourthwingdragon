@@ -11,6 +11,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "verify:content": "node scripts/verify-content.mjs",
     "verify": "node scripts/check-seo.mjs && node scripts/check-links.mjs",
     "ship": "npm run check && npm run build && npm run verify"
   },

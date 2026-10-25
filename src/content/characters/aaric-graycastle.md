@@ -1,19 +1,39 @@
 ---
-knownAs: "Aaric Graycastle"
+knownAs: "Aaric"
+fullName: "Aaric Graycastle"
 slugName: "aaric-graycastle"
-related: []
-targetKeyword: "aaric graycastle fourth wing"
-title: "Aaric Graycastle — Fourth Wing Character: Sources and Profile Guide"
-description: "An editorial reference for Aaric Graycastle, with source notes and a clear distinction between checked material and unpublished research."
-research:
-  - "https://www.entangledpublishing.com/"
-contentStatus: "draft"
+targetKeyword: "aaric graycastle"
+title: "Aaric Graycastle: Fourth Wing Profile and Publisher Reference"
+description: "Find Aaric Graycastle in the publisher's Threshing Day character list, including the phrase \"the restless royal\" and links to other character pages."
+contentStatus: "verified"
+lastVerified: "2026-10-25"
+sources:
+  - label: "Entangled Publishing: Threshing Day"
+    url: "https://www.entangledpublishing.com/books/threshing-day"
+    primary: true
+related:
+  - { name: "Ridoc Gamlyn", slug: "ridoc" }
+  - { name: "Rhiannon Matthias", slug: "rhiannon-matthias" }
+  - { name: "Violet Sorrengail", slug: "violet-sorrengail" }
+  - { name: "Fourth Wing characters", href: "/fourth-wing-characters/" }
+  - { name: "Dragon index", href: "/dragons/" }
+verificationNotes: []
 ---
 
-<h2 id="background-and-origins">Background and Origins</h2>
+## Publisher Reference
 
-The publisher's website names Aaric Graycastle in its Empyrean character material. <!-- src: publisher -->
+Aaric Graycastle, the restless royal.
 
-This editorial draft covers only source-supported introductory material. Details about abilities, dragon bonds, relationships and later story events remain unpublished until their source review is complete.
+Source: [Entangled Publishing: Threshing Day](https://www.entangledpublishing.com/books/threshing-day).
 
-Source: [Entangled Publishing](https://www.entangledpublishing.com/).
+## Name Spelling
+
+The publisher's list uses **Graycastle**. Neither **Greycastle** nor **Tauri** appears in that list.
+
+## Keep Reading
+
+- [Fourth Wing characters](/fourth-wing-characters/)
+- [Dragon index](/dragons/)
+- [Ridoc Gamlyn](/characters/ridoc/)
+- [Rhiannon Matthias](/characters/rhiannon-matthias/)
+- [Violet Sorrengail](/characters/violet-sorrengail/)

@@ -1,7 +1,8 @@
 ---
 interface Props { fields: [string, string][] }
 const { fields } = Astro.props;
+const visibleFields = fields.filter(([label]) => label === 'Full name');
 ---
 <dl class="bordered grid info-card">
-  {fields.map(([label, value]) => <div><dt class="muted">{label}</dt><dd>{value}</dd></div>)}
+  {visibleFields.map(([label, value]) => <div><dt class="muted">{label}</dt><dd>{value}</dd></div>)}
 </dl>

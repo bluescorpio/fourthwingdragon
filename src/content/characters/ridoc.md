@@ -1,19 +1,35 @@
 ---
 knownAs: "Ridoc"
+fullName: "Ridoc Gamlyn"
 slugName: "ridoc"
-related: []
 targetKeyword: "ridoc fourth wing"
-title: "Ridoc — Fourth Wing Character: Sources and Profile Guide"
-description: "An editorial reference for Ridoc, with source notes and a clear distinction between checked material and unpublished research."
-research:
-  - "https://www.entangledpublishing.com/"
-contentStatus: "draft"
+title: "Ridoc Gamlyn: Fourth Wing Character and Publisher Reference"
+description: "Find Ridoc Gamlyn in the publisher's Threshing Day character list, including the phrase \"the jokester\" and links to other character pages."
+contentStatus: "verified"
+lastVerified: "2026-10-25"
+sources:
+  - label: "Entangled Publishing: Threshing Day"
+    url: "https://www.entangledpublishing.com/books/threshing-day"
+    primary: true
+related:
+  - { name: "Rhiannon Matthias", slug: "rhiannon-matthias" }
+  - { name: "Aaric Graycastle", slug: "aaric-graycastle" }
+  - { name: "Violet Sorrengail", slug: "violet-sorrengail" }
+  - { name: "Fourth Wing characters", href: "/fourth-wing-characters/" }
+  - { name: "Dragon index", href: "/dragons/" }
+verificationNotes: []
 ---
 
-<h2 id="background-and-origins">Background and Origins</h2>
+## Publisher Reference
 
-The publisher's website names Ridoc in its Empyrean character material. <!-- src: publisher -->
+Ridoc Gamlyn, the jokester.
 
-This editorial draft covers only source-supported introductory material. Details about abilities, dragon bonds, relationships and later story events remain unpublished until their source review is complete.
+Source: [Entangled Publishing: Threshing Day](https://www.entangledpublishing.com/books/threshing-day).
 
-Source: [Entangled Publishing](https://www.entangledpublishing.com/).
+## Keep Reading
+
+- [Fourth Wing characters](/fourth-wing-characters/)
+- [Dragon index](/dragons/)
+- [Rhiannon Matthias](/characters/rhiannon-matthias/)
+- [Aaric Graycastle](/characters/aaric-graycastle/)
+- [Violet Sorrengail](/characters/violet-sorrengail/)
