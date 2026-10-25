@@ -1,15 +1,36 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { isPublishedCharacter, isPublishedPath } from '../lib/publication';
+import { isPublishedCharacter } from '../lib/publication';
 import { getCollection } from 'astro:content';
-import { isKnown } from '../lib/fields';
+import { CADETS, CADET_COUNT, PUBLISHER } from '../data/empyrean';
 const characters = await getCollection('characters', isPublishedCharacter);
+const profiles = new Map(characters.map(entry => [entry.data.fullName, entry]));
+const withProfiles = CADETS.flatMap(cadet => {
+  const profile = profiles.get(cadet.name);
+  return profile ? [{ cadet, profile }] : [];
+});
+const withoutProfiles = CADETS.filter(cadet => !profiles.has(cadet.name));
+const retrievedOn = '2026-10-25';
 ---
-<BaseLayout title="Fourth Wing Characters: Publisher References and Profiles" description="Browse Fourth Wing character names, publisher descriptions, and links to individual character reference pages and the dragon index." breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }]}>
+<BaseLayout title="Fourth Wing Characters: Publisher References and Profiles" description="Browse the publisher's Fourth Wing cadet names and descriptions, with available character profiles, name spellings, and the original source." breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }]}>
   <h1>Fourth Wing Characters</h1>
-  {characters.length === 0 && <p class="muted">Character profiles are undergoing source review. No profiles are published yet.</p>}
-  <div class="grid cards">{characters.map(c => <a class="bordered" href={`/characters/${c.data.slugName}/`}>
-    <h2>{c.data.knownAs}</h2>{isKnown(c.data.role) && <p>{c.data.role}</p>}
-  </a>)}</div>
-  <p>{isPublishedPath('/dragons/') && <>Explore the <a href="/dragons/">dragon type index</a> or </>}return to the <a href="/">Empyrean guide</a>.</p>
+  <p>The Empyrean series is by Rebecca Yarros. Entangled Publishing's <a href={PUBLISHER.threshingDay.url}>Threshing Day page</a> lists {CADET_COUNT} cadets.</p>
+  {withProfiles.length > 0 && <table class="bordered">
+    <thead><tr><th scope="col">Cadet</th><th scope="col">Publisher's description</th><th scope="col">Profile</th></tr></thead>
+    <tbody>{withProfiles.map(({ cadet, profile }) => <tr>
+      <td>{cadet.name}</td>
+      <td>{cadet.publisherLabel}</td>
+      <td><a href={`/characters/${profile.data.slugName}/`}>{cadet.name} profile</a></td>
+    </tr>)}</tbody>
+  </table>}
+  {withoutProfiles.length > 0 && <section>
+    <h2>Other Cadets in the Publisher's List</h2>
+    <p>{withoutProfiles.map((cadet, index) => <>{index > 0 ? ', ' : ''}{cadet.name}{cadet.publisherLabel && <> ({cadet.publisherLabel})</>}</>)}</p>
+  </section>}
+  <section>
+    <h2>Name Spelling</h2>
+    <p>The publisher's list uses <strong>Graycastle</strong>. Neither <strong>Greycastle</strong> nor <strong>Tauri</strong> appears in that list.</p>
+  </section>
+  <p>Source: <a href={PUBLISHER.threshingDay.url}>Entangled Publishing, Threshing Day</a>. Retrieved <time datetime={retrievedOn}>{retrievedOn}</time>.</p>
+  <p>Return to the <a href="/">Empyrean guide</a>.</p>
 </BaseLayout>
