@@ -5,6 +5,7 @@ const contentDir = 'src/content/characters';
 const pagesDir = 'src/pages';
 const markerPatterns = [/\[FACT:/, /\bTBD\b/, /<!--\s*src:/i, /<!--\s*TODO/i];
 const editorialDescription = /source notes|editorial reference|unpublished research|checked material|profile guide/i;
+const forbiddenPhrases = /widely believed|fans speculate|according to the books|it is said|reportedly|many sources say|as of today|just released|coming soon|not covered here yet|research is ongoing|more to come/i;
 const characterRoute = /\/characters\/([a-z0-9-]+)\//g;
 const problems = [];
 const report = (file, message) => problems.push(file + ': ' + message);
@@ -100,6 +101,7 @@ for (const name of await readdir(contentDir)) {
   }
   if ((data.related ?? []).some(item => item.relation)) report(file, 'Phase 1 related entries must be navigation without relationship claims');
   for (const marker of markerPatterns) if (marker.test(body)) report(file, 'body contains forbidden marker ' + marker);
+  if (forbiddenPhrases.test(body + '\n' + (data.description ?? ''))) report(file, 'contains a Phase 1 forbidden phrase');
   if (typeof data.description !== 'string') report(file, 'missing description');
   else {
     if (data.description.length > 160) report(file, 'description is ' + data.description.length + ' characters (maximum 160)');
@@ -111,7 +113,7 @@ for (const name of await readdir(contentDir)) {
 const inbound = new Map([...characters.keys()].map((slug) => [slug, new Set()]));
 for (const [slug, character] of characters) {
   const relatedSlugs = (character.data.related ?? []).flatMap((item) => item.slug ? [item.slug] : []);
-  const targets = new Set([...characterLinks(character.body), ...relatedSlugs]);
+  const targets = new Set([...characterLinks(character.body), ...relatedSlugs].filter(target => target !== slug));
   character.targets = targets;
   for (const target of targets) {
     const recipient = characters.get(target);
