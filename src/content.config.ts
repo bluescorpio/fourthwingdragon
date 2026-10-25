@@ -30,6 +30,7 @@ const characterSchema = z.object({
     label: z.string(),
     url: z.string().url(),
     primary: z.boolean(),
+    note: z.string().optional(),
   })).default([]),
   verificationNotes: z.array(z.string()).default([]),
   lastVerified: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),

@@ -6,7 +6,7 @@ const characters = await getCollection('characters', isPublishedCharacter);
 const organization = { '@type': 'Organization', '@id': 'https://fourthwingdragon.com/#organization', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/' };
 const data = { '@context': 'https://schema.org', '@graph': [organization, { '@type': 'WebSite', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/', publisher: { '@id': organization['@id'] } }] };
 ---
-<BaseLayout title="Fourth Wing Dragons & Characters — Empyrean Series Guide" description="Explore an independent Empyrean fan reference, with character and dragon indexes, publisher references and links between the character pages.">
+<BaseLayout title="Fourth Wing Characters — Empyrean Series Guide" description="Explore an independent Empyrean fan reference, with character and dragon indexes, publisher references and links between the character pages.">
   <h1>Fourth Wing Dragons and Characters</h1>
   <p class="muted">Browse character names, publisher references, and the Empyrean navigation index.</p>
   <div class="grid cards">

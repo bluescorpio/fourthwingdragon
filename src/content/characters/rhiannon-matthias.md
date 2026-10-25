@@ -3,8 +3,8 @@ knownAs: "Rhiannon"
 fullName: "Rhiannon Matthias"
 slugName: "rhiannon-matthias"
 targetKeyword: "rhiannon matthias"
-title: "Rhiannon Matthias: Fourth Wing Profile and Publisher Reference"
-description: "Find Rhiannon Matthias in the publisher's Threshing Day character list, including the phrase \"the clever friend\" and links to other character pages."
+title: "Rhiannon Matthias — Fourth Wing Character"
+description: "Rhiannon Matthias, called \"the clever friend\" in the publisher's Threshing Day character list, is one of the cadets in Rebecca Yarros' Empyrean series."
 contentStatus: "published"
 lastVerified: "2026-10-25"
 sources:
@@ -14,9 +14,7 @@ sources:
 related:
   - { name: "Ridoc Gamlyn", slug: "ridoc" }
   - { name: "Aaric Graycastle", slug: "aaric-graycastle" }
-  - { name: "Violet Sorrengail", slug: "violet-sorrengail" }
-  - { name: "Fourth Wing characters", href: "/fourth-wing-characters/" }
-  - { name: "Dragon index", href: "/dragons/" }
+  - { name: "All Fourth Wing characters", href: "/fourth-wing-characters/" }
 verificationNotes: []
 ---
 

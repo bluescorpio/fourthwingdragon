@@ -12,7 +12,7 @@ const withProfiles = CADETS.flatMap(cadet => {
 const withoutProfiles = CADETS.filter(cadet => !profiles.has(cadet.name));
 const retrievedOn = '2026-10-25';
 ---
-<BaseLayout title="Fourth Wing Characters: Publisher References and Profiles" description="Browse the publisher's Fourth Wing cadet names and descriptions, with available character profiles, name spellings, and the original source." breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }]}>
+<BaseLayout title="Fourth Wing Characters — Empyrean Cadet Names and Profiles" description="Browse the publisher's Fourth Wing cadet names and descriptions, with available character profiles, name spellings, and the original source." breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }]}>
   <h1>Fourth Wing Characters</h1>
   <p>The Empyrean series is by Rebecca Yarros. Entangled Publishing's <a href={PUBLISHER.threshingDay.url}>Threshing Day page</a> lists {CADET_COUNT} cadets.</p>
   {withProfiles.length > 0 && <table class="bordered">

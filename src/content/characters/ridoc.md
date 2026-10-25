@@ -3,8 +3,8 @@ knownAs: "Ridoc"
 fullName: "Ridoc Gamlyn"
 slugName: "ridoc"
 targetKeyword: "ridoc fourth wing"
-title: "Ridoc Gamlyn: Fourth Wing Character and Publisher Reference"
-description: "Find Ridoc Gamlyn in the publisher's Threshing Day character list, including the phrase \"the jokester\" and links to other character pages."
+title: "Ridoc Gamlyn — Fourth Wing Character"
+description: "Ridoc Gamlyn, called \"the jokester\" in the publisher's Threshing Day character list, is one of the cadets in Rebecca Yarros' Empyrean series."
 contentStatus: "published"
 lastVerified: "2026-10-25"
 sources:
@@ -14,9 +14,7 @@ sources:
 related:
   - { name: "Rhiannon Matthias", slug: "rhiannon-matthias" }
   - { name: "Aaric Graycastle", slug: "aaric-graycastle" }
-  - { name: "Violet Sorrengail", slug: "violet-sorrengail" }
-  - { name: "Fourth Wing characters", href: "/fourth-wing-characters/" }
-  - { name: "Dragon index", href: "/dragons/" }
+  - { name: "All Fourth Wing characters", href: "/fourth-wing-characters/" }
 verificationNotes: []
 ---
 
