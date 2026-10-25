@@ -9,7 +9,7 @@ const live = new Set(liveSlugs);
 const picks = related.filter(r => r.slug && live.has(r.slug) && r.slug !== slug).slice(0, 2);
 ---
 <p class="bordered">
-  Continue with {picks.map((r, i) => <>{i > 0 && ', '}<a href={`/characters/${r.slug}/`}>{r.name}'s character page</a>, </>)}
+  Continue with {picks.map(r => <><a href={`/characters/${r.slug}/`}>{r.name}'s character page</a>, </>)}
   the <a href="/fourth-wing-characters/">character index</a>
   or browse the <a href="/dragons/">dragon index</a>.
 </p>
