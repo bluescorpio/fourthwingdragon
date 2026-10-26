@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 const SOURCES = {
-  official: 'https://www.rebeccayarros.com/fourthwing/',
+  fourthWing: 'https://www.entangledpublishing.com/books/fourth-wing',
   dragonkind: 'https://dragonkind.com/',
   publisher: 'https://www.entangledpublishing.com/',
 };

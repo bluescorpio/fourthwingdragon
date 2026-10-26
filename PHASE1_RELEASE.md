@@ -16,4 +16,4 @@ The approved scope supersedes the earlier character-index release while retainin
 
 ## Content limitations
 
-The official public sources do not provide a complete canonical Threshing timeline, exact date or detailed rules. The implemented guides make that boundary explicit and offer reading guidance. Three matrix examples originate in the approved project brief, with visible evidence notes; they are not independently book-verified citations. All personality mappings and generated names are labeled as fan creations.
+The implemented guides make the boundary around dates and rules explicit and offer reading guidance. Personality mappings and generated names are labeled as fan creations.

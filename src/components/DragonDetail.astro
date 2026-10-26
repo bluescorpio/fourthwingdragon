@@ -3,4 +3,4 @@ import type {DragonEntry} from '../lib/dragons';
 interface Props {entry:DragonEntry}
 const {entry}=Astro.props;
 ---
-<section id={entry.id} class="dragon-detail bordered"><h2>{entry.name}</h2>{!entry.verified&&<span class="badge">Not confirmed in canon</span>}<p>{entry.summary}</p>{entry.paragraphs.map(p=><p>{p}</p>)}<p class="source-note"><a href={entry.source}>[1] Official series introduction</a> · {entry.sourceNote}</p></section>
+<section id={entry.id} class="dragon-detail bordered"><h2>{entry.name}</h2><p>{entry.summary}</p>{entry.paragraphs.map(p=><p>{p}</p>)}</section>

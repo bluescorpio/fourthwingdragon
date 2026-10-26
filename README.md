@@ -6,7 +6,7 @@ An unofficial English Empyrean fan site built with Astro 5, Tailwind CSS 4 and T
 
 Seven core pages: home, dragon color/tail matrix, Dragonkind guide, dragon quiz, signet quiz, dragon name generator and the character index. Four legal pages: about, privacy, terms and disclaimer. The published character index and three published character profiles use trailing-slash URLs; Violet's draft profile remains excluded from the sitemap.
 
-The matrix contains seven colors × six tails (42 intersections). Three example pairings were supplied in the owner’s brief and are labeled accordingly; the public official introductions do not independently establish a full taxonomy. Other cells display an unconfirmed badge. The guides contain source-aware reading advice, not an independently verified date/rules timetable. Do not present the reading sequence as a complete canonical timeline.
+The matrix indexes seven colors and six tails, with only named examples shown. The guides contain source-aware reading advice and do not present an unsupported date or rules timetable as fact.
 
 Both quizzes have twelve questions, four stable option IDs and seven weighted dimensions. They use independent question sets, deterministic result-order tie breaking and no persistent answer storage. Results are original personality interpretations, not canon. The browser-only name generator has 600 combinations; Gaelic dictionary roots are distinguished from invented syllables.
 

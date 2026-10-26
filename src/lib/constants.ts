@@ -6,5 +6,5 @@ export const DEFAULT_DESCRIPTION = 'Take the Fourth Wing dragon quiz, explore se
 export const SOCIAL_IMAGE = {url:'/og-image.png',width:1200,height:630,alt:'Fourth Wing Dragons — Interactive Quiz & Fan Reference'};
 export const CONTACT_EMAIL = import.meta.env.PUBLIC_CONTACT_EMAIL?.trim() || null;
 export const DISCLAIMER_SHORT = 'Unofficial fan site. Not affiliated with Rebecca Yarros or Entangled Publishing.';
-export const CANON_SOURCES = [{label:'Rebecca Yarros — official Fourth Wing page',url:'https://www.rebeccayarros.com/fourthwing/'},{label:'Dragonkind — official experience',url:'https://dragonkind.com/'}] as const;
+export const CANON_SOURCES = [{label:'Entangled Publishing — Fourth Wing',url:'https://www.entangledpublishing.com/books/fourth-wing'},{label:'Dragonkind — official experience',url:'https://dragonkind.com/'}] as const;
 export const CORE_PAGES = [{href:'/',label:'Home'},{href:'/dragons/',label:'Dragon Types'},{href:'/quiz/dragon-type/',label:'Dragon Quiz'},{href:'/quiz/signet/',label:'Signet Quiz'},{href:'/dragon-name-generator/',label:'Name Generator'},{href:'/guide-to-dragonkind/',label:'Dragonkind Guide'},{href:'/fourth-wing-characters/',label:'Characters'}] as const;
