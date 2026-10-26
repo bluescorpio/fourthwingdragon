@@ -1,0 +1,22 @@
+---
+import type { Quiz } from '../../lib/quizzes';
+interface Props {quiz:Quiz}
+const {quiz}=Astro.props;
+---
+<quiz-runner class="quiz-panel bordered" data-quiz={JSON.stringify(quiz)}>
+ <div data-stage aria-live="polite"><h2>{quiz.title}</h2><p>{quiz.intro}</p><p class="muted">For entertainment. Our personality mappings are not canon. Answers stay in this browser tab.</p><button type="button" data-start>Start the quiz</button></div>
+ <noscript><p>Enable JavaScript to answer this quiz. You can still <a href="/dragons/">browse every dragon category</a>.</p></noscript>
+</quiz-runner>
+<script>
+ import {scoreQuiz,type Quiz,type QuizOption} from '../../lib/quizzes';
+ class QuizRunner extends HTMLElement {
+  private quiz!:Quiz;private answers:string[]=[];private stage!:HTMLElement;
+  connectedCallback(){if(this.dataset.ready)return;this.dataset.ready='true';this.quiz=JSON.parse(this.dataset.quiz??'{}') as Quiz;this.stage=this.querySelector('[data-stage]')!;this.querySelector('[data-start]')?.addEventListener('click',()=>this.start());}
+  private node<K extends keyof HTMLElementTagNameMap>(tag:K,text?:string){const n=document.createElement(tag);if(text)n.textContent=text;return n;}
+  private setStep(step:string){const url=new URL(window.location.href);url.searchParams.set('step',step);window.history.replaceState(null,'',url);}
+  private start(){this.answers=[];this.question();}
+  private question(){const i=this.answers.length;this.setStep(String(i+1));const q=this.quiz.questions[i];this.stage.replaceChildren();const progress=this.node('progress');progress.max=this.quiz.questions.length;progress.value=i;progress.setAttribute('aria-label','Quiz progress');this.stage.append(this.node('p','Question '+(i+1)+' of '+this.quiz.questions.length),progress);const heading=this.node('h2',q.prompt);heading.tabIndex=-1;this.stage.append(heading);const group=this.node('div');group.className='quiz-options';q.options.forEach((o:QuizOption)=>{const b=this.node('button',o.label);b.type='button';b.addEventListener('click',()=>{if(i!==this.answers.length)return;this.answers.push(o.id);this.answers.length===this.quiz.questions.length?this.result():this.question();});group.append(b);});this.stage.append(group);const restart=this.node('button','Restart');restart.type='button';restart.className='secondary';restart.addEventListener('click',()=>this.start());this.stage.append(restart);heading.focus({preventScroll:true});}
+  private result(){const r=scoreQuiz(this.quiz,this.answers);if(!r)return;this.setStep('result');this.stage.replaceChildren();this.stage.append(this.node('p','Your fan-made match'));const h=this.node('h2',r.title);h.tabIndex=-1;this.stage.append(h,this.node('p',r.description));const tags=this.node('ul');tags.className='traits';r.traits.forEach(t=>tags.append(this.node('li',t)));this.stage.append(tags,this.node('p','Personality mappings are our interpretation, not canon. This result is for entertainment.'));const copy=this.node('button','Share as text');copy.type='button';const status=this.node('p');status.setAttribute('role','status');copy.addEventListener('click',async()=>{const message='My FourthWingDragon match: '+r.title+'. '+r.traits.join(', ')+'. Fan-made, not canon. '+window.location.origin+'/quiz/'+this.quiz.id+'/';try{await navigator.clipboard.writeText(message);status.textContent='Result copied.';}catch{const area=this.node('textarea');area.value=message;area.readOnly=true;area.setAttribute('aria-label','Result text to copy');status.replaceChildren(this.node('span','Copy this result: '),area);area.select();}});const all=this.node('a','See all dragon types →');all.href='/dragons/';const again=this.node('button','Try again');again.type='button';again.className='secondary';again.addEventListener('click',()=>this.start());this.stage.append(copy,all,again,status);h.focus({preventScroll:true});}
+ }
+ if(!customElements.get('quiz-runner'))customElements.define('quiz-runner',QuizRunner);
+</script>

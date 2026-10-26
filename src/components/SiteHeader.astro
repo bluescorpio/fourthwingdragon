@@ -1,4 +1,4 @@
 ---
-import { isPublishedPath } from '../lib/publication';
+import { CORE_PAGES, SITE_NAME } from '../lib/constants';
 ---
-<header style="border-bottom:1px solid var(--line)"><nav style="max-width:64rem;margin:auto;padding:1.25rem 1rem;display:flex;gap:1.25rem;flex-wrap:wrap"><a href="/" style="font:600 1.5rem Georgia;color:var(--gold)">FourthWingDragon</a><span style="margin-left:auto;display:flex;gap:1rem"><a href="/fourth-wing-characters/">Characters</a>{isPublishedPath('/dragons/') && <a href="/dragons/">Dragons</a>}<a href="/about/">About</a></span></nav></header>
+<header class="site-header"><nav aria-label="Main"><a class="brand" href="/">{SITE_NAME}</a><div class="nav-links">{CORE_PAGES.map(p=><a href={p.href} aria-current={Astro.url.pathname===p.href?'page':undefined}>{p.label}</a>)}</div></nav></header>

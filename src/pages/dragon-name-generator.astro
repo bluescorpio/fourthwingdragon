@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NameGenerator from '../components/NameGenerator.astro';
+---
+<BaseLayout title="Fourth Wing Dragon Name Generator — Original Fantasy Names" description="Generate original fantasy dragon names from 600 combinations of invented syllables and Scottish Gaelic roots, with meanings and a copy button." breadcrumbs={[{name:'Name Generator',href:'/dragon-name-generator/'}]}>
+<h1>Fourth Wing Dragon Name Generator</h1><p class="lead">Create an original fantasy name inspired by the sound of Scottish Gaelic roots. These are fan creations, not names from the novels.</p><NameGenerator/><section class="prose"><h2>How this generator works</h2><p>Each click chooses an invented prefix, a dictionary root and an invented suffix. Ten prefixes, six roots and ten suffixes make 600 distinct combinations. The displayed meaning belongs to the individual root. Combining syllables does not create a grammatical Gaelic translation.</p><p>The generator uses your browser’s random-number source and sends no name requests to a server. It avoids repeating the immediately previous result. Copy a favorite for personal notes or a creative project; check for existing uses before publication.</p><p>Explore the <a href="/dragons/">dragon matrix</a> or discover a <a href="/quiz/dragon-type/">fan-made color profile</a>.</p></section>
+</BaseLayout>

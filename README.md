@@ -1,41 +1,54 @@
 # FourthWingDragon
 
-An unofficial English fan reference built with Astro 5, Tailwind CSS 4 and TypeScript strict. Static output only.
+An unofficial English Empyrean fan site built with Astro 5, Tailwind CSS 4 and TypeScript strict. Entirely prerendered; no backend, database, account or client framework.
 
-## Phase 1
+## Current scope
 
-Ten static pages: home, character index, dragon navigation index, four character references, about, privacy and disclaimer. Existing route paths and layouts are preserved. This checkout has no quiz page; no route has been added for it.
+Seven core pages: home, dragon color/tail matrix, Dragonkind guide, dragon quiz, signet quiz, dragon name generator and Threshing reading guide. Four legal pages: about, privacy, terms and disclaimer. All eleven URLs use trailing slashes. Legacy character routes are removed; route source is archived under research/legacy-character-site/ as non-executable text.
 
-Character facts are limited to names and short phrases checked on Entangled Publishing pages. No plot, abilities, dragon pairings, biographies or character relationships are published. Each profile links to its publisher source. The dragon page provides navigation only.
+The matrix contains seven colors × six tails (42 intersections). Three example pairings were supplied in the owner’s brief and are labeled accordingly; the public official introductions do not independently establish a full taxonomy. Other cells display an unconfirmed badge. The guides contain source-aware reading advice, not an independently verified date/rules timetable. Do not present the reading sequence as a complete canonical timeline.
+
+Both quizzes have twelve questions, four stable option IDs and seven weighted dimensions. They use independent question sets, deterministic result-order tie breaking and no persistent answer storage. Results are original personality interpretations, not canon. The browser-only name generator has 600 combinations; Gaelic dictionary roots are distinguished from invented syllables.
 
 ## Development and checks
 
-Node 20.19+; Vercel should use a supported Node LTS.
+Node 20.19+ (use a supported LTS on Vercel).
 
-```sh
+~~~sh
 npm ci
 npm run dev
-npm run verify:content
+npm test
 npx astro check
 npm run build
+npm run verify:content
 npm run verify
-```
+npm run start
+~~~
 
-The single content schema is `src/content.config.ts`. Publication uses `contentStatus: verified`, matching the existing routes and collection queries. Drafts generate no public character routes.
+The preview server binds to 127.0.0.1:3000. Run build before output validation or preview. Tests transpile TypeScript with the already-installed TypeScript dependency, so native Node TypeScript stripping is not required. No new package dependency is introduced.
 
-The content verifier uses Node standard libraries and a strict parser for the site's YAML subset (quoted scalar values, booleans, empty arrays, block lists and flow mappings). Unsupported YAML fails explicitly. It checks descriptions, markers, publisher-only sources, and incoming/outgoing links. Built HTML checks verify actual routes, metadata, anchors and main-content links. `verify:content` remains a manual command.
+verify:content checks the built HTML, metadata, single H1, JSON-LD, eleven sitemap URLs, route removal, guide/quiz word counts, 42 cells, HTML/JS budgets and exact Google verification contents. verify also checks every local link and fragment. These remain manual scripts, not prebuild hooks. The old character YAML verifier is historical and is no longer the active publication check.
 
-## Deployment
+## Architecture
 
-Vercel: Astro framework preset, build command `npm run build`, output directory `dist`, repository root directory. No backend or environment secrets are required. Production canonical origin: https://fourthwingdragon.com.
+- src/lib/constants.ts: site settings and navigation.
+- src/lib/dragons.ts: categories, explicit evidence notes and matrix.
+- src/lib/quizzes.ts: question data, profiles and pure scoring function.
+- src/lib/names.ts: generator roots, invented syllables and deterministic indexed combinations.
+- src/components/quiz/QuizRunner.astro: accessible native browser quiz state machine.
+- src/pages/: eleven HTML routes and a static sitemap.xml endpoint.
+- public/llms.txt: question-to-URL index; public/robots.txt points at sitemap-index.xml.
 
-Actual deployment and domain status must be checked in Vercel; a successful local build is not proof of deployment. Google Search Console verification requires the user's real token or an existing verified domain property. The verification file remains a placeholder until a token is supplied.
+Astro’s sitemap integration generates sitemap-index.xml and sitemap-0.xml. The static sitemap.xml endpoint also contains the same eleven page URLs for direct submission. Archived editorial research and the unused legacy character collection are not public routes or approved source material.
+
+## Deployment and verification
+
+Vercel: Astro preset, npm run build, output dist, repository root. Production origin: https://fourthwingdragon.com. No secrets are needed. PUBLIC_CONTACT_EMAIL is optional; no contact address is invented.
+
+Keep public/google7898b661ebe700a1.html permanently. It contains the actual Google Search Console token and must remain at the domain root after every deploy. A successful local build does not by itself prove a production deployment; verify production responses after pushing main.
 
 ## Sources and assets
 
-- https://www.entangledpublishing.com/books/threshing-day
-- https://www.entangledpublishing.com/books/fourth-wing
+The author’s public Fourth Wing introduction and the public Dragonkind entrance are linked with specific source limitations. The official entrance does not supply a complete public Threshing timetable or rulebook. Gaelic root links use LearnGaelic dictionary entries. Quiz descriptions and reading instructions are original fan activities. No Amazon Associate membership is claimed without confirmation.
 
-Historical manuscripts under `research/editorial/` are unverified archives and are not copied to the website. They must never be treated as approved publication content.
-
-Original typographic social image; no official artwork or book extracts. System fonts, no client framework, no login or database.
+System fonts, local original social artwork, no official illustrations or book-cover assets. No analytics, cookies, local storage or remote answer submission are implemented.

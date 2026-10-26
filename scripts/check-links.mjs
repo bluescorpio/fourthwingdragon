@@ -28,7 +28,7 @@ for (const file of files) {
   const links = [...(main ?? '').matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m => m[1].replaceAll('&amp;', '&'));
   outgoing.set(page, links);
 }
-for (const [page, links] of outgoing) {
+for (const [page] of outgoing) {
   const targets = new Set();
   for (const href of pages.get(page).allLinks) {
     const url = new URL(href, 'https://fourthwingdragon.com' + page);
@@ -36,7 +36,7 @@ for (const [page, links] of outgoing) {
     const target = decodeURIComponent(url.pathname);
     if (pages.has(target)) {
       if (url.hash && !pages.get(target).ids.has(decodeURIComponent(url.hash.slice(1)))) fail('[anchor] ' + page + ' -> ' + href);
-      if (target !== page && links.includes(href)) targets.add(target);
+      if (target !== page) targets.add(target);
     } else {
       try {
         const path = resolve(root, '.' + target);

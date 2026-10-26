@@ -1,0 +1,11 @@
+---
+import {NAME_COMBINATIONS,ROOTS} from '../lib/names';
+---
+<section class="bordered" aria-labelledby="generator-heading"><h2 id="generator-heading">Create an original dragon name</h2><p>{NAME_COMBINATIONS} combinations of invented syllables and Scottish Gaelic dictionary roots.</p><button id="generate-name" type="button">Generate a name</button><div id="name-result" aria-live="polite"></div><button id="copy-name" type="button" hidden>Copy name</button><p id="copy-status" role="status"></p><noscript>Enable JavaScript to generate and copy names. The root glossary is available below.</noscript></section>
+<section class="prose"><h2>Root glossary</h2><p>These are dictionary meanings of individual roots. The generated compounds are invented fantasy names, not translations or authentic Gaelic personal names.</p><ul>{ROOTS.map(r=><li><strong>{r.root}</strong>: {r.meaning} · <a href={'https://learngaelic.scot/dictionary/index.jsp?abairt='+encodeURIComponent(r.root)+'&slang=both&wholeword=false'}>LearnGaelic dictionary</a></li>)}</ul></section>
+<script>
+ import {NAME_COMBINATIONS,nameAt} from '../lib/names';
+ const button=document.querySelector<HTMLButtonElement>('#generate-name');const output=document.querySelector<HTMLElement>('#name-result')!;const copy=document.querySelector<HTMLButtonElement>('#copy-name')!;const status=document.querySelector<HTMLElement>('#copy-status')!;let current='';let previous=-1;
+ button?.addEventListener('click',()=>{const random=new Uint32Array(1);crypto.getRandomValues(random);let index=random[0]%NAME_COMBINATIONS;if(index===previous)index=(index+1)%NAME_COMBINATIONS;previous=index;const n=nameAt(index);current=n.name;const h=document.createElement('h3');h.textContent=n.name;const p=document.createElement('p');p.textContent='Root: '+n.root+' ('+n.meaning+'). Invented prefix: '+n.prefix+'; invented suffix: '+n.suffix+'.';output.replaceChildren(h,p);copy.hidden=false;status.textContent='';});
+ copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(current);status.textContent='Name copied.';}catch{status.textContent='Copy this name: '+current;}});
+</script>

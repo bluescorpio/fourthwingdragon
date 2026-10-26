@@ -1,23 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { isPublishedCharacter, isPublishedPath } from '../lib/publication';
-import { getCollection } from 'astro:content';
-const characters = await getCollection('characters', isPublishedCharacter);
-const organization = { '@type': 'Organization', '@id': 'https://fourthwingdragon.com/#organization', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/' };
-const data = { '@context': 'https://schema.org', '@graph': [organization, { '@type': 'WebSite', name: 'FourthWingDragon', url: 'https://fourthwingdragon.com/', publisher: { '@id': organization['@id'] } }] };
+import QuizRunner from '../components/quiz/QuizRunner.astro';
+import StructuredData from '../components/StructuredData.astro';
+import {dragonTypeQuiz} from '../lib/quizzes';
+import {DEFAULT_TITLE,DEFAULT_DESCRIPTION} from '../lib/constants';
+const features=[['/dragons/','Dragon Types','Compare seven color categories and six tail labels.'],['/quiz/dragon-type/','Dragon Quiz','Discover your original color personality profile.'],['/quiz/signet/','Signet Quiz','Explore seven creative ability themes.'],['/dragon-name-generator/','Name Generator','Combine invented syllables with Gaelic roots.'],['/guide-to-dragonkind/','Dragonkind Guide','Separate official resources from our fan tools.'],['/guides/threshing/','Threshing Guide','Read the context and follow the official introduction.']];
+const faqs=[['Is this the official Fourth Wing quiz?','No. This independent fan quiz uses original personality mappings. It is not affiliated with the author or publisher.'],['Do color results describe canonical personalities?','No. Quiz traits are our creative interpretations, separate from the dragon reference matrix.'],['Can I use the tools without an account?','Yes. Both quizzes and the name generator run in your browser without an account.']];
 ---
-<BaseLayout title="Fourth Wing Characters — Empyrean Series Guide" description="Explore an independent Empyrean fan reference, with character and dragon indexes, publisher references and links between the character pages.">
-  <h1>Fourth Wing Dragons and Characters</h1>
-  <p class="muted">Browse character names, publisher references, and the Empyrean navigation index.</p>
-  <div class="grid cards">
-    <a class="bordered" href="/fourth-wing-characters/"><h2>Fourth Wing Characters</h2><p>Browse published character profiles.</p></a>
-    {isPublishedPath('/dragons/') && <a class="bordered" href="/dragons/"><h2>Dragon Index</h2><p>Browse the site navigation index.</p></a>}
-  </div>
-  <section><h2>Character guides</h2>
-    {characters.length > 0
-      ? <ul>{characters.map(c => <li><a href={`/characters/${c.data.slugName}/`}>{c.data.knownAs}</a></li>)}</ul>
-      : <p class="muted">Character guides are undergoing source review. No profiles are published yet.</p>}
-  </section>
-  <p>Read <a href="/about/">about this project</a>, our <a href="/privacy/">privacy and cookie policy</a>, and the <a href="/disclaimer/">fan-site disclaimer</a>.</p>
-  <script type="application/ld+json" set:html={JSON.stringify(data)} />
+<BaseLayout title={DEFAULT_TITLE} description={DEFAULT_DESCRIPTION}>
+<p class="eyebrow">An unofficial Empyrean fan experience</p><h1>Fourth Wing Quiz &amp; Dragons: Every Type, Color and Tail</h1>
+<QuizRunner quiz={dragonTypeQuiz}/>
+<div class="grid cards">{features.map(([href,label,summary])=><a class="bordered feature-card" href={href}><h2>{label}</h2><p>{summary}</p><span>Explore →</span></a>)}</div>
+<section class="prose"><h2>A reader’s map to dragons and quizzes</h2><p>FourthWingDragon is an independent fan space for exploring the dragon vocabulary of Fourth Wing and trying original personality activities. The reference begins with a seven-by-six grid: choose a color, compare a tail label, and read the status attached to that intersection. A filled grid is a navigation tool, not a claim that every combination appears in the novels. The quizzes take a different approach. Their questions concern everyday decisions, and their results translate those choices into imaginative color or ability profiles. These interpretations belong to this site. They do not establish lore, predict a story outcome, or reproduce an official assessment. Use the name generator for a creative prompt, and follow our source notes when moving from playful interpretation to the author’s own introduction.</p></section>
+<section class="prose"><h2>Common questions</h2>{faqs.map(([q,a])=><details><summary>{q}</summary><p>{a}</p></details>)}</section>
+<StructuredData data={{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))}}/>
+<StructuredData data={{'@context':'https://schema.org','@type':'WebSite',name:'FourthWingDragon',url:'https://fourthwingdragon.com/',publisher:{'@type':'Organization',name:'FourthWingDragon',url:'https://fourthwingdragon.com/'}}}/>
 </BaseLayout>

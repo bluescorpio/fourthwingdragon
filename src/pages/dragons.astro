@@ -1,15 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { isPublishedCharacter, isPublishedPath } from '../lib/publication';
-import { getCollection } from 'astro:content';
-import { isKnown, UNKNOWN } from '../lib/fields';
-const characters = await getCollection('characters', isPublishedCharacter);
-const dragons = await getCollection('dragons', ({ data }) => data.contentStatus === 'published' && isPublishedPath('/dragons/'));
+import DragonDetail from '../components/DragonDetail.astro';
+import StructuredData from '../components/StructuredData.astro';
+import {DRAGON_COLORS,TAIL_TYPES,getDragonMatrix} from '../lib/dragons';
+const matrix=getDragonMatrix();
+const faqs=[['Are all 42 combinations confirmed?','No. The grid is a comparison framework. Only three examples supplied in the project brief are marked; other intersections are labeled Not confirmed in canon.'],['Does a quiz result establish a dragon’s personality?','No. Quiz personalities are original interpretations for entertainment.']];
 ---
-<BaseLayout noindex={!isPublishedPath('/dragons/')} title="Fourth Wing Dragon Index: Empyrean Character Navigation Guide" description="Use the Fourth Wing dragon index to navigate this fan site, browse character references, and find links to Entangled Publishing." breadcrumbs={[{ name: 'Dragons', href: '/dragons/' }]}>
-  <h1>Fourth Wing Dragon Index</h1>
-  {dragons.length === 0 && <p class="muted">This page provides navigation to the character references and publisher pages.</p>}
-  <div class="grid cards">{dragons.map(d => <article class="bordered"><h2>{d.data.name}</h2><p>{isKnown(d.data.summary) ? d.data.summary : UNKNOWN}</p></article>)}</div>
-  <ul>{characters.map(c => <li><a href={`/characters/${c.data.slugName}/`}>{c.data.knownAs}</a></li>)}</ul>
-  <p>Browse the <a href="/fourth-wing-characters/">character index</a> or return to the <a href="/">Empyrean guide</a>.</p>
+<BaseLayout title="Fourth Wing Dragon Types — Seven Colors & Six Tail Types" description="Compare seven dragon color categories and six tail labels in a 42-cell matrix, with explicit confirmation badges and separate fan quiz interpretations." breadcrumbs={[{name:'Dragon Types',href:'/dragons/'}]}>
+<h1>Dragon Types in Fourth Wing: All 7 Colors &amp; 6 Tail Types</h1><p class="lead">Compare color and tail as separate labels. Read a cell’s status before using it as a reference.</p><p class="notice">Spoilers: the seventh-breed heading is included. Three examples follow the site owner’s supplied project brief; they have not been independently verified against a book edition. Other cells mean unconfirmed here, not impossible in canon.</p>
+<div class="table-scroll"><table class="matrix"><caption>Seven color rows × six tail columns. Select any cell to read its status.</caption><thead><tr><th scope="col">Color</th>{TAIL_TYPES.map(t=><th scope="col"><a href={'#'+t.id}>{t.name}</a></th>)}</tr></thead><tbody>{DRAGON_COLORS.map(c=><tr><th scope="row"><a href={'#'+c.id}>{c.name}</a></th>{matrix.filter(m=>m.color.id===c.id).map(m=><td><a href={'#'+m.id}>{m.example??'Not confirmed in canon'}</a></td>)}</tr>)}</tbody></table></div>
+<section class="prose"><h2>How to read confirmation labels</h2><p>The three named examples are the pairings supplied in the project specification. The boolean is a catalog flag for those examples, not evidence that the linked public homepage contains every pairing. A public author introduction provides series context; it is not a complete taxonomy. No rider assignments, power rankings, or temperament rules can be inferred from this grid.</p></section>
+{DRAGON_COLORS.map(entry=><DragonDetail entry={entry}/>)}
+<section><h2>Six tail labels</h2>{TAIL_TYPES.map(entry=><DragonDetail entry={entry}/>)}</section>
+<section><h2>Color and tail intersections</h2><div class="grid cards">{matrix.map(m=><article class="bordered intersection" id={m.id}><h3>{m.color.name} · {m.tail.name}</h3>{m.verified?<><span class="badge supplied">Project-brief example</span><p>{m.example}. Source basis: owner-supplied specification, not an independently checked book citation.</p></>:<><span class="badge">Not confirmed in canon</span><p>This catalog does not establish a named example for this intersection.</p></>}</article>)}</div></section>
+<section class="prose"><h2>Common questions</h2>{faqs.map(([q,a])=><details><summary>{q}</summary><p>{a}</p></details>)}<p>Try the <a href="/quiz/dragon-type/">dragon color quiz</a> or read the <a href="/guide-to-dragonkind/">guide to official and fan resources</a>.</p></section>
+<StructuredData data={{'@context':'https://schema.org','@type':'ItemList',numberOfItems:DRAGON_COLORS.length,itemListElement:DRAGON_COLORS.map((c,i)=>({'@type':'ListItem',position:i+1,name:c.name,url:'https://fourthwingdragon.com/dragons/#'+c.id}))}}/>
+<StructuredData data={{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))}}/>
 </BaseLayout>
