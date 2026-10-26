@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { isPublishedCharacter } from '../lib/publication';
+import { getCollection } from 'astro:content';
+import { CADETS, CADET_COUNT, PUBLISHER } from '../data/empyrean';
+const characters = await getCollection('characters', isPublishedCharacter);
+const profiles = new Map(characters.map(entry => [entry.data.fullName, entry]));
+const withProfiles = CADETS.flatMap(cadet => {
+  const profile = profiles.get(cadet.name);
+  return profile ? [{ cadet, profile }] : [];
+});
+const withoutProfiles = CADETS.filter(cadet => !profiles.has(cadet.name));
+const retrievedOn = '2026-10-25';
+---
+<BaseLayout title="Fourth Wing Characters — Empyrean Cadet Names and Profiles" description="Browse the publisher's Fourth Wing cadet names and descriptions, with available character profiles, name spellings, and the original source." breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }]}>
+  <h1>Fourth Wing Characters</h1>
+  <p>The Empyrean series is by Rebecca Yarros. Entangled Publishing's <a href={PUBLISHER.threshingDay.url}>Threshing Day page</a> lists {CADET_COUNT} cadets.</p>
+  <p>Use this index to find a name, read the publisher's short description, and open an available character page. The table below contains {withProfiles.length} linked profiles. The following paragraph contains the remaining {withoutProfiles.length} names from the same list. Together, these sections reproduce the complete set of names and descriptions, in their original order within each group. A name in the paragraph is plain text, so you can read the full list without encountering an empty profile link.</p>
+  <section>
+    <h2>How to Read the Character Table</h2>
+    <p>Start with the Cadet column when you already know a character's name. The Publisher's description column gives the short phrase attached to that name on the Threshing Day page. Read each phrase as the publisher's introduction to that particular entry. It is not a summary of everything about the character. The Profile column takes you to a separate page on this site, where the character's publisher description and its source appear together.</p>
+    <p>Choose a profile by its full name rather than by a descriptive phrase alone. Each profile link repeats the name from its row, making the destination clear before you open it. You can return here through the character index link on that page. For a different character, use the other character links in the same navigation list. This gives you a route between the individual pages and the complete index without needing to return to the homepage after every visit.</p>
+  </section>
+  {withProfiles.length > 0 && <table class="bordered">
+    <thead><tr><th scope="col">Cadet</th><th scope="col">Publisher's description</th><th scope="col">Profile</th></tr></thead>
+    <tbody>{withProfiles.map(({ cadet, profile }) => <tr>
+      <td>{cadet.name}</td>
+      <td>{cadet.publisherLabel}</td>
+      <td><a href={`/characters/${profile.data.slugName}/`}>{cadet.name} profile</a></td>
+    </tr>)}</tbody>
+  </table>}
+  {withoutProfiles.length > 0 && <section>
+    <h2>Other Cadets in the Publisher's List</h2>
+    <p>This paragraph completes the publisher's list with names that do not have a published profile on this site. Read the name first and the parenthesized phrase second. The punctuation inside each phrase is retained from the source. These entries serve as a name reference within this index; they do not open separate pages. To see the entire list in its original context, follow the Entangled Publishing source link at the end of the page.</p>
+    <p>{withoutProfiles.map((cadet, index) => <>{index > 0 ? ', ' : ''}{cadet.name}{cadet.publisherLabel && <> ({cadet.publisherLabel})</>}</>)}</p>
+  </section>}
+  <section>
+    <h2>Name Spelling</h2>
+    <p>The publisher's list uses <strong>Graycastle</strong>. Neither <strong>Greycastle</strong> nor <strong>Tauri</strong> appears in that list.</p>
+    <p>When looking for Aaric in this index, use the spelling Graycastle. The linked profile uses that spelling too. This comparison is limited to the names printed in the cited list. It does not establish whether another spelling appears in a different publication, and it does not explain an alternate name. If you arrived with a different spelling in mind, the publisher link lets you compare the entry directly with the source used here.</p>
+  </section>
+  <section>
+    <h2>Reading the Publisher Descriptions</h2>
+    <p>The short labels are reproduced as introductory phrases, including their original wording and final periods. This index adds no explanation of what a label means for a character's actions or role in a story. To compare two entries, read their names and labels side by side, then open whichever available profile you want to consult. A phrase by itself should not be used to infer a relationship, an ability, or a later event.</p>
+    <p>The scope of this page is the Threshing Day list, rather than an independent inventory of every character in every Empyrean book. Inclusion here means that a name appears in that publisher list. Absence from this index does not establish that a name is absent from the series. Use the cited page to check what the publisher actually includes, and keep that distinction in mind when comparing this index with a book or another character directory.</p>
+  </section>
+  <p>Source: <a href={PUBLISHER.threshingDay.url}>Entangled Publishing, Threshing Day</a>. Retrieved <time datetime={retrievedOn}>{retrievedOn}</time>.</p>
+  <p>Return to the <a href="/">Empyrean guide</a>.</p>
+</BaseLayout>

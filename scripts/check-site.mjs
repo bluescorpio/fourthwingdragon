@@ -1,6 +1,6 @@
 import { readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-const paths = ['/', '/dragons/', '/guide-to-dragonkind/', '/quiz/dragon-type/', '/quiz/signet/', '/dragon-name-generator/', '/guides/threshing/', '/about/', '/privacy/', '/terms/', '/disclaimer/'];
+const paths = ['/', '/dragons/', '/guide-to-dragonkind/', '/quiz/dragon-type/', '/quiz/signet/', '/dragon-name-generator/', '/guides/threshing/', '/about/', '/privacy/', '/terms/', '/disclaimer/', '/fourth-wing-characters/', '/characters/ridoc/', '/characters/rhiannon-matthias/', '/characters/aaric-graycastle/'];
 const expected = paths.map(p => 'https://fourthwingdragon.com' + p).sort();
 for (const file of ['dist/sitemap-0.xml', 'dist/sitemap.xml']) {
   const sitemap = await readFile(file, 'utf8');
@@ -14,7 +14,6 @@ for (const path of paths) {
   assert.ok(/name="description" content="[^"]+"/.test(html), path + ' description');
   assert.ok(html.includes('rel="canonical" href="https://fourthwingdragon.com' + path + '"'), path + ' canonical');
   assert.ok(!html.includes('noindex'), path + ' noindex');
-  assert.ok(!/href="\/(?:characters|fourth-wing-characters)\//.test(html), path + ' old links');
   assert.ok(html.includes('Fan-site disclaimer.'), path + ' disclaimer');
   assert.ok(Buffer.byteLength(html) < 102400, path + ' HTML budget');
   for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(m[1]);
@@ -31,10 +30,7 @@ for (const path of ['/guide-to-dragonkind/', '/guides/threshing/', '/quiz/dragon
   console.log(path + ': ' + words + ' prose words');
 }
 assert.equal(await readFile('dist/google7898b661ebe700a1.html', 'utf8'), 'google-site-verification: google7898b661ebe700a1.html');
-for (const dir of ['dist/characters', 'dist/fourth-wing-characters']) {
-  try { await readdir(dir); assert.fail(dir + ' still exists'); } catch (e) { if (e.code !== 'ENOENT') throw e; }
-}
 const assets = await readdir('dist/_astro');
 const jsBytes = (await Promise.all(assets.filter(n => n.endsWith('.js')).map(async n => (await readFile('dist/_astro/' + n)).length))).reduce((a, b) => a + b, 0);
 assert.ok(jsBytes < 20480, 'Combined client JS budget: ' + jsBytes);
-console.log('site check OK: 11 sitemap URLs, 42 cells, legacy routes absent, GSC file preserved, client JS ' + jsBytes + ' bytes');
+console.log('site check OK: 15 sitemap URLs, 42 cells, character routes restored, GSC file preserved, client JS ' + jsBytes + ' bytes');

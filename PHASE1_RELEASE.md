@@ -8,8 +8,8 @@ The approved scope supersedes the earlier character-index release while retainin
 - npm test: both 12-question scoring models, reachable outcomes, invalid/incomplete answers, deterministic ties, 42 cells and 600 unique generated names.
 - npx astro check: no active source errors.
 - npm run build, then npm run verify:content and npm run verify.
-- Preview all eleven page routes: HTTP 200 without redirect; legacy character index and profiles: HTTP 404.
-- Confirm /sitemap.xml and /sitemap-0.xml contain exactly eleven page URLs.
+- Preview all published page routes: HTTP 200 without redirect; draft character profiles remain out of the sitemap.
+- Confirm /sitemap.xml and /sitemap-0.xml contain the published page URLs, including the character index and three published profiles.
 - Test quiz completion/restart/share and name generation/copy in a browser.
 - Preserve Google verification file exactly and confirm it returns HTTP 200.
 - Push HEAD to remote main without force; verify deployed site separately.

@@ -1,2 +1,2 @@
-// Retained as the central exclusion list for future drafts. Legacy character routes are archived.
-export const UNPUBLISHED_PATHS: string[] = [];
+// Draft routes remain accessible but are excluded from public link pools and sitemaps.
+export const UNPUBLISHED_PATHS: string[] = ['/characters/violet-sorrengail/'];

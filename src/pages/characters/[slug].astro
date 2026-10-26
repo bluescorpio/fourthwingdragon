@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from 'astro:content';
+import { stat } from 'node:fs/promises';
+import CharacterLayout from '../../layouts/CharacterLayout.astro';
+export async function getStaticPaths() {
+  const entries = await getCollection('characters');
+  const liveSlugs = entries.filter(entry => entry.data.contentStatus === 'published').map(entry => entry.data.slugName);
+  return entries.map(entry => ({ params: { slug: entry.data.slugName }, props: { entry, liveSlugs } }));
+}
+const { entry, liveSlugs } = Astro.props;
+const { Content, headings } = await render(entry);
+const explicitHeadings = [...(entry.body ?? '').matchAll(/<h2 id="([^"]+)">([^<]+)<\/h2>/g)]
+  .map((match) => ({ depth: 2, slug: match[1], text: match[2] }));
+const tocHeadings = explicitHeadings.length ? explicitHeadings : headings;
+const dateModified = entry.filePath ? (await stat(entry.filePath)).mtime.toISOString() : undefined;
+---
+<CharacterLayout entry={entry} noindex={entry.data.contentStatus === 'draft'} headings={tocHeadings} liveSlugs={liveSlugs} dateModified={dateModified}>
+  <Content />
+</CharacterLayout>
