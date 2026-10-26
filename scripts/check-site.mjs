@@ -2,6 +2,8 @@ import { readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 const paths = ['/', '/dragons/', '/guide-to-dragonkind/', '/quiz/dragon-type/', '/quiz/signet/', '/dragon-name-generator/', '/guides/threshing/', '/about/', '/privacy/', '/terms/', '/disclaimer/', '/fourth-wing-characters/', '/characters/ridoc/', '/characters/rhiannon-matthias/', '/characters/aaric-graycastle/'];
 const expected = paths.map(p => 'https://fourthwingdragon.com' + p).sort();
+const robots = await readFile('dist/robots.txt', 'utf8');
+assert.match(robots, /Sitemap: https:\/\/fourthwingdragon\.com\/sitemap\.xml/);
 for (const file of ['dist/sitemap-0.xml', 'dist/sitemap.xml']) {
   const sitemap = await readFile(file, 'utf8');
   const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
@@ -18,6 +20,10 @@ for (const path of paths) {
   assert.ok(Buffer.byteLength(html) < 102400, path + ' HTML budget');
   for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(m[1]);
   console.log(path + ' metadata, H1, disclaimer, JSON-LD and size OK (' + Buffer.byteLength(html) + ' bytes)');
+}
+for (const [path, type] of [['/quiz/dragon-type/', 'Quiz'], ['/quiz/signet/', 'Quiz'], ['/guide-to-dragonkind/', 'FAQPage'], ['/guides/threshing/', 'Article']]) {
+  const html = await readFile('dist' + path + 'index.html', 'utf8');
+  assert.ok(html.includes('"@type":"' + type + '"'), path + ' ' + type + ' JSON-LD');
 }
 const dragons = await readFile('dist/dragons/index.html', 'utf8');
 assert.equal([...dragons.matchAll(/class="bordered intersection"/g)].length, 0);

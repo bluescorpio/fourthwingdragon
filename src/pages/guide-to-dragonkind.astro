@@ -1,5 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import StructuredData from '../components/StructuredData.astro';
+const faqs = [
+  ['Is FourthWingDragon an official Dragonkind resource?', 'No. This is an independent fan site that links to official material and labels its own quizzes and reference tools.'],
+  ['Do the quizzes establish canon?', 'No. The quizzes use original questions and interpretations for entertainment and do not establish rules of the fictional world.'],
+];
 ---
 <BaseLayout title="Guide to Dragonkind — Official Resources & Empyrean Fan Tools" description="Navigate official Dragonkind resources, compare our dragon color and tail index, and understand how the fan quizzes differ from canonical lore." breadcrumbs={[{name:'Dragonkind Guide',href:'/guide-to-dragonkind/'}]}>
 <h1>Guide to Dragonkind: Empyrean Lore &amp; Official Threshing Guide</h1>
@@ -22,5 +27,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <h2>Choose your next step</h2>
 <p>For the setting’s public introduction, visit the author’s official book page. For the candidate-themed web experience, visit Dragonkind. For an interactive break, try either of our two quizzes or generate a name. For a focused explanation of how this site handles Threshing context, use the reading guide below. Every path should make it clear whether you are reading an official source, a limited reference, or an original fan activity.</p>
 <p><a href="/quiz/dragon-type/">Take the dragon quiz</a> · <a href="/quiz/signet/">Take the signet quiz</a> · <a href="/dragon-name-generator/">Create a name</a> · <a href="/guides/threshing/">Read the Threshing guide</a>.</p>
+<h2>Common questions</h2><dl>{faqs.map(([question, answer]) => <><dt><strong>{question}</strong></dt><dd>{answer}</dd></>)}</dl>
 <h2>Official sources</h2><ol><li><a href="https://www.entangledpublishing.com/books/fourth-wing">Entangled Publishing — Fourth Wing</a>: book description and series details.</li><li><a href="https://dragonkind.com/">Dragonkind</a>: public candidate entrance and attribution.</li></ol><p class="muted">Public pages retrieved October 26, 2026. Site commentary describes our own navigation and tools.</p>
-</div></BaseLayout>
+</div><StructuredData data={{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(([name,text]) => ({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))}}/><StructuredData data={{'@context':'https://schema.org','@type':'Article',headline:'Guide to Dragonkind: Empyrean Lore & Official Threshing Guide',description:'A guide to official Dragonkind resources and independent Empyrean fan activities.',author:{'@type':'Organization',name:'FourthWingDragon'},publisher:{'@type':'Organization',name:'FourthWingDragon'},mainEntityOfPage:'https://fourthwingdragon.com/guide-to-dragonkind/'}}/></BaseLayout>
