@@ -1,11 +1,113 @@
 ---
-import {NAME_COMBINATIONS,ROOTS} from '../lib/names';
+import { DRAGON_NAMES, NAME_STYLES } from '../lib/names';
+const initialNames = DRAGON_NAMES.slice(0, 6);
 ---
-<section class="bordered" aria-labelledby="generator-heading"><h2 id="generator-heading">Create an original dragon name</h2><p>{NAME_COMBINATIONS} combinations of invented syllables and Scottish Gaelic dictionary roots.</p><button id="generate-name" type="button">Generate a name</button><div id="name-result" aria-live="polite"></div><button id="copy-name" type="button" hidden>Copy name</button><p id="copy-status" role="status"></p><noscript>Enable JavaScript to generate and copy names. The root glossary is available below.</noscript></section>
-<section class="prose"><h2>Root glossary</h2><p>These are dictionary meanings of individual roots. The generated compounds are invented fantasy names, not translations or authentic Gaelic personal names.</p><ul>{ROOTS.map(r=><li><strong>{r.root}</strong>: {r.meaning} · <a href={'https://learngaelic.scot/dictionary/index.jsp?abairt='+encodeURIComponent(r.root)+'&slang=both&wholeword=false'}>LearnGaelic dictionary</a></li>)}</ul></section>
+<section class="bordered" aria-labelledby="generator-heading">
+  <h2 id="generator-heading">Find your dragon name</h2>
+  <p>Choose a style and collect 4, 6, 8, or 12 names with their meanings.</p>
+  <form id="name-controls" hidden>
+    <label for="name-style">Name style
+      <select id="name-style" name="style">
+        <option value="all">All styles</option>
+        {NAME_STYLES.map(style => <option value={style.id}>{style.label}</option>)}
+      </select>
+    </label>
+    <label for="name-count">Number of names
+      <select id="name-count" name="count">
+        {[4, 6, 8, 12].map(count => <option value={count} selected={count === 6}>{count}</option>)}
+      </select>
+    </label>
+    <button type="submit">Generate names</button>
+  </form>
+  <p id="name-status" class="muted" role="status">Six Fire names to get you started.</p>
+  <ol id="name-results" class="name-results grid cards" aria-label="Generated names">
+    {initialNames.map(item => <li class="bordered"><h3>{item.name}</h3><p>{item.meaning}</p></li>)}
+  </ol>
+  <button id="copy-names" type="button" hidden>Copy names and meanings</button>
+  <p id="copy-status" role="status"></p>
+  <textarea id="copy-fallback" aria-label="Names and meanings to copy" readonly hidden></textarea>
+  <noscript>Browse all 72 names below. Enable JavaScript to shuffle names by style and use the copy button.</noscript>
+</section>
+<section aria-labelledby="name-library-heading">
+  <h2 id="name-library-heading">72 dragon names with meanings</h2>
+  <p>Each meaning is an imagined scene or mood for creative use, rather than a translation.</p>
+  <nav aria-label="Browse name styles" class="style-links">
+    {NAME_STYLES.map(style => <a href={`#${style.id}-names`}>{style.label}</a>)}
+  </nav>
+  {NAME_STYLES.map(style => <section aria-labelledby={`${style.id}-names`}>
+    <h3 id={`${style.id}-names`}>{style.label} dragon names</h3>
+    <p>{style.description}</p>
+    <ul class="name-library grid cards">
+      {DRAGON_NAMES.filter(item => item.style === style.id).map(item => <li class="bordered" data-dragon-name={item.name} data-meaning={item.meaning} data-style={item.style}>
+        <h4>{item.name}</h4><p>{item.meaning}</p>
+      </li>)}
+    </ul>
+  </section>)}
+</section>
+<style>
+  #name-controls { display: flex; flex-wrap: wrap; gap: 1rem; align-items: end; }
+  label { display: grid; gap: .4rem; }
+  select { font: inherit; padding: .75rem; color: var(--ink); background: var(--bg); border: 1px solid var(--gold); border-radius: .3rem; }
+  select:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+  .name-library, .name-results { list-style: none; padding: 0; }
+  .name-library h4 { margin: 0 0 .5rem; color: var(--gold); font-size: 1.1rem; }
+  .name-library p, .name-results :global(p) { line-height: 1.7; margin-bottom: 0; }
+  .name-results :global(h3) { margin-top: 0; color: var(--gold); }
+  .style-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+  h3[id] { scroll-margin-top: 1rem; font-size: 1.4rem; }
+</style>
 <script>
- import {NAME_COMBINATIONS,nameAt} from '../lib/names';
- const button=document.querySelector<HTMLButtonElement>('#generate-name');const output=document.querySelector<HTMLElement>('#name-result')!;const copy=document.querySelector<HTMLButtonElement>('#copy-name')!;const status=document.querySelector<HTMLElement>('#copy-status')!;let current='';let previous=-1;
- button?.addEventListener('click',()=>{const random=new Uint32Array(1);crypto.getRandomValues(random);let index=random[0]%NAME_COMBINATIONS;if(index===previous)index=(index+1)%NAME_COMBINATIONS;previous=index;const n=nameAt(index);current=n.name;const h=document.createElement('h3');h.textContent=n.name;const p=document.createElement('p');p.textContent='Root: '+n.root+' ('+n.meaning+'). Invented prefix: '+n.prefix+'; invented suffix: '+n.suffix+'.';output.replaceChildren(h,p);copy.hidden=false;status.textContent='';});
- copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(current);status.textContent='Name copied.';}catch{status.textContent='Copy this name: '+current;}});
+  import { chooseNames, formatNames, type DragonName } from '../lib/names';
+  const controls = document.querySelector<HTMLFormElement>('#name-controls')!;
+  const style = document.querySelector<HTMLSelectElement>('#name-style')!;
+  const count = document.querySelector<HTMLSelectElement>('#name-count')!;
+  const output = document.querySelector<HTMLOListElement>('#name-results')!;
+  const summary = document.querySelector<HTMLElement>('#name-status')!;
+  const copy = document.querySelector<HTMLButtonElement>('#copy-names')!;
+  const status = document.querySelector<HTMLElement>('#copy-status')!;
+  const fallback = document.querySelector<HTMLTextAreaElement>('#copy-fallback')!;
+  const names = Array.from(document.querySelectorAll<HTMLElement>('[data-dragon-name]'), item => ({
+    name: item.dataset.dragonName!, meaning: item.dataset.meaning!, style: item.dataset.style as DragonName['style'],
+  }));
+  let current = names.slice(0, 6);
+  controls.hidden = false;
+  copy.hidden = false;
+  function random() {
+    const value = new Uint32Array(1);
+    crypto.getRandomValues(value);
+    return value[0]! / 4294967296;
+  }
+  controls.addEventListener('submit', event => {
+    event.preventDefault();
+    const pool = names.filter(item => style.value === 'all' || item.style === style.value);
+    current = chooseNames(pool, Number(count.value), random);
+    output.replaceChildren(...current.map(item => {
+      const li = document.createElement('li');
+      li.className = 'bordered';
+      const heading = document.createElement('h3');
+      heading.textContent = item.name;
+      const meaning = document.createElement('p');
+      meaning.textContent = item.meaning;
+      li.append(heading, meaning);
+      return li;
+    }));
+    summary.textContent = `${current.length} names · ${style.selectedOptions[0]!.textContent}`;
+    status.textContent = '';
+    fallback.hidden = true;
+    fallback.value = '';
+  });
+  copy.addEventListener('click', async () => {
+    const text = formatNames(current);
+    try {
+      await navigator.clipboard.writeText(text);
+      status.textContent = `${current.length} names and meanings copied.`;
+      fallback.hidden = true;
+    } catch {
+      status.textContent = 'Select and copy the names in the text box below.';
+      fallback.value = text;
+      fallback.hidden = false;
+      fallback.focus();
+      fallback.select();
+    }
+  });
 </script>

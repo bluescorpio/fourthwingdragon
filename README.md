@@ -8,7 +8,7 @@ Seven core pages: home, dragon color/tail matrix, Dragonkind guide, dragon quiz,
 
 The matrix indexes seven colors and six tails, with only named examples shown. The guides contain source-aware reading advice and do not present an unsupported date or rules timetable as fact.
 
-Both quizzes have twelve questions, four stable option IDs and seven weighted dimensions. They use independent question sets, deterministic result-order tie breaking and no persistent answer storage. Results are original personality interpretations, not canon. The browser-only name generator has 600 combinations; Gaelic dictionary roots are distinguished from invented syllables.
+Both quizzes have twelve questions, four stable option IDs and seven weighted dimensions. They use independent question sets, deterministic result-order tie breaking and no persistent answer storage. Results are original personality interpretations, not canon. The browser-only name generator offers 72 fantasy names with creative meanings, grouped into Fire, Ice, Shadow, Storm, Earth and Sky. It samples 4, 6, 8 or 12 distinct names per batch and copies names with their meanings; the full catalogue is prerendered for reading without JavaScript.
 
 ## Development and checks
 
@@ -34,7 +34,7 @@ verify:content checks the built HTML, metadata, single H1, JSON-LD, sitemap URLs
 - src/lib/constants.ts: site settings and navigation.
 - src/lib/dragons.ts: categories, explicit evidence notes and matrix.
 - src/lib/quizzes.ts: question data, profiles and pure scoring function.
-- src/lib/names.ts: generator roots, invented syllables and deterministic indexed combinations.
+- src/lib/names.ts: 72 names and creative meanings, six styles, batch sampling and clipboard text formatting.
 - src/components/quiz/QuizRunner.astro: accessible native browser quiz state machine.
 - src/pages/: static HTML routes, restored character routes and a static sitemap.xml endpoint.
 - public/llms.txt: question-to-URL index; public/robots.txt points at sitemap-index.xml.
@@ -49,6 +49,6 @@ Keep public/google7898b661ebe700a1.html permanently. It contains the actual Goog
 
 ## Sources and assets
 
-The author’s public Fourth Wing introduction and the public Dragonkind entrance are linked with specific source limitations. The official entrance does not supply a complete public Threshing timetable or rulebook. Gaelic root links use LearnGaelic dictionary entries. Quiz descriptions and reading instructions are original fan activities. No Amazon Associate membership is claimed without confirmation.
+The author’s public Fourth Wing introduction and the public Dragonkind entrance are linked with specific source limitations. The official entrance does not supply a complete public Threshing timetable or rulebook. Name meanings are original creative prompts, not translations or novel references. Quiz descriptions and reading instructions are original fan activities. No Amazon Associate membership is claimed without confirmation.
 
 System fonts, local original social artwork, no official illustrations or book-cover assets. No analytics, cookies, local storage or remote answer submission are implemented.
