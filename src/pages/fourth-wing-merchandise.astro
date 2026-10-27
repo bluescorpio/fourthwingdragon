@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StructuredData from '../components/StructuredData.astro';
+
+const title = 'Fourth Wing Merchandise: Official & Fan-Made Guide';
+const description = 'A guide to Fourth Wing merchandise — which stores sell officially licensed apparel and accessories, what fan-made shops offer, and how to choose a gift.';
+const stores = [
+  ['Out of Print', 'https://outofprint.com/collections/fourth-wing'],
+  ['Kingdom of Threads', 'https://kingdomofthreads.com/collections/official-fourth-wing-collection'],
+  ['The Bean Workshop', 'https://thebeanworkshop.store/collections/official-fourth-wing-merch'],
+  ['Rebecca Yarros Shop', 'https://rebeccayarrosshop.com/'],
+  ['Hot Topic', 'https://www.hottopic.com/pop-culture/shop-by-license/fourth-wing/'],
+];
+const faqs = [
+  ['Where can I buy Fourth Wing merchandise?', 'Officially licensed lines are sold by Out of Print, Kingdom of Threads and The Bean Workshop, and Rebecca Yarros runs her own shop. Hot Topic also carries a Fourth Wing section. Fan-made items are mostly on Etsy.'],
+  ['Is there official Fourth Wing merchandise?', 'Yes. Several stores describe their Fourth Wing collections as officially licensed, and the author operates her own shop. Check the label on the store page, because fan-made listings sit alongside licensed ones in search results.'],
+  ['What is a good Fourth Wing gift under $25?', 'Bookmarks, sticker sets and sticker sheets are the categories that most often fall in that range. Prices change by seller, so compare on the listing page.'],
+  ['Can I sell my own Fourth Wing merchandise?', "That depends on the rights holder's terms — this page does not give legal advice. What is visible is that Etsy carries a large number of independent Fourth Wing designs, and that three of the stores above describe themselves as licensed. We do not judge whether any individual listing is authorised."],
+];
+// Product cards await the omitted section C and independently checked listing data.
+// Do not invent products, prices, availability, or affiliate destinations.
+---
+<BaseLayout title={title} description={description} breadcrumbs={[{ name: 'Fourth Wing Merchandise', href: '/fourth-wing-merchandise/' }]}>
+  <h1>Fourth Wing Merchandise: Official Stores and Fan-Made Picks</h1>
+  <article class="prose">
+    <p class="lead">This page lists where Fourth Wing merchandise is actually sold — which stores carry
+      officially licensed apparel and accessories, and what independent shops on Etsy offer.
+      We do not sell any of these items; we link to the stores that do.</p>
+
+    <section aria-labelledby="licensed-vs-fan-made">
+      <h2 id="licensed-vs-fan-made">Official Licensed Merchandise vs. Fan-Made Designs</h2>
+      <p>The difference matters when you are buying a gift. "Officially licensed" means the
+        seller states it holds a license from the rights holder; "fan-made" means an
+        independent designer made something inspired by the series. Both exist in large
+        numbers, and both are easy to find — the label on the store page is what you check.</p>
+      <p>Three of the stores selling Fourth Wing merchandise describe their lines as officially
+        licensed: Out of Print, Kingdom of Threads, and The Bean Workshop. Rebecca Yarros also
+        runs her own shop, Rebecca Yarros Shop, which opened on Threshing Day (October 1). Large
+        retailers such as Hot Topic carry a Fourth Wing section as well.</p>
+      <ul>{stores.map(([name, href]) => <li><a href={href}>{name}</a></li>)}</ul>
+      <p class="store-note"><small>Store claims are quoted from each store's own collection page; we do not independently
+        verify licensing.</small></p>
+    </section>
+
+    <section aria-labelledby="apparel">
+      <h2 id="apparel">Fourth Wing Apparel</h2>
+      <p>Fourth Wing apparel is the largest category, and most of it is sweatshirts, hoodies
+        and t-shirts with dragon or college graphics.</p>
+    </section>
+
+    <section aria-labelledby="drinkware-home">
+      <h2 id="drinkware-home">Mugs, Drinkware and Home</h2>
+      <p>Drinkware is the most common lower-priced gift in this fandom — mugs, tumblers and
+        cold cups with dragon or rider graphics. Candles and blankets sit in the same
+        price range and suit the same occasions.</p>
+    </section>
+
+    <section aria-labelledby="stationery">
+      <h2 id="stationery">Bookmarks, Stickers and Stationery</h2>
+      <p>Bookmarks and sticker sets are the cheapest entry point and the most common add-on
+        gift. Most of what is available here is fan-made rather than licensed.</p>
+    </section>
+
+    <section aria-labelledby="accessories">
+      <h2 id="accessories">Jewelry and Accessories</h2>
+      <p>Jewelry in this fandom tends to be small, symbolic pieces — charms, necklaces and
+        pins — rather than character replicas.</p>
+    </section>
+
+    <section aria-labelledby="gift-ideas">
+      <h2 id="gift-ideas">Fourth Wing Gift Ideas by Occasion</h2>
+      <p>For someone who just finished the first book: a bookmark set or a sticker pack costs
+        little and does not require knowing which character they like best.</p>
+      <p>For a birthday: apparel is the safest choice if you know their size, because it is the
+        category with the widest selection and the least dependence on personal taste.</p>
+      <p>For the December holidays: drinkware and candles ship more easily than apparel and
+        avoid sizing entirely, which makes them the low-risk option for a gift exchange.</p>
+      <p>Fourth Wing merchandise searches peak in the weeks before the holidays; the same
+        listings often sell out of popular sizes in December.</p>
+    </section>
+
+    <section aria-labelledby="faq">
+      <h2 id="faq">Frequently Asked Questions</h2>
+      <dl>{faqs.map(([question, answer]) => <div class="faq-item"><dt><strong>{question}</strong></dt><dd>{answer}</dd></div>)}</dl>
+    </section>
+
+    <p class="affiliate-disclosure">As an Amazon Associate, we earn from qualifying purchases. Links marked with a price
+      are affiliate links; links to official stores are not, and we earn nothing from them.
+      Prices and availability change — the listing page is the source of truth.</p>
+  </article>
+  <StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })) }} />
+</BaseLayout>
+
+<style>
+  .faq-item { padding: 1rem 0; border-bottom: 1px solid var(--line); line-height: 1.75; }
+  .store-note, .affiliate-disclosure { color: var(--muted); }
+  .affiliate-disclosure { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: .875rem; }
+</style>

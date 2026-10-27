@@ -1,5 +1,5 @@
 import { AFFILIATE } from '../data/affiliate';
-export { amazonSearchUrl } from '../data/affiliate';
+export { amazonSearchUrl, audibleBookUrl, bookDualLink } from '../data/affiliate';
 
 export const SITE_NAME = 'FourthWingDragon';
 export const SITE_URL = 'https://fourthwingdragon.com';

@@ -35,11 +35,20 @@ verify:content checks the built HTML, metadata, single H1, JSON-LD, sitemap URLs
 - src/lib/dragons.ts: categories, explicit evidence notes and matrix.
 - src/lib/quizzes.ts: question data, profiles and pure scoring function.
 - src/lib/names.ts: 72 names and creative meanings, six styles, batch sampling and clipboard text formatting.
+- src/data/affiliate.ts: centralized Amazon tag and Amazon/Audible book link helpers.
 - src/components/quiz/QuizRunner.astro: accessible native browser quiz state machine.
 - src/pages/: static HTML routes, restored character routes and a static sitemap.xml endpoint.
 - public/llms.txt: question-to-URL index; public/robots.txt points at sitemap-index.xml.
 
 Astro’s sitemap integration generates sitemap-index.xml and sitemap-0.xml. The static sitemap.xml endpoint contains the same published page URLs for direct submission. Draft character routes remain excluded from public navigation and the sitemap.
+
+## Book link helpers
+
+`amazonSearchUrl(query)`, `audibleBookUrl(asin)` and `bookDualLink(title, amazonQuery, audibleAsin)` live in `src/data/affiliate.ts` and are also re-exported from `src/lib/constants.ts`. The dual helper returns `{ title, amazonUrl, audibleUrl }`; it does not render markup. Links rendered from these helpers should use `rel="sponsored nofollow"` and `target="_blank"`.
+
+Amazon search links include a tag only when `AFFILIATE.amazonTag` is nonempty after trimming. Audible links are ordinary product URLs and do not inherit the Amazon tag. Callers must verify the intended product and edition before supplying its ten-character ASIN; format validation does not prove that a listing exists. No series ASIN catalogue or Audible commission claim is included.
+
+Run `npm test` separately from `npm run ship`; ship runs type checks, build and output validation, but does not run model tests. Review `/dragons/` in the rendered output: its body is written in the page template, while the data arrays supply the label lists. Changes to unused data descriptions do not expand the page. Rider/dragon pairings remain outside this update pending an agreed source policy and verification of each entry.
 
 ## Deployment and verification
 

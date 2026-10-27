@@ -1,6 +1,7 @@
 import { readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 const paths = ['/', '/dragons/', '/guide-to-dragonkind/', '/quiz/dragon-type/', '/quiz/signet/', '/dragon-name-generator/', '/guides/threshing/', '/about/', '/privacy/', '/terms/', '/disclaimer/', '/fourth-wing-characters/', '/characters/ridoc/', '/characters/rhiannon-matthias/', '/characters/aaric-graycastle/'];
+paths.push('/fourth-wing-merchandise/');
 const expected = paths.map(p => 'https://fourthwingdragon.com' + p).sort();
 const robots = await readFile('dist/robots.txt', 'utf8');
 assert.match(robots, /Sitemap: https:\/\/fourthwingdragon\.com\/sitemap\.xml/);
@@ -40,4 +41,4 @@ assert.equal(await readFile('dist/google7898b661ebe700a1.html', 'utf8'), 'google
 const assets = await readdir('dist/_astro');
 const jsBytes = (await Promise.all(assets.filter(n => n.endsWith('.js')).map(async n => (await readFile('dist/_astro/' + n)).length))).reduce((a, b) => a + b, 0);
 assert.ok(jsBytes < 20480, 'Combined client JS budget: ' + jsBytes);
-console.log('site check OK: 15 sitemap URLs, vocabulary index, character routes restored, GSC file preserved, client JS ' + jsBytes + ' bytes');
+console.log('site check OK: ' + paths.length + ' sitemap URLs, vocabulary index, character routes restored, GSC file preserved, client JS ' + jsBytes + ' bytes');

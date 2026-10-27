@@ -5,6 +5,33 @@ async function moduleAt(path){const source=await readFile(new URL(path,import.me
 const {dragonTypeQuiz,signetQuiz,scoreQuiz,DIMENSIONS}=await moduleAt('../src/lib/quizzes.ts');
 const {DRAGON_COLORS,TAIL_TYPES}=await moduleAt('../src/lib/dragons.ts');
 const {DRAGON_NAMES,NAME_STYLES,chooseNames,formatNames}=await moduleAt('../src/lib/names.ts');
+const {AFFILIATE,amazonSearchUrl,audibleBookUrl,bookDualLink}=await moduleAt('../src/data/affiliate.ts');
+const originalTag=AFFILIATE.amazonTag;
+try {
+ const query='Fantasy books & audiobooks';
+ // This identifier is synthetic test data, not a verified product recommendation.
+ const asin='B000000000';
+ for(const tag of ['', '   ', ' sample-20 ']){
+  AFFILIATE.amazonTag=tag;
+  const links=bookDualLink('Sample title',query,asin.toLowerCase());
+  assert.equal(links.title,'Sample title');
+  assert.equal(links.amazonUrl,amazonSearchUrl(query));
+  const amazon=new URL(links.amazonUrl);
+  assert.equal(amazon.origin,'https://www.amazon.com');
+  assert.equal(amazon.searchParams.get('k'),query);
+  assert.equal(amazon.searchParams.get('tag'),tag.trim()||null);
+  assert.equal(links.audibleUrl,`https://www.audible.com/pd/${asin}`);
+  assert.equal(new URL(links.audibleUrl).search,'','Amazon tags must not be copied to Audible');
+ }
+ assert.equal(audibleBookUrl(` ${asin} `),`https://www.audible.com/pd/${asin}`);
+ for(const invalid of ['', 'B000', 'B0000000000', 'B00000000?', 'B000 00000']){
+  assert.throws(()=>audibleBookUrl(invalid),TypeError);
+  assert.throws(()=>bookDualLink('Sample title',query,invalid),TypeError);
+ }
+} finally {
+ AFFILIATE.amazonTag=originalTag;
+}
+console.log('book links: query encoding, optional Amazon tags, ASIN validation and untagged Audible links pass');
 for(const quiz of [dragonTypeQuiz,signetQuiz]){
  assert.equal(quiz.questions.length,12);assert.equal(quiz.results.length,7);
  for(const q of quiz.questions){assert.deepEqual(q.options.map(o=>o.id),['a','b','c','d']);assert.equal(new Set(q.options.map(o=>o.label)).size,4);for(const o of q.options)for(const [d,w] of Object.entries(o.weights)){assert.ok(DIMENSIONS.includes(d));assert.ok(Number.isFinite(w)&&w>=0);}}
