@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import StructuredData from '../components/StructuredData.astro';
 
 const title = 'Fourth Wing Merchandise: Official & Fan-Made Guide';
-const description = 'A guide to Fourth Wing merchandise — which stores sell officially licensed apparel and accessories, what fan-made shops offer, and how to choose a gift.';
+const description = 'A guide to Fourth Wing merchandise — which stores sell officially licensed apparel and accessories, what fan-made shops offer, where to browse each category.';
 const stores = [
   ['Out of Print', 'https://outofprint.com/collections/fourth-wing'],
   ['Kingdom of Threads', 'https://kingdomofthreads.com/collections/official-fourth-wing-collection'],
@@ -14,7 +14,6 @@ const stores = [
 const faqs = [
   ['Where can I buy Fourth Wing merchandise?', 'Officially licensed lines are sold by Out of Print, Kingdom of Threads and The Bean Workshop, and Rebecca Yarros runs her own shop. Hot Topic also carries a Fourth Wing section. Fan-made items are mostly on Etsy.'],
   ['Is there official Fourth Wing merchandise?', 'Yes. Several stores describe their Fourth Wing collections as officially licensed, and the author operates her own shop. Check the label on the store page, because fan-made listings sit alongside licensed ones in search results.'],
-  ['What is a good Fourth Wing gift under $25?', 'Bookmarks, sticker sets and sticker sheets are the categories that most often fall in that range. Prices change by seller, so compare on the listing page.'],
   ['Can I sell my own Fourth Wing merchandise?', "That depends on the rights holder's terms — this page does not give legal advice. What is visible is that Etsy carries a large number of independent Fourth Wing designs, and that three of the stores above describe themselves as licensed. We do not judge whether any individual listing is authorised."],
 ];
 // Product cards await the omitted section C and independently checked listing data.
@@ -67,22 +66,12 @@ const faqs = [
         pins — rather than character replicas.</p>
     </section>
 
-    <section aria-labelledby="gift-ideas">
-      <h2 id="gift-ideas">Fourth Wing Gift Ideas by Occasion</h2>
-      <p>For someone who just finished the first book: a bookmark set or a sticker pack costs
-        little and does not require knowing which character they like best.</p>
-      <p>For a birthday: apparel is the safest choice if you know their size, because it is the
-        category with the widest selection and the least dependence on personal taste.</p>
-      <p>For the December holidays: drinkware and candles ship more easily than apparel and
-        avoid sizing entirely, which makes them the low-risk option for a gift exchange.</p>
-      <p>Fourth Wing merchandise searches peak in the weeks before the holidays; the same
-        listings often sell out of popular sizes in December.</p>
-    </section>
-
     <section aria-labelledby="faq">
       <h2 id="faq">Frequently Asked Questions</h2>
       <dl>{faqs.map(([question, answer]) => <div class="faq-item"><dt><strong>{question}</strong></dt><dd>{answer}</dd></div>)}</dl>
     </section>
+
+    <p>Looking for gift ideas by recipient or budget? See our <a href="/fourth-wing-gift/">Fourth Wing gift guide</a>.</p>
 
     <p class="affiliate-disclosure">As an Amazon Associate, we earn from qualifying purchases. Links marked with a price
       are affiliate links; links to official stores are not, and we earn nothing from them.

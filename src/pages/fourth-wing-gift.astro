@@ -1,0 +1,114 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StructuredData from '../components/StructuredData.astro';
+import BookBlock from '../components/BookBlock.astro';
+
+const title = 'Fourth Wing Gift Ideas: By Recipient, Budget and Timing';
+const description = 'Gift ideas for Fourth Wing fans, organized by who you are buying for, how much you want to spend, and whether you need it before the holidays.';
+const faqs = [
+  { question: 'What do you get someone who loves Fourth Wing?', answer: 'It depends on how far they have read. For a new reader, bookmarks, stickers or a mug assume no plot knowledge. For someone who has finished the books, a hardcover or special edition, a reading journal, or something for their shelf is more likely to be new to them.' },
+  { question: 'What is a good Fourth Wing gift under $25?', answer: 'Bookmarks, sticker sets, pins and a single mug are the categories that most often fall in that range. Prices change by seller, so compare on the listing page.' },
+  { question: 'Is Fourth Wing merchandise officially licensed?', answer: 'Some of it is, and some is fan-made. Several stores describe their Fourth Wing lines as officially licensed, and the author runs her own shop. Check the label on the product page; our merchandise guide explains the difference.', linked: true },
+  { question: 'Are there Fourth Wing gifts that do not need shipping?', answer: 'Yes — ebooks, audiobooks and bookstore gift cards are delivered digitally and are the safe option if you are buying close to the date.' },
+];
+---
+<BaseLayout title={title} description={description} breadcrumbs={[{ name: 'Fourth Wing Gift Ideas', href: '/fourth-wing-gift/' }]}>
+  <h1>Fourth Wing Gift Ideas: By Recipient, Budget and Timing</h1>
+  <article class="prose">
+    <p class="lead">Buying for a Fourth Wing reader is mostly a question of how far into the series they
+      are, and how much you want to spend. This page is organized by those two things.
+      We do not sell these items — we link to sellers.</p>
+
+    <section aria-labelledby="before-you-buy">
+      <h2 id="before-you-buy">Three Things to Check Before You Buy</h2>
+      <ul>
+        <li>How far they have read. The series is still being published, and merchandise often
+          carries artwork or quotes from later books. If you are not sure how far they have got,
+          choose something that does not reference specific events.</li>
+        <li>Sizing. Apparel is the largest category and the only one where a wrong guess cannot be
+          fixed. If you do not know their size, drinkware, bookmarks or stationery carry no sizing
+          risk.</li>
+        <li>Licensed or fan-made. Both are widely sold and both are easy to find. For a gift, the
+          label on the product page is what tells you which one you are buying — the difference is
+          explained on our merchandise guide.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="new-readers">
+      <h2 id="new-readers">Gifts for Someone Who Just Started the Series</h2>
+      <p>The safest gifts for a new reader are the ones that do not assume any knowledge of the
+        plot: bookmarks, stickers, a tote, a mug. Anything with character art or a quote assumes
+        they have met that character already. Bookish accessories also work if they read widely,
+        not just this series.</p>
+    </section>
+
+    <section aria-labelledby="caught-up-readers">
+      <h2 id="caught-up-readers">Gifts for Someone Who Has Read Everything</h2>
+      <p>Once someone has finished the published books, the useful gifts shift from accessories
+        to objects: a nicer edition of a book they already own, a reading journal, or something
+        for their shelf rather than their bag. This is also the group most likely to already own
+        the common items, so a specific, narrow gift tends to land better than a general one.</p>
+      <BookBlock headingLevel="h3" labelAffiliate />
+    </section>
+
+    <section aria-labelledby="budget">
+      <h2 id="budget">Gifts by Budget</h2>
+      <p>Prices move constantly and vary by seller, so the bands below describe what kind of item
+        usually falls where — check the listing for the actual number.</p>
+      <div class="table-scroll">
+        <table aria-label="Gift budget bands">
+          <thead><tr><th scope="col">Band</th><th scope="col">What usually sits here</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Under $25</th><td>Bookmarks, sticker sets, pins, a single mug</td></tr>
+            <tr><th scope="row">$25–$50</th><td>Apparel, a hoodie or sweatshirt, a candle or blanket</td></tr>
+            <tr><th scope="row">Over $50</th><td>A hardcover or special edition, a bundle, a larger gift set</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>If you are buying for a gift exchange with a fixed limit, bookmarks and sticker sets are
+        the categories that most often stay under $25.</p>
+    </section>
+
+    <section aria-labelledby="timing">
+      <h2 id="timing">Will It Arrive in Time?</h2>
+      <p>Two things affect timing, and only one of them is shipping.
+        The first is stock: popular sizes and designs in this fandom sell out in December, and a
+        listing that is available in November may not be in December.
+        The second is format: ebooks and audiobooks are delivered instantly and need no shipping
+        at all, which makes them the reliable last-minute option. Gift cards for a bookstore
+        chain work the same way.</p>
+      <p>If you are buying within a week of the date, choose a format that is delivered
+        digitally rather than a physical item.</p>
+    </section>
+
+    <section aria-labelledby="faq">
+      <h2 id="faq">Frequently Asked Questions</h2>
+      <dl>{faqs.map(({ question, answer, linked }) => <div class="faq-item">
+        <dt><strong>{question}</strong></dt>
+        <dd>{linked ? <>Some of it is, and some is fan-made. Several stores describe their Fourth Wing lines as
+          officially licensed, and the author runs her own shop. Check the label on the product page;
+          our merchandise guide explains the difference.</> : answer}</dd>
+      </div>)}</dl>
+    </section>
+
+    <section aria-labelledby="related-pages">
+      <h2 id="related-pages">Related Pages</h2>
+      <ul>
+        <li><a href="/fourth-wing-merchandise/">Fourth Wing Merchandise: Official Stores and Fan-Made Picks</a></li>
+        <li><a href="/fourth-wing-characters/">Fourth Wing Characters</a></li>
+        <li><a href="/guides/threshing/">What Threshing Day Is</a></li>
+      </ul>
+    </section>
+
+    <p class="affiliate-disclosure">As an Amazon Associate, we earn from qualifying purchases. Links marked as affiliate earn
+      us a commission; links to official stores do not. Prices and availability change — the
+      listing page is the source of truth.</p>
+  </article>
+  <StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(({ question, answer }) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) }} />
+</BaseLayout>
+
+<style>
+  li + li { margin-top: .8rem; }
+  .faq-item { padding: 1rem 0; border-bottom: 1px solid var(--line); line-height: 1.75; }
+  .affiliate-disclosure { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: .875rem; color: var(--muted); }
+</style>

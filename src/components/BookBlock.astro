@@ -1,8 +1,10 @@
 ---
 import { amazonSearchUrl } from '../data/affiliate';
+interface Props { headingLevel?: 'h2' | 'h3'; labelAffiliate?: boolean }
+const { headingLevel: Heading = 'h2', labelAffiliate = false } = Astro.props;
 ---
 <section class="bordered book-block" aria-label="Fourth Wing book">
-  <h2>Fourth Wing</h2>
+  <Heading>Fourth Wing</Heading>
   <p>Fourth Wing is a novel by Rebecca Yarros.</p>
-  <a href={amazonSearchUrl('Fourth Wing Rebecca Yarros')} rel="sponsored nofollow" target="_blank">Fourth Wing — Amazon</a>
+  <a href={amazonSearchUrl('Fourth Wing Rebecca Yarros')} rel="sponsored nofollow" target="_blank">Fourth Wing — Amazon{labelAffiliate && ' (affiliate)'}</a>
 </section>
