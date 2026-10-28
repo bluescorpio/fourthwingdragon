@@ -1,6 +1,6 @@
 import { readFile, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-const paths = ['/', '/dragons/', '/guide-to-dragonkind/', '/quiz/dragon-type/', '/quiz/signet/', '/dragon-name-generator/', '/guides/threshing/', '/rebecca-yarros-quiz/', '/threshing-day-dragon/', '/about/', '/privacy/', '/terms/', '/disclaimer/', '/fourth-wing-characters/', '/characters/ridoc/', '/characters/rhiannon-matthias/', '/characters/aaric-graycastle/'];
+const paths = ['/', '/dragons/', '/guide-to-dragonkind/', '/quiz/dragon-type/', '/quiz/signet/', '/quiz/dragon-color/', '/dragon-name-generator/', '/guides/threshing/', '/rebecca-yarros-quiz/', '/threshing-day-dragon/', '/about/', '/privacy/', '/terms/', '/disclaimer/', '/fourth-wing-characters/', '/characters/ridoc/', '/characters/rhiannon-matthias/', '/characters/aaric-graycastle/'];
 paths.push('/fourth-wing-merchandise/', '/fourth-wing-gift/');
 const expected = paths.map(p => 'https://fourthwingdragon.com' + p).sort();
 const robots = await readFile('dist/robots.txt', 'utf8');
@@ -22,14 +22,14 @@ for (const path of paths) {
   for (const m of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) JSON.parse(m[1]);
   console.log(path + ' metadata, H1, disclaimer, JSON-LD and size OK (' + Buffer.byteLength(html) + ' bytes)');
 }
-for (const [path, type] of [['/quiz/dragon-type/', 'Quiz'], ['/quiz/signet/', 'Quiz'], ['/guide-to-dragonkind/', 'FAQPage'], ['/guides/threshing/', 'Article']]) {
+for (const [path, type] of [['/quiz/dragon-type/', 'Quiz'], ['/quiz/signet/', 'Quiz'], ['/quiz/dragon-color/', 'Quiz'], ['/guide-to-dragonkind/', 'FAQPage'], ['/guides/threshing/', 'Article']]) {
   const html = await readFile('dist' + path + 'index.html', 'utf8');
   assert.ok(html.includes('"@type":"' + type + '"'), path + ' ' + type + ' JSON-LD');
 }
 const dragons = await readFile('dist/dragons/index.html', 'utf8');
 assert.equal([...dragons.matchAll(/class="bordered intersection"/g)].length, 0);
 assert.ok(!/project brief|site owner|not independently checked|Not confirmed|rebeccayarros\.com/i.test(dragons), 'dragon index has no internal notes or excluded citations');
-for (const path of ['/guide-to-dragonkind/', '/guides/threshing/', '/quiz/dragon-type/', '/quiz/signet/']) {
+for (const path of ['/guide-to-dragonkind/', '/guides/threshing/', '/quiz/dragon-type/', '/quiz/signet/', '/quiz/dragon-color/']) {
   const html = await readFile('dist' + path + 'index.html', 'utf8');
   const prose = [...html.matchAll(/<(?:div|section) class="prose">([\s\S]*?)<\/(?:div|section)>/g)].map(m => m[1]).join(' ');
   const words = prose.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).length;

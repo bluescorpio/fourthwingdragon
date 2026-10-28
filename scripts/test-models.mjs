@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import ts from 'typescript';
 async function moduleAt(path){const source=await readFile(new URL(path,import.meta.url),'utf8');const {outputText}=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}});return import('data:text/javascript;base64,'+Buffer.from(outputText).toString('base64'));}
-const {dragonTypeQuiz,signetQuiz,scoreQuiz,DIMENSIONS}=await moduleAt('../src/lib/quizzes.ts');
+const {dragonTypeQuiz,signetQuiz,dragonColorQuiz,scoreQuiz,DIMENSIONS}=await moduleAt('../src/lib/quizzes.ts');
 const {DRAGON_COLORS,TAIL_TYPES}=await moduleAt('../src/lib/dragons.ts');
 const {DRAGON_NAMES,NAME_STYLES,chooseNames,formatNames}=await moduleAt('../src/lib/names.ts');
 const {AFFILIATE,amazonSearchUrl,audibleBookUrl,bookDualLink}=await moduleAt('../src/data/affiliate.ts');
@@ -41,6 +41,10 @@ for(const quiz of [dragonTypeQuiz,signetQuiz]){
  const tied={...quiz,questions:quiz.questions.map(q=>({...q,options:q.options.map(o=>({...o,weights:{}}))}))};assert.equal(scoreQuiz(tied,answers).id,quiz.results[0].id);
  console.log(quiz.id+': 12 questions, 7 reachable results, invalid/incomplete answers and deterministic ties pass');
 }
+assert.equal(dragonColorQuiz.questions.length,8);assert.equal(dragonColorQuiz.results.length,6);
+assert.deepEqual(dragonColorQuiz.results.map(result=>result.id),['red','green','orange','blue','brown','black']);
+for(const result of dragonColorQuiz.results){const preferred=dragonColorQuiz.questions.map(question=>(question.options.find(option=>option.weights[result.dimension])??question.options[0]).id);assert.equal(scoreQuiz(dragonColorQuiz,preferred).id,result.id);}
+console.log('dragon-color: 8 questions, 6 reachable color results');
 assert.equal(DRAGON_COLORS.length,7);assert.equal(TAIL_TYPES.length,6);assert.equal(new Set([...DRAGON_COLORS,...TAIL_TYPES].map(entry=>entry.id)).size,13);
 assert.equal(DRAGON_NAMES.length,72);
 assert.equal(new Set(DRAGON_NAMES.map(item=>item.name)).size,72);

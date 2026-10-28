@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import QuizRunner from '../../components/quiz/QuizRunner.astro';
+import StructuredData from '../../components/StructuredData.astro';
+import {dragonColorQuiz} from '../../lib/quizzes';
+const quiz=dragonColorQuiz;
+const steps=[{name:'Begin the quiz',text:'Select Start the quiz to begin eight original questions.'},{name:'Choose eight answers',text:'Select one option per question. Each answer advances automatically.'},{name:'Share your card',text:'Download or share a picture of the color mark. The dragon art is original to this site.'}];
+---
+<BaseLayout title="What Color Is Your Fourth Wing Dragon? — Color Quiz" description="Answer eight original questions for a fan-made Fourth Wing dragon color, then download or share a result card. Six color marks, not a canon assignment." breadcrumbs={[{name:'Dragon Color',href:'/quiz/dragon-color/'}]}>
+<h1>What Color Is Your Fourth Wing Dragon?</h1>
+<p class="lead">Eight questions, six original color marks, and a picture you can share. The result is a fan-made label. It does not assign a dragon from the books.</p>
+<QuizRunner quiz={quiz}/>
+<section class="prose">
+<h2>How this color quiz works</h2>
+<p>This is a short color test for readers who want a picture, not a long personality inventory. It asks eight questions about ordinary preferences: how you start a task, how you handle a disagreement, and what you value at the end of a hard day. Every question has four choices. Each choice adds a fixed weight to one of six dimensions: valor, loyalty, cunning, ambition, resolve and shadow.</p>
+<p>Those dimensions are original to this site. They are not a published temperament chart, and they do not describe how a dragon chooses a rider. After the eighth answer, the highest score becomes the color mark. If two dimensions tie, the first matching result in the order below wins. The same answers always produce the same card. Nothing is saved, and reloading the page clears the session.</p>
+<h2>Six pictures, not a roster</h2>
+<p>The six results are Red, Green, Orange, Blue, Brown and Black. Each card shows an original dragon painted for that color. The picture is a mark for the result. It is not fan art of a named dragon, and it is not evidence that a color behaves a certain way in the novels. The card says so in the footer.</p>
+<p>The dragon reference on this site uses seven color headings, not six. Golden / Iridescent remains on that grid and on the longer dragon quiz. This shorter test leaves it out so the card set stays at six pictures. A missing color here is a design choice for the quiz, not a claim that the seventh heading does not exist. Read the <a href="/dragons/">dragon reference</a> for the seven-by-six browsing grid, and the <a href="/quiz/dragon-type/">twelve-question dragon quiz</a> if you want all seven profiles.</p>
+<h2>What the card can and cannot say</h2>
+<p>Download image saves a portrait card. Share image hands that file to your device’s share sheet when the browser allows a file share. On a desktop browser that cannot attach a file, the same button downloads the picture so you can post it yourself. The platform buttons under the card send text only. Facebook attaches this page. X, Tumblr, Reddit, WhatsApp and Bluesky can include the match text. This site does not post the card and does not keep a copy.</p>
+<p>A shared card is a conversation prompt. It does not predict a bond, name a rider, or describe a scene from the books. The public premise of the series is a war college where dragons choose whether to bond with a candidate. This quiz does not make that choice.</p>
+</section>
+<section class="prose">
+<h2>Result order</h2>
+<ol>{quiz.results.map(result=><li><strong>{result.title}</strong> — {result.dimension}: {result.traits.join(', ')}.</li>)}</ol>
+<h2>Three steps</h2>
+<ol>{steps.map(step=><li><strong>{step.name}.</strong> {step.text}</li>)}</ol>
+<p>The <a href="/quiz/signet/">signet quiz</a> uses a different set of labels. The <a href="/guides/threshing/">Threshing reading guide</a> stays with the public introduction and does not invent a timetable.</p>
+</section>
+<StructuredData data={{'@context':'https://schema.org','@type':'HowTo',name:'How to take the dragon color quiz',step:steps.map((step,index)=>({'@type':'HowToStep',position:index+1,name:step.name,text:step.text}))}}/>
+<StructuredData data={{'@context':'https://schema.org','@type':'Quiz',name:'What Color Is Your Fourth Wing Dragon?',description:'A fan-made quiz with eight original questions, six dragon color marks, and a shareable result card.',about:{'@type':'Thing',name:'Fourth Wing dragon color quiz'}}}/>
+</BaseLayout>

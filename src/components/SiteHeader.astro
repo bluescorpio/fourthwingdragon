@@ -1,4 +1,6 @@
 ---
 import { CORE_PAGES, SITE_NAME } from '../lib/constants';
+const path = Astro.url.pathname.startsWith('/quiz/') ? Astro.url.pathname : '/quiz/dragon-type/';
+const shareHref = `${path}#quiz`;
 ---
-<header class="site-header"><nav aria-label="Main"><a class="brand" href="/">{SITE_NAME}</a><div class="nav-links">{CORE_PAGES.map(p=><a href={p.href} aria-current={Astro.url.pathname===p.href?'page':undefined}>{p.label}</a>)}</div></nav></header>
+<header class="site-header"><nav aria-label="Main"><a class="brand" href="/">{SITE_NAME}</a><div class="nav-links">{CORE_PAGES.map(p=><a href={p.href} aria-current={Astro.url.pathname===p.href?'page':undefined}>{p.label}</a>)}</div><a class="nav-cta" href={shareHref}>Share your result</a></nav></header>

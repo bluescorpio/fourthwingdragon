@@ -53,6 +53,31 @@ export const signetQuiz:Quiz = {id:'signet',title:'What is your signet profile?'
  result('farsight','insight','Farsight','A creative symbol for perspective: you consider consequences and seek a wider view. This result does not predict any story event.',['Perceptive','Curious','Reflective']),
  result('shadows','shadow','Shadows','A creative symbol for discretion: you value privacy and quiet concentration. This result assigns no connection to a book character.',['Private','Independent','Focused']),
 ]};
+const colorSeeds:QuestionSeed[] = [
+ ['A path splits before an unfamiliar valley. What do you do?',[['Take the steep shortcut','valor'],['Keep the group together','loyalty'],['Find a hidden route','cunning'],['Aim for a harder destination','ambition']]],
+ ['You receive a difficult assignment. What is your first move?',[['Make a patient plan','resolve'],['Observe quietly','shadow'],['Volunteer to go first','valor'],['Check who needs support','loyalty']]],
+ ['Your team disagrees about a decision. How do you help?',[['Propose a clever compromise','cunning'],['Name the larger goal','ambition'],['Return to the work and continue','resolve'],['Wait for a quieter opening','shadow']]],
+ ['Which challenge sounds most rewarding?',[['A moment that asks for courage','valor'],['A promise you can keep for someone else','loyalty'],['A puzzle with a hidden route','cunning'],['A demanding project you can organize','ambition']]],
+ ['A plan fails halfway through. You prefer to…',[['Keep working steadily','resolve'],['Step aside and rethink','shadow'],['Take responsibility publicly','valor'],['Protect the group’s trust','loyalty']]],
+ ['What kind of preparation suits you?',[['Build several alternative plans','cunning'],['Set an ambitious destination','ambition'],['Practice the fundamentals','resolve'],['Gather quiet observations','shadow']]],
+ ['Someone must make the first move. You…',[['Volunteer immediately','valor'],['Stay with the task until it is finished','resolve'],['Look for an inventive opening','cunning'],['Choose a less visible moment','shadow']]],
+ ['At the end of a difficult day, you value…',[['A friend who stayed','loyalty'],['Progress toward a larger goal','ambition'],['The promise you kept','resolve'],['A quiet hour to yourself','shadow']]],
+];
+export const dragonColorQuiz:Quiz = {id:'dragon-color',title:'What color is your Fourth Wing dragon?',intro:'Eight choices, six original color marks. A fan-made picture, not a canon dragon.',questions:makeQuestions(colorSeeds),results:[
+ result('red','valor','Red Dragon','You favor direct action and honest courage. This red mark is an original picture for the result, not a dragon from the books.',['Courageous','Direct','Energetic']),
+ result('green','loyalty','Green Dragon','You make room for others and protect shared trust. This green mark is a creative label, not a canon temperament.',['Loyal','Cooperative','Attentive']),
+ result('orange','cunning','Orange Dragon','You enjoy changing the shape of a problem. This orange mark celebrates adaptability. It does not name a book dragon.',['Inventive','Flexible','Resourceful']),
+ result('blue','ambition','Blue Dragon','You are drawn to demanding goals. This blue mark is an original profile, not an assignment from the novels.',['Purposeful','Driven','Organized']),
+ result('brown','resolve','Brown Dragon','You keep going when excitement fades. This brown mark values patience. It is not a published breed.',['Steady','Patient','Persistent']),
+ result('black','shadow','Black Dragon','You work comfortably outside the spotlight. This black mark is fan-made art for the result, not a canon dragon.',['Independent','Discreet','Focused']),
+]};
+export const RESULT_NOTES = [
+ {title:'Dragons do the choosing', text:'The public premise is a war college for dragon riders, where dragons choose whether to bond with a candidate. A quiz label does not make that choice.'},
+ {title:'Same answers, same label', text:'The questions and weights are fixed. Ties follow a published order, so the match you share can be repeated. This site does not store it.'},
+ {title:'A grid is not a roster', text:'The dragon reference pairs seven color headings with six tail labels. A cell is a browsing slot, not evidence that the combination appears in the novels.'},
+ {title:'Official and fan stay separate', text:'Dragonkind is the official interactive destination. This quiz does not share a login with it. A page that asks for an email address is a different destination.'},
+] as const;
+
 export function scoreQuiz(quiz:Quiz, answers:readonly string[]):QuizResult|null {
  if(answers.length!==quiz.questions.length)return null;
  const scores:Record<Dimension,number>={valor:0,loyalty:0,cunning:0,ambition:0,resolve:0,insight:0,shadow:0};
