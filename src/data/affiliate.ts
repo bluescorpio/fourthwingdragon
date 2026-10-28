@@ -33,3 +33,16 @@ export function bookDualLink(title: string, amazonQuery: string, audibleAsin: st
     audibleUrl: audibleBookUrl(audibleAsin),
   };
 }
+
+/**
+ * Audible bounty link (SiteStripe, generated on the Audible membership landing page).
+ * Verified 2026-10-28: HTTP 200, no redirect, lands on the Audible signup page.
+ * Do not rewrap or shorten this URL — linkId is the click-tracking id.
+ * Leave empty to disable the block site-wide; nothing renders when this is empty,
+ * so an empty value can never produce a dead link.
+ */
+export const AUDIBLE = {
+  trialUrl:
+    'https://www.amazon.com/hz/audible/arya/mlp?_encoding=UTF8&purchaseType=MTRIAL&SHOPPING_PORTAL_MODE=AUGMENTED&linkCode=ll2&tag=wangxiaolou-20&linkId=1e5fdfbc43ea82b51a9decd4da5fcc24&language=en_US&ref_=as_li_ss_tl',
+  disclosure: 'As an Amazon Associate and Etsy Affiliate, I earn from qualifying purchases.',
+};

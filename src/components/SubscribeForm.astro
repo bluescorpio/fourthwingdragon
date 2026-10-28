@@ -1,0 +1,125 @@
+---
+interface Props { variant?: 'inline' | 'footer' }
+const { variant = 'footer' } = Astro.props;
+const id = `subscribe-email-${variant}`;
+---
+<section class="subscribe-block bordered" aria-labelledby={`subscribe-heading-${variant}`}>
+  <h2 id={`subscribe-heading-${variant}`}>Know when Empyrean book 4 lands</h2>
+  <p>
+    One email when the next Empyrean book gets a title or a release date, and one when
+    the Prime Video series gets an air date. Nothing else, and no re-selling your address.
+  </p>
+  <form class="subscribe-form" data-subscribe novalidate>
+    <label for={id}>Email address</label>
+    <div class="subscribe-row">
+      <input
+        id={id}
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        inputmode="email"
+        placeholder="you@example.com"
+      />
+      <button type="submit">Notify me</button>
+    </div>
+    <p class="subscribe-status" role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('form[data-subscribe]');
+  if (form && !form.dataset.wired) {
+    form.dataset.wired = 'true';
+    const status = form.querySelector<HTMLElement>('.subscribe-status');
+    const button = form.querySelector<HTMLButtonElement>('button[type=submit]');
+    const setStatus = (text: string, bad = false) => {
+      if (!status) return;
+      status.textContent = text;
+      status.classList.toggle('is-error', bad);
+    };
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const input = form.querySelector<HTMLInputElement>('input[name=email]');
+      const email = input?.value.trim() ?? '';
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setStatus('That email does not look right. Check it and try again.', true);
+        input?.focus();
+        return;
+      }
+      if (button) button.disabled = true;
+      setStatus('Sending…');
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        setStatus('You are on the list. You will hear from us when there is news.');
+      } catch {
+        setStatus('That did not go through. Try again in a minute.', true);
+      } finally {
+        if (button) button.disabled = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .subscribe-block {
+    margin: 3rem 0 1rem;
+    max-width: 48rem;
+    border-left: 3px solid var(--gold);
+    background: var(--surface);
+  }
+  .subscribe-block h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.25rem;
+    color: var(--gold);
+  }
+  .subscribe-block p {
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+  .subscribe-form {
+    margin-top: 1rem;
+  }
+  .subscribe-form label {
+    display: block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  .subscribe-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .subscribe-row input {
+    flex: 1 1 16rem;
+    min-width: 0;
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 0.3rem;
+    padding: 0.8rem;
+    font: inherit;
+  }
+  .subscribe-row input:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .subscribe-status {
+    min-height: 1.4rem;
+    margin: 0.7rem 0 0;
+    font-size: 0.85rem;
+    color: var(--gold);
+  }
+  .subscribe-status.is-error {
+    color: #e08a7a;
+  }
+</style>

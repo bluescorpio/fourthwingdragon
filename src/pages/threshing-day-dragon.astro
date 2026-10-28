@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import BookBlock from '../components/BookBlock.astro';
+import AudibleCta from '../components/AudibleCta.astro';
 import StructuredData from '../components/StructuredData.astro';
 const faqs=[
   ['Is Threshing Day a numbered Empyrean installment?','No. It appears in the publisher catalogue as its own book page rather than as a numbered main installment alongside Fourth Wing, Iron Flame and Onyx Storm. Confirm its current placement on the publisher page.'],
@@ -40,5 +41,6 @@ const faqs=[
 </div>
 <StructuredData data={{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))}}/>
 <StructuredData data={{'@context':'https://schema.org','@type':'Article',headline:'Threshing Day Dragon: What the New Empyrean Title Adds',description:'What Threshing Day is in the Empyrean catalogue and where to find the dragon reference for the series.',author:{'@type':'Organization',name:'FourthWingDragon'},publisher:{'@type':'Organization',name:'FourthWingDragon'},mainEntityOfPage:'https://fourthwingdragon.com/threshing-day-dragon/'}}/>
+<AudibleCta tone="guide" />
 <BookBlock />
 </BaseLayout>

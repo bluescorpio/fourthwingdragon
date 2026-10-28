@@ -1,0 +1,59 @@
+---
+import { AUDIBLE } from '../data/affiliate';
+interface Props { tone?: 'series' | 'guide' }
+const { tone = 'series' } = Astro.props;
+const headline =
+  tone === 'guide'
+    ? 'Prefer to listen instead of read?'
+    : 'Want to reread the series as audiobooks?';
+---
+{
+  AUDIBLE.trialUrl && (
+    <section class="audible-cta bordered" aria-label="Audible audiobook trial">
+      <p class="eyebrow">Audiobooks</p>
+      <h2>{headline}</h2>
+      <p>
+        Every Empyrean book is available on Audible. A trial gives you one credit plus
+        access to the Plus catalogue for 30 days; you can cancel before it renews.
+      </p>
+      <p>
+        <a
+          class="audible-button"
+          href={AUDIBLE.trialUrl}
+          rel="sponsored nofollow noopener"
+          target="_blank"
+        >
+          Start a free 30-day Audible trial
+        </a>
+      </p>
+      <p class="purchase-disclosure">{AUDIBLE.disclosure}</p>
+    </section>
+  )
+}
+
+<style>
+  .audible-cta {
+    margin: 2.5rem 0;
+    border-top: 3px solid var(--gold);
+    max-width: 48rem;
+  }
+  .audible-cta h2 {
+    margin: 0.3rem 0 0.8rem;
+    font-size: 1.35rem;
+  }
+  .audible-cta p {
+    line-height: 1.7;
+  }
+  .audible-button {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--bg);
+    font-weight: 600;
+    padding: 0.8rem 1.15rem;
+    border-radius: 0.3rem;
+    text-decoration: none;
+  }
+  .audible-button:hover {
+    filter: brightness(1.12);
+  }
+</style>

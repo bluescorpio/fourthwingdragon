@@ -100,8 +100,8 @@ const faqs = [
       </ul>
     </section>
 
-    <p class="affiliate-disclosure">As an Amazon Associate, we earn from qualifying purchases. Links marked as affiliate earn
-      us a commission; links to official stores do not. Prices and availability change — the
+    <p class="affiliate-disclosure purchase-disclosure">As an Amazon Associate and Etsy Affiliate, I earn from qualifying purchases. Links marked as affiliate earn
+      a commission; links to official stores do not. Prices and availability change — the
       listing page is the source of truth.</p>
   </article>
   <StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(({ question, answer }) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) }} />
