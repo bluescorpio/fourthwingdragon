@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BookBlock from '../components/BookBlock.astro';
+import StructuredData from '../components/StructuredData.astro';
+const faqs=[
+  ['Is Threshing Day a numbered Empyrean installment?','No. It appears in the publisher catalogue as its own book page rather than as a numbered main installment alongside Fourth Wing, Iron Flame and Onyx Storm. Confirm its current placement on the publisher page.'],
+  ['Does this page describe Threshing Day plot or characters?','No. This page only references the public catalogue entry and the series premise. No plot details, character names, chapter references or event outcomes appear here.'],
+  ['Where can I find the dragon reference for the series?','The dragon reference on this site lays out seven color headings against six tail labels with an explicit status on every intersection. It is a browsing taxonomy, not a reproduction of a published index.']
+];
+---
+<BaseLayout title="Threshing Day Dragon — What the New Empyrean Title Adds" description="What Threshing Day is in the Empyrean catalogue, how it relates to the main trilogy, and where to find the dragon reference for the series." breadcrumbs={[{name:'Threshing Day Dragon',href:'/threshing-day-dragon/'}]}>
+<h1>Threshing Day Dragon: What the New Empyrean Title Adds</h1>
+<div class="prose">
+<p class="lead">Threshing Day is a separately listed title in the Empyrean catalogue. This page explains what that means, how it relates to the main trilogy, and where to find the dragon reference on this site. It does not describe plot, characters or events from the book.</p>
+
+<h2>Where Threshing Day sits in the catalogue</h2>
+<p>The publisher's catalogue lists Threshing Day as its own book page rather than as a numbered main installment. Three main installments — <em>Fourth Wing</em>, <em>Iron Flame</em> and <em>Onyx Storm</em> — form the spine of the series listing, and Threshing Day appears alongside them as a separate title. That distinction is the one verifiable fact this page can offer about its placement.</p>
+<p>Catalogue ordering can change when a new title is announced or a new edition is added. Any fan page that hard-codes a fixed position will eventually be wrong while the publisher listing stays current. For a definitive answer about where Threshing Day belongs, the publisher page is the source.</p>
+
+<h2>How it relates to the main trilogy</h2>
+<p>The public premise of the Empyrean series introduces a war college for dragon riders, where dragons choose whether to bond with a candidate. That premise is shared across the main installments. A separately listed title can draw on the same setting without being a direct continuation of the main thread.</p>
+<p>Two reading approaches both hold up. A reader who wants the main narrative first can finish the three numbered installments and then approach the separate title. A reader who prefers to meet the Threshing material early can read it after the first book, provided they accept that it is a companion to the setting rather than a continuation of the main storyline. Neither approach requires a claim this site cannot support.</p>
+
+<h2>Dragons in the series premise</h2>
+<p>The author's official introduction presents dragon bonding as central to the setting. Dragons are described as choosing whether to bond with a candidate, and that bond is presented as the mechanism connecting a rider to a dragon. The public synopsis does not function as a glossary of dragon types, colors or tail labels.</p>
+<p>That is where the dragon reference on this site fits. The <a href="/dragons/">dragon reference grid</a> organizes seven color headings against six tail labels, producing forty-two browsing cells. Each cell carries an explicit status — confirmed or not confirmed in canon — so a filled grid does not imply that every combination appears in the novels. The grid is a navigation device, not a reproduction of a published index.</p>
+
+<h2>What this page does not cover</h2>
+<p>This is not a summary, a chapter guide or a spoiler resource. No plot details, event outcomes or character developments appear here, and none appear in the site's dragon reference or quiz pages either. Readers who want content notes before starting should read the author's own introduction, which is the appropriate place for that information.</p>
+<p>Reading pace questions also fall outside this page. How long a book takes depends on the reader, and any figure published as an average would be invented rather than measured.</p>
+
+<h2>Continue reading on this site</h2>
+<p>Readers who have just finished a book often want to compare the setting's vocabulary. The <a href="/dragons/">dragon reference</a> lays out the seven-by-six grid with explicit status labels. The <a href="/guides/threshing/">Threshing reading guide</a> explains the selection context without inventing a timetable. For the distinction between official destinations and fan activities, see the <a href="/guide-to-dragonkind/">Dragonkind guide</a>, and for a quick fan activity, try the <a href="/quiz/dragon-type/">dragon quiz</a> or the <a href="/quiz/signet/">signet quiz</a>.</p>
+
+<h2>Common questions</h2><dl>{faqs.map(([question, answer]) => <><dt><strong>{question}</strong></dt><dd>{answer}</dd></>)}</dl>
+
+<h2>Sources and scope</h2>
+<p><a href="https://www.entangledpublishing.com/books/threshing-day">Entangled Publishing — Threshing Day</a> supplies the catalogue listing referenced above. <a href="https://www.rebeccayarros.com/fourthwing/">Rebecca Yarros — Fourth Wing</a> supplies the public series premise. Both retrieved October 28, 2026. Scope statements and reading recommendations are original content written for this site.</p>
+<p class="muted">Unofficial fan site. Not affiliated with Rebecca Yarros or Entangled Publishing.</p>
+</div>
+<StructuredData data={{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))}}/>
+<StructuredData data={{'@context':'https://schema.org','@type':'Article',headline:'Threshing Day Dragon: What the New Empyrean Title Adds',description:'What Threshing Day is in the Empyrean catalogue and where to find the dragon reference for the series.',author:{'@type':'Organization',name:'FourthWingDragon'},publisher:{'@type':'Organization',name:'FourthWingDragon'},mainEntityOfPage:'https://fourthwingdragon.com/threshing-day-dragon/'}}/>
+<BookBlock />
+</BaseLayout>

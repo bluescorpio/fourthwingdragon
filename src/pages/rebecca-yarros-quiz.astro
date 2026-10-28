@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StructuredData from '../components/StructuredData.astro';
+const quizzes=[
+  {href:'/quiz/dragon-type/',name:'Dragon Quiz',q:'12',dim:'7 color dimensions',out:'a color profile (Black, Blue, Green, Red, Orange, Brown, Iridescent)',note:'Maps everyday preferences to original color labels. Color names are shared with the reference grid, but a quiz result is a creative interpretation, not a canon temperament.'},
+  {href:'/quiz/signet/',name:'Signet Quiz',q:'12',dim:'7 ability dimensions',out:'an ability theme (lightning, memory, counter, summoning, warding, farsight, shadows)',note:'Uses the same scoring engine as the dragon quiz with different questions and labels. Ability names are written for this site and do not reproduce a published roster.'}
+];
+const faqs=[
+  ['Is there an official Rebecca Yarros quiz?','The author and publisher run the Dragonkind interactive experience, which is a separate official destination. This site hosts independent fan quizzes that are not affiliated with the author or publisher.'],
+  ['How many quizzes are on this site?','Two: a dragon color quiz and a signet ability quiz. Both use twelve questions and a fixed-weight scoring model, but their questions and result labels differ.'],
+  ['Do quiz results describe canon?','No. Results are creative interpretations written for this site. They do not establish dragon temperament, rider assignment, or a bond prediction.']
+];
+---
+<BaseLayout title="Rebecca Yarros Quiz — Which Empyrean Activity Fits You?" description="A guide to the two independent Empyrean fan quizzes on this site: how each one scores, what a result means, and how they differ from the official Dragonkind experience." breadcrumbs={[{name:'Rebecca Yarros Quiz',href:'/rebecca-yarros-quiz/'}]}>
+<h1>Rebecca Yarros Quiz: Which Empyrean Fan Activity Is Right for You?</h1>
+<div class="prose">
+<p class="lead">Readers searching for a Rebecca Yarros quiz arrive at a fork: the official Dragonkind experience, or an independent fan quiz like the ones on this site. This page explains what each option does, what a result can and cannot mean, and how to tell them apart before you start.</p>
+
+<h2>Two fan quizzes on this site</h2>
+<p>This site hosts two independent quizzes inspired by the Empyrean premise. Neither is affiliated with Rebecca Yarros or Entangled Publishing, and neither claims to reproduce an official assessment. They share a scoring model — twelve questions, fixed weights, seven dimensions — but their questions and result labels differ.</p>
+<div class="grid cards">{quizzes.map(q=><div class="bordered info-card"><h3><a href={q.href}>{q.name}</a></h3><p><strong>Questions:</strong> {q.q}</p><p><strong>Scoring:</strong> {q.dim}</p><p><strong>Result:</strong> {q.out}</p><p>{q.note}</p></div>)}</div>
+<p>Both quizzes run entirely in your browser. No account, no email, no login. Answers stay in the current tab and clear on reload. Copying a result produces text for you to share yourself; the site does not publish it anywhere.</p>
+
+<h2>How the scoring works</h2>
+<p>Each question carries a fixed weight across seven thematic dimensions. After the final question, weights are summed, the highest-scoring dimension becomes the result label, and ties resolve in a documented order so that the same answers always produce the same outcome. The scoring explanation is visible on each quiz page.</p>
+<p>Two properties follow from that design. First, the activity is repeatable: nothing is recorded between visits. Second, the questions are fixed rather than generated, which means the quiz behaves the same way for every visitor. A result is a snapshot of your answers on that visit, not a stored profile.</p>
+
+<h2>What a result does not establish</h2>
+<p>A profile is a creative mapping. It does not describe a canonical temperament, it does not assign you to a rider, it does not predict a bond, and it does not forecast anything about a future book. The labels are written by this site and are labelled as such wherever they appear.</p>
+<p>This distinction matters when a result is shared. A quiz outcome is a conversation prompt between readers. Treated as lore, it becomes a claim that cannot be supported and that other readers may reasonably challenge. The same applies to the color and tail matrix on the dragon reference page: a filled grid is a navigation device, and an intersection is not evidence that a combination occurs in the novels.</p>
+
+<h2>The official Dragonkind experience is separate</h2>
+<p>Dragonkind is the official interactive destination linked from the author's own site. Its public entrance uses candidate and Conscription Day language and offers registration. When readers search for a Rebecca Yarros quiz, that is often the destination they are looking for.</p>
+<p>This site has no shared login with Dragonkind, receives no account details from it, and cannot manage an official account. If a page asks for an email address while you are trying to take a fan quiz, you are on the wrong destination. The <a href="/guide-to-dragonkind/">Dragonkind guide</a> explains the boundary in more detail.</p>
+
+<h2>Other activities on this site</h2>
+<p>Beyond the two quizzes, the <a href="/dragon-name-generator/">name generator</a> produces 72 fantasy names across six styles, each with a one-sentence meaning. The <a href="/dragons/">dragon reference</a> lays out seven color headings against six tail labels with an explicit status on every intersection. The <a href="/guides/threshing/">Threshing reading guide</a> explains the selection context without inventing a timetable.</p>
+
+<h2>Common questions</h2><dl>{faqs.map(([question, answer]) => <><dt><strong>{question}</strong></dt><dd>{answer}</dd></>)}</dl>
+
+<h2>Sources and scope</h2>
+<p><a href="https://www.rebeccayarros.com/fourthwing/">Rebecca Yarros — Fourth Wing</a> supplies the public premise. <a href="https://dragonkind.com/">Dragonkind</a> is the official interactive experience referenced for comparison. Both retrieved October 28, 2026. Quiz scoring, label definitions and scope statements are original content written for this site.</p>
+<p class="muted">Unofficial fan site. Not affiliated with Rebecca Yarros or Entangled Publishing.</p>
+</div>
+<StructuredData data={{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))}}/>
+<StructuredData data={{'@context':'https://schema.org','@type':'Article',headline:'Rebecca Yarros Quiz: Which Empyrean Fan Activity Fits You?',description:'A guide to the two independent Empyrean fan quizzes and how they differ from the official Dragonkind experience.',author:{'@type':'Organization',name:'FourthWingDragon'},publisher:{'@type':'Organization',name:'FourthWingDragon'},mainEntityOfPage:'https://fourthwingdragon.com/rebecca-yarros-quiz/'}}/>
+</BaseLayout>
