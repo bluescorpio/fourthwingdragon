@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StructuredData from '../components/StructuredData.astro';
 import BookBlock from '../components/BookBlock.astro';
+import { AFFILIATE_DISCLOSURE, AMAZON_STORE } from '../data/affiliates';
 
 const title = 'Fourth Wing Gift Ideas: By Recipient, Budget and Timing';
 const description = 'Gift ideas for Fourth Wing fans, organized by who you are buying for, how much you want to spend, and whether you need it before the holidays.';
@@ -48,7 +49,8 @@ const faqs = [
         to objects: a nicer edition of a book they already own, a reading journal, or something
         for their shelf rather than their bag. This is also the group most likely to already own
         the common items, so a specific, narrow gift tends to land better than a general one.</p>
-      <BookBlock headingLevel="h3" labelAffiliate />
+      <p class="purchase-disclosure">{AFFILIATE_DISCLOSURE} Links marked as affiliate earn a commission; links to official stores do not. Prices and availability change — the listing page is the source of truth.</p>
+      <BookBlock store={AMAZON_STORE} headingLevel="h3" />
     </section>
 
     <section aria-labelledby="budget">
@@ -99,10 +101,6 @@ const faqs = [
         <li><a href="/guides/threshing/">What Threshing Day Is</a></li>
       </ul>
     </section>
-
-    <p class="affiliate-disclosure purchase-disclosure">As an Amazon Associate and Etsy Affiliate, I earn from qualifying purchases. Links marked as affiliate earn
-      a commission; links to official stores do not. Prices and availability change — the
-      listing page is the source of truth.</p>
   </article>
   <StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(({ question, answer }) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) }} />
 </BaseLayout>
@@ -110,5 +108,4 @@ const faqs = [
 <style>
   li + li { margin-top: .8rem; }
   .faq-item { padding: 1rem 0; border-bottom: 1px solid var(--line); line-height: 1.75; }
-  .affiliate-disclosure { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: .875rem; color: var(--muted); }
 </style>

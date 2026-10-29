@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EventSkeleton from '../components/EventSkeleton.astro';
+
+const title = 'Fourth Wing Book 4: Release Date, Title and What We Know';
+const description = 'Empyrean book 4 has no official title or release date. The series is planned as five books. Publisher dates for the earlier titles are listed here.';
+const retrieved = '2026-10-28';
+const published = [
+  { name: 'Fourth Wing', date: '2023-05-02', label: 'May 2, 2023', href: 'https://www.entangledpublishing.com/books/fourth-wing' },
+  { name: 'Iron Flame', date: '2023-11-07', label: 'November 7, 2023', href: 'https://www.entangledpublishing.com/books/iron-flame' },
+  { name: 'Onyx Storm', date: '2025-01-21', label: 'January 21, 2025', href: 'https://www.entangledpublishing.com/books/onyx-storm' },
+  { name: 'Threshing Day', date: '2026-09-29', label: 'September 29, 2026', href: 'https://www.entangledpublishing.com/books/threshing-day' },
+];
+const official = [
+  ["Rebecca Yarros's site", 'https://www.rebeccayarros.com/'],
+  ['Entangled Publishing', 'https://www.entangledpublishing.com/'],
+  ['Rebecca Yarros on Instagram', 'https://www.instagram.com/rebeccayarros/'],
+];
+const related = [
+  ['/fourth-wing-characters/', 'Fourth Wing Characters — Empyrean Cadet Names and Profiles'],
+  ['/fourth-wing-merchandise/', 'Fourth Wing Merchandise: Official & Fan-Made Guide'],
+  ['/guides/threshing/', 'What Is Threshing in Fourth Wing? — Reader’s Context Guide'],
+  ['/books/', 'Fourth Wing Books in Order: Reading Order and Where to Buy'],
+];
+---
+<BaseLayout title={title} description={description} subscribe={false} breadcrumbs={[{ name: 'Fourth Wing Book 4', href: '/fourth-wing-book-4/' }]}>
+  <EventSkeleton>
+  <h1>{title}</h1>
+  <p>The Empyrean series is planned as five books. The publisher's Empyrean list names Fourth Wing, Iron Flame, and Onyx Storm. It does not give a title or a release date for the next book. Rebecca Yarros's site does not give one either.</p>
+  <h2>Publication dates</h2>
+  <table class="bordered">
+    <thead>
+      <tr>
+        <th scope="col">Book</th>
+        <th scope="col">Publication date</th>
+        <th scope="col">Publisher page</th>
+      </tr>
+    </thead>
+    <tbody>
+      {published.map(book => <tr>
+        <td>{book.name}</td>
+        <td><time datetime={book.date}>{book.label}</time></td>
+        <td><a href={book.href}>{book.name}</a></td>
+      </tr>)}
+    </tbody>
+  </table>
+  <p>Source: Entangled Publishing book pages. Retrieved <time datetime={retrieved}>{retrieved}</time>.</p>
+  <h2>Official updates</h2>
+  <ul>
+    {official.map(([name, href]) => <li><a href={href} rel="noopener noreferrer">{name}</a></li>)}
+  </ul>
+  <section aria-labelledby="related-pages">
+    <h2 id="related-pages">Related pages</h2>
+    <ul>{related.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul>
+  </section>
+  </EventSkeleton>
+</BaseLayout>

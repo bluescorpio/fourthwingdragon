@@ -4,34 +4,29 @@ import BookBlock from '../components/BookBlock.astro';
 import { isPublishedCharacter } from '../lib/publication';
 import { getCollection } from 'astro:content';
 import { CADETS, CADET_COUNT, PUBLISHER } from '../data/empyrean';
+import { PAGE_TITLES } from '../lib/page-titles';
 const characters = await getCollection('characters', isPublishedCharacter);
 const profiles = new Map(characters.map(entry => [entry.data.fullName, entry]));
-const withProfiles = CADETS.flatMap(cadet => {
-  const profile = profiles.get(cadet.name);
-  return profile ? [{ cadet, profile }] : [];
-});
-const withoutProfiles = CADETS.filter(cadet => !profiles.has(cadet.name));
+const draftProfiles = new Map((await getCollection('characters'))
+  .filter(entry => entry.data.slugName === 'mira-sorrengail' || entry.data.slugName === 'garrick-tavis')
+  .map(entry => [entry.data.fullName, entry]));
 const retrievedOn = '2026-10-25';
+const publisherDescription = (label: string | null) => label?.replace(/\.$/, '') ?? '';
 ---
-<BaseLayout title="Fourth Wing Characters — Empyrean Cadet Names and Profiles" description="Browse the publisher's Fourth Wing cadet names and descriptions, with available character profiles, name spellings, and the original source." breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }]}>
+<BaseLayout title={PAGE_TITLES['/fourth-wing-characters/']} description="Browse the publisher's Fourth Wing cadet names and descriptions, with available character profiles, name spellings, and the original source." breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }]}>
   <h1>Fourth Wing Characters</h1>
-  <p>Meet {CADET_COUNT} cadets from Rebecca Yarros's Empyrean series, named on Entangled Publishing's <a href={PUBLISHER.threshingDay.url}>Threshing Day page</a>. Their names and the publisher's own descriptions appear here alongside individual character profiles.</p>
-  {withProfiles.length > 0 && <table class="bordered">
+  <p>Meet {CADET_COUNT} cadets from Rebecca Yarros's Empyrean series, named on Entangled Publishing's <a href={PUBLISHER.threshingDay.url}>Threshing Day page</a>. Their names and the publisher's own descriptions appear here alongside individual character profiles. The publisher's list uses Graycastle.</p>
+  <table class="bordered">
     <thead><tr><th scope="col">Cadet</th><th scope="col">Publisher's description</th><th scope="col">Profile</th></tr></thead>
-    <tbody>{withProfiles.map(({ cadet, profile }) => <tr>
-      <td>{cadet.name}</td>
-      <td>{cadet.publisherLabel}</td>
-      <td><a href={`/characters/${profile.data.slugName}/`}>{cadet.name} profile</a></td>
-    </tr>)}</tbody>
-  </table>}
-  {withoutProfiles.length > 0 && <section>
-    <h2>Other Cadets in the Publisher's List</h2>
-    <p>{withoutProfiles.map((cadet, index) => <>{index > 0 ? ', ' : ''}{cadet.name}{cadet.publisherLabel && <> ({cadet.publisherLabel})</>}</>)}</p>
-  </section>}
-  <section>
-    <h2>Name Spelling</h2>
-    <p>The publisher's list uses <strong>Graycastle</strong>. Neither <strong>Greycastle</strong> nor <strong>Tauri</strong> appears in that list.</p>
-  </section>
+    <tbody>{CADETS.map(cadet => {
+      const profile = profiles.get(cadet.name) ?? draftProfiles.get(cadet.name);
+      return <tr>
+        <td>{cadet.name}</td>
+        <td>{publisherDescription(cadet.publisherLabel)}</td>
+        <td>{profile && <a href={`/characters/${profile.data.slugName}/`}>{cadet.name} profile</a>}</td>
+      </tr>;
+    })}</tbody>
+  </table>
   <p>Source: <a href={PUBLISHER.threshingDay.url}>Entangled Publishing, Threshing Day</a>. Retrieved <time datetime={retrievedOn}>{retrievedOn}</time>.</p>
   <BookBlock />
 </BaseLayout>

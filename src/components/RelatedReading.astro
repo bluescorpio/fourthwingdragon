@@ -4,17 +4,26 @@ interface Props {
   slug: string;
   related: { name: string; slug?: string; href?: string }[];
   liveSlugs: string[];
+  titles: Record<string, string>;
+  includeUnpublished?: boolean;
 }
-const { slug, related = [], liveSlugs } = Astro.props;
+const { slug, related = [], liveSlugs, titles, includeUnpublished = false } = Astro.props;
 const live = new Set(liveSlugs);
 const picks = related.flatMap(item => {
   const href = item.slug ? `/characters/${item.slug}/` : item.href;
-  if (!href || !isPublishedPath(href)) return [];
+  if (!href) return [];
   const character = href.match(/^\/characters\/([^/]+)\/$/);
-  if (character && (!live.has(character[1]) || character[1] === slug)) return [];
-  return [{ name: item.name, href }];
+  if (character?.[1] === slug) return [];
+  if (!includeUnpublished && (!isPublishedPath(href) || (character && !live.has(character[1])))) return [];
+  const title = titles[href];
+  if (!title) {
+    console.warn(`TBD related title for ${href} on /characters/${slug}/`);
+    return [];
+  }
+  return [{ title, href }];
 });
 ---
-{picks.length > 0 && <nav class="bordered" aria-label="Keep reading">
-  <ul>{picks.map(item => <li><a href={item.href}>{item.name}</a></li>)}</ul>
-</nav>}
+{picks.length > 0 && <section class="bordered" aria-labelledby="related-pages">
+  <h2 id="related-pages">Related pages</h2>
+  <ul>{picks.map(item => <li><a href={item.href}>{item.title}</a></li>)}</ul>
+</section>}

@@ -2,18 +2,37 @@
 import { getCollection, render } from 'astro:content';
 import { stat } from 'node:fs/promises';
 import CharacterLayout from '../../layouts/CharacterLayout.astro';
+import { PAGE_TITLES } from '../../lib/page-titles';
 export async function getStaticPaths() {
   const entries = await getCollection('characters');
   const liveSlugs = entries.filter(entry => entry.data.contentStatus === 'published').map(entry => entry.data.slugName);
   return entries.map(entry => ({ params: { slug: entry.data.slugName }, props: { entry, liveSlugs } }));
 }
 const { entry, liveSlugs } = Astro.props;
+const includeUnpublished = ['mira-sorrengail', 'garrick-tavis'].includes(entry.data.slugName);
+const catalog = await getCollection('characters');
+const titles: Record<string, string> = { ...PAGE_TITLES };
+for (const item of catalog) {
+  if (item.data.contentStatus !== 'published' && !includeUnpublished) continue;
+  titles[`/characters/${item.data.slugName}/`] = item.data.title;
+}
 const { Content, headings } = await render(entry);
+const useSkeleton = ['ridoc', 'rhiannon-matthias', 'aaric-graycastle', 'mira-sorrengail', 'garrick-tavis'].includes(entry.data.slugName);
+const sectionBody = (heading: string) => (entry.body ?? '').match(new RegExp(`(?:^|\\n)## ${heading}\\r?\\n+([\\s\\S]*?)(?=\\n## |$)`))?.[1]?.trim() ?? '';
+const toParagraphs = (text: string) => text ? text
+  .replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
+  .replace(/\[([^\]\n]+)\]\((https:\/\/[^)\s]+)\)/g, '<a href="$2">$1</a>')
+  .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+  .split(/\n{2,}/).map(part => `<p>${part.trim()}</p>`).join('') : '';
+const publisherHtml = useSkeleton ? toParagraphs(sectionBody('Publisher Reference')) : '';
+const spellingHtml = useSkeleton ? toParagraphs(sectionBody('Name Spelling')) : '';
 const explicitHeadings = [...(entry.body ?? '').matchAll(/<h2 id="([^"]+)">([^<]+)<\/h2>/g)]
   .map((match) => ({ depth: 2, slug: match[1], text: match[2] }));
 const tocHeadings = explicitHeadings.length ? explicitHeadings : headings;
 const dateModified = entry.filePath ? (await stat(entry.filePath)).mtime.toISOString() : undefined;
 ---
-<CharacterLayout entry={entry} noindex={entry.data.contentStatus === 'draft'} headings={tocHeadings} liveSlugs={liveSlugs} dateModified={dateModified}>
-  <Content />
+<CharacterLayout entry={entry} skeleton={useSkeleton} includeUnpublished={includeUnpublished} noindex={entry.data.contentStatus === 'draft'} headings={tocHeadings} liveSlugs={liveSlugs} titles={titles} dateModified={dateModified}>
+  {publisherHtml && <div slot="definition" set:html={publisherHtml} />}
+  {spellingHtml && <div slot="spelling" set:html={spellingHtml} />}
+  {!useSkeleton && <Content />}
 </CharacterLayout>

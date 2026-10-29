@@ -4,7 +4,7 @@ const { variant = 'footer' } = Astro.props;
 const id = `subscribe-email-${variant}`;
 ---
 <section class="subscribe-block bordered" aria-labelledby={`subscribe-heading-${variant}`}>
-  <h2 id={`subscribe-heading-${variant}`}>Know when Empyrean book 4 lands</h2>
+  <h2 id={`subscribe-heading-${variant}`}>Know when {Astro.url.pathname === '/fourth-wing-book-4/' ? 'Empyrean book 4' : <a href="/fourth-wing-book-4/">Empyrean book 4</a>} lands</h2>
   <p>
     One email when the next Empyrean book gets a title or a release date, and one when
     the Prime Video series gets an air date. Nothing else, and no re-selling your address.

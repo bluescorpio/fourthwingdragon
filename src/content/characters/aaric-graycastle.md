@@ -5,7 +5,7 @@ slugName: "aaric-graycastle"
 targetKeyword: "aaric graycastle"
 title: "Aaric Graycastle — Fourth Wing Character"
 description: "Aaric Graycastle, called \"the restless royal\" in the publisher's Threshing Day character list, is one of the cadets in Rebecca Yarros' Empyrean series."
-contentStatus: "published"
+contentStatus: "draft"
 lastVerified: "2026-10-25"
 sources:
   - label: "Entangled Publishing: Threshing Day"
@@ -15,6 +15,7 @@ related:
   - { name: "Ridoc Gamlyn", slug: "ridoc" }
   - { name: "Rhiannon Matthias", slug: "rhiannon-matthias" }
   - { name: "All Fourth Wing characters", href: "/fourth-wing-characters/" }
+  - { name: "Fourth Wing Dragon Color & Tail Labels — Vocabulary Index", href: "/dragons/" }
 verificationNotes: []
 ---
 

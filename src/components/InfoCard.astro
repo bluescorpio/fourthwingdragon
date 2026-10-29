@@ -1,8 +1,11 @@
 ---
-interface Props { fields: [string, string][] }
-const { fields } = Astro.props;
-const visibleFields = fields.filter(([label]) => label === 'Full name');
+import { isKnown } from '../lib/fields';
+interface Props { fields: [string, string | undefined][]; strict?: boolean }
+const { fields, strict = false } = Astro.props;
+const visibleFields = (strict
+  ? fields.filter((field): field is [string, string] => isKnown(field[1]))
+  : fields.filter(([label]) => label === 'Full name')) as [string, string][];
 ---
-<dl class="bordered grid info-card">
+{visibleFields.length > 0 && <dl class="bordered grid info-card">
   {visibleFields.map(([label, value]) => <div><dt class="muted">{label}</dt><dd>{value}</dd></div>)}
-</dl>
+</dl>}

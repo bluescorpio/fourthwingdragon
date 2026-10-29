@@ -2,46 +2,60 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StructuredData from '../components/StructuredData.astro';
 import {DRAGON_COLORS,TAIL_TYPES} from '../lib/dragons';
+import { getCollection } from 'astro:content';
+import { isPublishedCharacter } from '../lib/publication';
+import { PAGE_TITLES } from '../lib/page-titles';
+const characterPages = (await getCollection('characters', isPublishedCharacter))
+  .sort((a, b) => a.data.slugName.localeCompare(b.data.slugName));
+const mira = (await getCollection('characters')).find(entry => entry.data.slugName === 'mira-sorrengail');
 const faqs=[['What does this page index?','It indexes seven color labels and six tail labels used in the site navigation.'],['Does a quiz result establish a dragon’s personality?','No. Quiz personalities are original interpretations for entertainment.']];
 ---
-<BaseLayout title="Fourth Wing Dragon Color & Tail Labels — Vocabulary Index" description="Browse seven dragon color labels and six tail labels in a concise Empyrean vocabulary index." breadcrumbs={[{name:'Dragon Types',href:'/dragons/'}]}>
-<h1>Fourth Wing Dragon Color and Tail Index</h1><p class="lead">Use this page as a compact index of seven color labels and six tail labels.</p>
+<BaseLayout title={PAGE_TITLES['/dragons/']} description="Browse seven dragon color labels and six tail labels in a concise Empyrean vocabulary index." breadcrumbs={[{name:'Dragon Types',href:'/dragons/'}]}>
+<h1>Fourth Wing Dragon Color and Tail Index</h1>
+<p class="lead">Seven color words and six compounds ending in tail are vocabulary labels. The notes follow literary color tradition and English word formation. A heading here is not a verified dragon from the books.</p>
 <div class="grid cards"><section class="bordered"><h2>Color labels</h2><ul>{DRAGON_COLORS.map(c=><li id={c.id}>{c.name}</li>)}</ul></section><section class="bordered"><h2>Tail labels</h2><ul>{TAIL_TYPES.map(t=><li id={t.id}>{t.name}</li>)}</ul></section></div>
-<section class="prose"><h2>Where these labels appear on the site</h2><p>Browse color and tail terms in separate lists. This vocabulary index assigns no color-and-tail pairings, riders, abilities or rankings. Try an original fan activity with the <a href="/dragon-name-generator/">dragon name generator</a>, or browse the <a href="/fourth-wing-characters/">character index</a> for publisher descriptions.</p></section>
 <section class="prose">
-<h2>Color symbolism in fantasy literature</h2>
+<h2>Color words in literary tradition</h2>
+<p>Color words carry moods in poetry, heraldry, and seasonal description because readers already know their ordinary associations. The same color can mean warmth in one sentence and warning in the next. As a general fantasy convention, not an Empyrean setting detail, these headings establish no temperament, hierarchy, or creature.</p>
 <h3>Black</h3>
-<p>As a general fantasy convention, not an Empyrean setting detail, black can suggest mystery, secrecy, or the unfamiliar. Its association with night gives writers a visual shorthand for concealment, although a dark color alone says nothing about a character's morality.</p>
+<p>In literary English, black often sits beside night, ink, and whatever cannot be seen clearly. Writers use it for concealment, mourning, or a formal darkness. As a general fantasy convention, not an Empyrean setting detail, a dark color is a shorthand for the unfamiliar, not a judgment of character.</p>
 <h3>Blue</h3>
-<p>As a general fantasy convention, not an Empyrean setting detail, blue often evokes sky, water, distance, or calm. A writer might use a cool blue palette to suggest reflection or restraint; another might emphasize the vastness and uncertainty of an open sea.</p>
+<p>Blue has a long association with sky, deep water, and distance. Cool description often suggests reflection, restraint, or weather that has not yet broken. As a general fantasy convention, not an Empyrean setting detail, the word names a color, not a disposition shared by every blue thing.</p>
 <h3>Green</h3>
-<p>As a general fantasy convention, not an Empyrean setting detail, green commonly recalls forests, growth, and renewal. It can also suggest envy or an unfamiliar wilderness, showing how the same color can support different moods depending on the surrounding language.</p>
+<p>Green commonly recalls leaves, growth, and renewal, and it can also suggest envy or an unfamiliar wilderness. As a general fantasy convention, not an Empyrean setting detail, the surrounding sentence decides the mood. The color itself does not.</p>
 <h3>Red</h3>
-<p>As a general fantasy convention, not an Empyrean setting detail, red can evoke heat, urgency, courage, or danger. Its visual intensity makes it useful for emphasis, but symbolism depends on context rather than a fixed rule assigning one personality to a color.</p>
+<p>Red can evoke heat, urgency, courage, ceremony, or danger, which is why a single red object often becomes the point of emphasis. As a general fantasy convention, not an Empyrean setting detail, that intensity is a stylistic habit, not a rule that assigns one personality to the color.</p>
 <h3>Orange</h3>
-<p>As a general fantasy convention, not an Empyrean setting detail, orange can suggest warmth, autumn, or a changing horizon. Writers may draw on its place between red and yellow to create a lively atmosphere, without implying any particular creature's behavior.</p>
+<p>Orange sits between red and yellow in ordinary color talk. Writers borrow that in-between place for warmth, autumn, embers, or a changing horizon. As a general fantasy convention, not an Empyrean setting detail, the word can enliven a passage without implying how any creature behaves.</p>
 <h3>Brown</h3>
-<p>As a general fantasy convention, not an Empyrean setting detail, brown often brings earth, wood, and weathered materials to mind. These associations can give a scene a grounded or rustic feeling, especially when paired with descriptions of landscapes and handmade objects.</p>
+<p>Brown brings earth, wood, leather, and weathered materials to mind, and descriptive writing uses it to ground a scene in soil or handmade objects. As a general fantasy convention, not an Empyrean setting detail, those associations can feel rustic. They do not classify a being.</p>
 <h3>Golden</h3>
-<p>As a general fantasy convention, not an Empyrean setting detail, golden can suggest sunlight, splendor, wealth, or ceremony. Golden describes a goldlike color or appearance; iridescent describes shifting colors with changing light, so the words have distinct meanings despite sharing a navigation label here.</p>
+<p>Golden describes a goldlike color, often tied in literary English to sunlight, splendor, wealth, or ceremony. Iridescent describes shifting colors as the light changes. As a general fantasy convention, not an Empyrean setting detail, the two words stay distinct, and neither documents a hide or a rank.</p>
 </section>
 <section class="prose">
-<h2>English compounds ending in tail</h2>
-<p>English compounds combine words into a single naming unit. Closed forms join the elements, while hyphenated forms keep a visible boundary; fantasy names often use a familiar object as the first element and a body part as the second.</p>
+<h2>Compounds ending in tail</h2>
+<p>In an endocentric English compound the last element is the head and the first element modifies it. Closed spellings join the parts. Hyphenated spellings keep a boundary. These labels put an object or animal in front of tail. The pattern explains the word. It does not establish anatomy, behavior, or a fictional classification.</p>
 <h3>Daggertail</h3>
-<p>Daggertail combines dagger and tail in a closed compound. The first element supplies a blade-related image and modifies the head noun tail; the spelling illustrates a naming pattern rather than establishing a physical description from any book.</p>
+<p>Daggertail is dagger plus tail, written as one closed compound. Dagger modifies the head noun tail with a blade-related image. The spelling is a naming pattern, not a physical description from any book.</p>
 <h3>Morningstar-tail</h3>
-<p>Morningstar-tail combines morning star, a term for a spiked striking weapon, with tail. The hyphen makes the boundary before tail visible, while the first element appears as morningstar; the compound illustrates how a multiword expression can become part of a fantasy label.</p>
+<p>Morningstar-tail joins morningstar, a spiked striking weapon, with tail. The hyphen keeps the boundary visible. A weapon name can modify a fantasy label. The compound does not measure a tail or assign the label to a creature.</p>
 <h3>Swordtail</h3>
-<p>Swordtail joins sword and tail without a space or hyphen. As with daggertail, the final element identifies the grammatical head, while the opening element contributes an image; English compounds can suggest a resemblance without spelling out a complete comparison.</p>
+<p>Swordtail joins sword and tail with no space and no hyphen. Tail is the head, and sword contributes the image of a long blade. The compound can suggest a resemblance. The word formation stops there.</p>
 <h3>Scorpion-tail</h3>
-<p>Scorpion-tail links an animal noun with tail using a hyphen. That punctuation keeps both components immediately recognizable to a reader; the word formation itself does not establish a creature's anatomy, behavior, or place within a fictional classification.</p>
+<p>Scorpion-tail links an animal noun with tail and keeps the hyphen, so both parts stay recognizable. The animal image sits in the modifier. It does not establish anatomy, behavior, or membership in a breed.</p>
 <h3>Club-tail</h3>
-<p>Club-tail combines club, here understood as a striking implement, with tail. The hyphen visually separates two short words and clarifies their relationship, a useful stylistic choice when an ordinary English noun is reused inside an invented label.</p>
+<p>Club-tail combines club, here a striking implement, with tail. The hyphen shows which word modifies the other. Reusing an ordinary noun inside an invented label is a stylistic choice, not a measurement.</p>
 <h3>Feathertail</h3>
-<p>Feathertail joins feather and tail as a closed compound. Feather contributes a material or shape association to the word, but a linguistic reading alone cannot establish what a fictional creature looks like or how a particular story uses the label.</p>
+<p>Feathertail is feather plus tail, a closed compound. Feather contributes a material or shape association to the head noun. A linguistic reading cannot establish what a fictional creature looks like, or how any story uses the label.</p>
 </section>
 <p class="source-note">Book information: <a href="https://www.entangledpublishing.com/books/fourth-wing">Entangled Publishing — Fourth Wing</a>. The publisher's book description provides series context, rather than a source for the color and tail lists.</p>
+{(mira || characterPages.length > 0) && <section aria-labelledby="related-pages">
+  <h2 id="related-pages">Related pages</h2>
+  <ul>
+    {mira && <li><a href={`/characters/${mira.data.slugName}/`}>{mira.data.title}</a></li>}
+    {characterPages.map(entry => <li><a href={`/characters/${entry.data.slugName}/`}>{entry.data.title}</a></li>)}
+  </ul>
+</section>}
 <section class="prose"><h2>Common questions</h2>{faqs.map(([q,a])=><details><summary>{q}</summary><p>{a}</p></details>)}<p>Try the <a href="/quiz/dragon-type/">dragon color quiz</a> or read the <a href="/guide-to-dragonkind/">guide to official and fan resources</a>.</p></section>
 <StructuredData data={{'@context':'https://schema.org','@type':'ItemList',numberOfItems:DRAGON_COLORS.length,itemListElement:DRAGON_COLORS.map((c,i)=>({'@type':'ListItem',position:i+1,name:c.name,url:'https://fourthwingdragon.com/dragons/#'+c.id}))}}/>
 <StructuredData data={{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))}}/>

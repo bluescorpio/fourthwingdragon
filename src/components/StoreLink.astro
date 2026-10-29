@@ -1,0 +1,7 @@
+---
+import { storeRel, type StoreLink } from '../data/affiliates';
+interface Props { store: StoreLink }
+const { store } = Astro.props;
+const affiliate = store.type === 'affiliate';
+---
+<a href={store.url} rel={storeRel(store)} target={affiliate ? '_blank' : undefined}>{store.store}{affiliate && <span class="affiliate-mark"> (affiliate)</span>}</a>

@@ -1,11 +1,12 @@
 ---
-import { amazonSearchUrl } from '../data/affiliate';
-interface Props { headingLevel?: 'h2' | 'h3'; labelAffiliate?: boolean }
-const { headingLevel: Heading = 'h2', labelAffiliate = false } = Astro.props;
+import { AFFILIATE_DISCLOSURE, AMAZON_STORE, storeRel, type StoreLink } from '../data/affiliates';
+interface Props { headingLevel?: 'h2' | 'h3'; store?: StoreLink }
+const { headingLevel: Heading = 'h2', store = AMAZON_STORE } = Astro.props;
+const affiliate = store.type === 'affiliate';
 ---
 <section class="bordered book-block" aria-label="Fourth Wing book">
   <Heading>Fourth Wing</Heading>
   <p>Fourth Wing is a novel by Rebecca Yarros.</p>
-  <a href={amazonSearchUrl('Fourth Wing Rebecca Yarros')} rel="sponsored nofollow" target="_blank">Fourth Wing — Amazon{labelAffiliate && ' (affiliate)'}</a>
-  <p class="purchase-disclosure">As an Amazon Associate and Etsy Affiliate, I earn from qualifying purchases.</p>
+  {affiliate && <p class="purchase-disclosure">{AFFILIATE_DISCLOSURE}</p>}
+  <a href={store.url} rel={storeRel(store)} target={affiliate ? '_blank' : undefined}>Fourth Wing — Amazon{affiliate && <span class="affiliate-mark"> (affiliate)</span>}</a>
 </section>

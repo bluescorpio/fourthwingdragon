@@ -1,0 +1,49 @@
+---
+import SubscribeForm from './SubscribeForm.astro';
+import { latestPages } from '../lib/latest-pages';
+interface Props {
+  latest?: boolean;
+  guide?: boolean;
+  trials?: boolean;
+  subscribe?: boolean;
+}
+const { latest = true, guide = true, trials = true, subscribe = true } = Astro.props;
+const recent = latest ? await latestPages(3) : [];
+const customLatest = Astro.slots.has('latest');
+if (latest && recent.length === 0 && !customLatest) console.warn('TBD latest pages: no published entries with updatedAt');
+const guideLinks = [
+  ['/dragons/', 'Fourth Wing Dragon Color & Tail Labels — Vocabulary Index'],
+  ['/guide-to-dragonkind/', 'Guide to Dragonkind — Official Resources & Empyrean Fan Tools'],
+  ['/guides/threshing/', 'What Is Threshing in Fourth Wing? — Reader’s Context Guide'],
+  ['/fourth-wing-characters/', 'Fourth Wing Characters — Empyrean Cadet Names and Profiles'],
+];
+const trialLinks = [
+  ['/quiz/dragon-type/', 'Which Dragon Would Choose You? — Fourth Wing Dragon Quiz'],
+  ['/quiz/dragon-color/', 'What Color Is Your Fourth Wing Dragon? — Color Quiz'],
+  ['/quiz/signet/', 'Fourth Wing Signet Quiz — Discover Your Fan-Made Power'],
+  ['/rebecca-yarros-quiz/', 'Rebecca Yarros Quiz — Which Empyrean Activity Fits You?'],
+];
+---
+<slot />
+{latest && (recent.length > 0 || customLatest) && <section aria-labelledby="the-latest">
+  <h2 id="the-latest">The Latest</h2>
+  <slot name="latest">
+    <ul>{recent.map(page => <li><a href={page.href}>{page.title}</a></li>)}</ul>
+  </slot>
+</section>}
+{guide && <section aria-labelledby="the-guide">
+  <h2 id="the-guide">The Guide</h2>
+  <slot name="guide">
+    <div class="grid cards">{guideLinks.map(([href, label]) => <a class="bordered feature-card" href={href}><h3>{label}</h3></a>)}</div>
+  </slot>
+</section>}
+{trials && <section aria-labelledby="the-trials">
+  <h2 id="the-trials">The Trials</h2>
+  <slot name="trials">
+    <div class="grid cards">{trialLinks.map(([href, label]) => <a class="bordered feature-card" href={href}><h3>{label}</h3></a>)}</div>
+  </slot>
+</section>}
+{subscribe && <section aria-labelledby="subscribe">
+  <h2 id="subscribe">Subscribe</h2>
+  <slot name="subscribe"><SubscribeForm /></slot>
+</section>}

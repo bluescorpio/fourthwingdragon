@@ -34,6 +34,7 @@ const characterSchema = z.object({
   })).default([]),
   verificationNotes: z.array(z.string()).default([]),
   lastVerified: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   contentStatus: publication,
 });
 const dragonSchema = z.object({
@@ -45,6 +46,7 @@ const dragonSchema = z.object({
   title: z.string(),
   description: z.string(),
   sources: z.array(z.object({ label: z.string(), url: z.string().url(), primary: z.boolean() })).default([]),
+  updatedAt: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   contentStatus: publication,
 });
 export const collections = {

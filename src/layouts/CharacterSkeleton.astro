@@ -1,0 +1,130 @@
+---
+import InfoCard from '../components/InfoCard.astro';
+import RelatedReading from '../components/RelatedReading.astro';
+import { isKnown } from '../lib/fields';
+import { isPublishedPath } from '../lib/publication';
+
+export interface CharacterProfileData {
+  fullName?: string;
+  knownAs: string;
+  slugName: string;
+  role?: string;
+  squad?: string;
+  wing?: string;
+  signet?: string;
+  dragon?: string;
+  dragonColor?: string;
+  firstAppearance?: string;
+  homeProvince?: string;
+  family?: string;
+  status?: string;
+  description: string;
+  related?: { name: string; slug?: string; href?: string }[];
+}
+
+interface Props {
+  data: CharacterProfileData;
+  liveSlugs?: string[];
+  titles?: Record<string, string>;
+  includeUnpublished?: boolean;
+}
+const { data, liveSlugs = [], titles = {}, includeUnpublished = false } = Astro.props;
+const related = data.related ?? [];
+const appearance = data.firstAppearance?.replaceAll('-', ' ');
+const cardFields: [string, string | undefined][] = [
+  ['Full name', data.fullName],
+  ['Known as', data.knownAs],
+  ['Role', data.role],
+  ['Squad', data.squad],
+  ['Wing', data.wing],
+  ['Signet', data.signet],
+  ['Dragon', data.dragon],
+  ['Dragon color', data.dragonColor],
+  ['First appearance', appearance],
+  ['Home province', data.homeProvince],
+  ['Family', data.family],
+  ['Status', data.status],
+];
+const definitionWords = data.description.trim().split(/\s+/).filter(Boolean);
+const definition = definitionWords.length >= 50 && definitionWords.length <= 70 ? data.description.trim() : '';
+const hasDefinition = Boolean(definition) || Astro.slots.has('definition');
+const background: [string, string][] = [
+  ['Home province', data.homeProvince],
+  ['Family', data.family],
+].filter((field): field is [string, string] => isKnown(field[1]));
+const signet = isKnown(data.signet) ? data.signet!.trim() : '';
+const dragonFields: [string, string][] = [
+  ['Dragon', data.dragon],
+  ['Dragon color', data.dragonColor],
+].filter((field): field is [string, string] => isKnown(field[1]));
+const live = new Set(liveSlugs);
+const people = related.flatMap(item => {
+  const href = item.slug ? `/characters/${item.slug}/` : item.href;
+  const character = href?.match(/^\/characters\/([^/]+)\/$/);
+  const self = character?.[1] === data.slugName;
+  const linked = Boolean(href && !self && (includeUnpublished || (isPublishedPath(href) && (!character || live.has(character[1])))));
+  return [{ name: item.name, href: linked ? href : undefined, label: (href && titles[href]) || item.name }];
+});
+const story = [
+  { id: 'fourth-wing', heading: 'Fourth Wing', text: '' },
+  { id: 'iron-flame', heading: 'Iron Flame', text: '' },
+  { id: 'onyx-storm', heading: 'Onyx Storm', text: '' },
+].filter(section => isKnown(section.text));
+const relatedLinks = related.flatMap(item => {
+  const href = item.slug ? `/characters/${item.slug}/` : item.href;
+  if (!href || !titles[href]) return [];
+  const character = href.match(/^\/characters\/([^/]+)\/$/);
+  if (character?.[1] === data.slugName) return [];
+  if (!includeUnpublished && (!isPublishedPath(href) || (character && !live.has(character[1])))) return [];
+  return [href];
+});
+const sections = [
+  background.length > 0 ? ['Background and Origins', 'background-and-origins'] : undefined,
+  signet ? ['Signet and Powers', 'signet-and-powers'] : undefined,
+  dragonFields.length > 0 ? ['Dragon', 'dragon'] : undefined,
+  people.length > 0 ? ['Personality and Relationships', 'personality-and-relationships'] : undefined,
+  story.length > 0 ? ['Story Arc', 'story-arc'] : undefined,
+  relatedLinks.length > 0 ? ['Related pages', 'related-pages'] : undefined,
+].filter((item): item is [string, string] => Boolean(item));
+const omitted = [
+  !hasDefinition ? 'definition' : '',
+  background.length === 0 ? 'background' : '',
+  !signet ? 'signet' : '',
+  dragonFields.length === 0 ? 'dragon' : '',
+  people.length === 0 ? 'personality' : '',
+  story.length === 0 ? 'story arc' : '',
+  relatedLinks.length === 0 ? 'related pages' : '',
+].filter(Boolean);
+for (const name of omitted) console.warn(`TBD ${name} for /characters/${data.slugName}/`);
+---
+{definition && <p>{definition}</p>}
+{!definition && <slot name="definition" />}
+<InfoCard fields={cardFields} strict />
+<slot name="spelling" />
+{sections.length > 0 && <nav class="bordered" aria-label="Table of contents">
+  <ul>{sections.map(([label, id]) => <li><a href={`#${id}`}>{label}</a></li>)}</ul>
+</nav>}
+{background.length > 0 && <section aria-labelledby="background-and-origins">
+  <h2 id="background-and-origins">Background and Origins</h2>
+  <dl>{background.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+</section>}
+{signet && <section aria-labelledby="signet-and-powers">
+  <h2 id="signet-and-powers">Signet and Powers</h2>
+  <p>{signet}</p>
+</section>}
+{dragonFields.length > 0 && <section aria-labelledby="dragon">
+  <h2 id="dragon">Dragon</h2>
+  <dl>{dragonFields.map(([label, value]) => <div><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+</section>}
+{people.length > 0 && <section aria-labelledby="personality-and-relationships">
+  <h2 id="personality-and-relationships">Personality and Relationships</h2>
+  <table>
+    <thead><tr><th scope="col">Character</th></tr></thead>
+    <tbody>{people.map(person => <tr><td>{person.href ? <a href={person.href}>{person.label}</a> : person.name}</td></tr>)}</tbody>
+  </table>
+</section>}
+{story.length > 0 && <section aria-labelledby="story-arc">
+  <h2 id="story-arc">Story Arc</h2>
+  {story.map(section => <section aria-labelledby={section.id}><h3 id={section.id}>{section.heading}</h3><p>{section.text}</p></section>)}
+</section>}
+<RelatedReading slug={data.slugName} related={related} liveSlugs={liveSlugs} titles={titles} includeUnpublished={includeUnpublished} />

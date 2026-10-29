@@ -1,16 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StructuredData from '../components/StructuredData.astro';
+import StoreLink from '../components/StoreLink.astro';
+import { AFFILIATE_DISCLOSURE, MERCH_STORES } from '../data/affiliates';
 
 const title = 'Fourth Wing Merchandise: Official & Fan-Made Guide';
 const description = 'A guide to Fourth Wing merchandise — which stores sell officially licensed apparel and accessories, what fan-made shops offer, where to browse each category.';
-const stores = [
-  ['Out of Print', 'https://outofprint.com/collections/fourth-wing'],
-  ['Kingdom of Threads', 'https://kingdomofthreads.com/collections/official-fourth-wing-collection'],
-  ['The Bean Workshop', 'https://thebeanworkshop.store/collections/official-fourth-wing-merch'],
-  ['Rebecca Yarros Shop', 'https://rebeccayarrosshop.com/'],
-  ['Hot Topic', 'https://www.hottopic.com/pop-culture/shop-by-license/fourth-wing/'],
-];
+const stores = MERCH_STORES;
 const faqs = [
   ['Where can I buy Fourth Wing merchandise?', 'Officially licensed lines are sold by Out of Print, Kingdom of Threads and The Bean Workshop, and Rebecca Yarros runs her own shop. Hot Topic also carries a Fourth Wing section. Fan-made items are mostly on Etsy.'],
   ['Is there official Fourth Wing merchandise?', 'Yes. Several stores describe their Fourth Wing collections as officially licensed, and the author operates her own shop. Check the label on the store page, because fan-made listings sit alongside licensed ones in search results.'],
@@ -36,7 +32,8 @@ const faqs = [
         licensed: Out of Print, Kingdom of Threads, and The Bean Workshop. Rebecca Yarros also
         runs her own shop, Rebecca Yarros Shop, which opened on Threshing Day (October 1). Large
         retailers such as Hot Topic carry a Fourth Wing section as well.</p>
-      <ul>{stores.map(([name, href]) => <li><a href={href}>{name}</a></li>)}</ul>
+      <p class="purchase-disclosure">{AFFILIATE_DISCLOSURE} Links marked as affiliate earn a commission; links to official stores do not, and we earn nothing from them. Prices and availability change — the listing page is the source of truth.</p>
+      <ul>{stores.map(store => <li><StoreLink store={store} /></li>)}</ul>
       <p class="store-note"><small>Store claims are quoted from each store's own collection page; we do not independently
         verify licensing.</small></p>
     </section>
@@ -72,16 +69,11 @@ const faqs = [
     </section>
 
     <p>Looking for gift ideas by recipient or budget? See our <a href="/fourth-wing-gift/">Fourth Wing gift guide</a>.</p>
-
-    <p class="affiliate-disclosure purchase-disclosure">As an Amazon Associate and Etsy Affiliate, I earn from qualifying purchases. Links marked with a price
-      are affiliate links; links to official stores are not, and we earn nothing from them.
-      Prices and availability change — the listing page is the source of truth.</p>
   </article>
   <StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map(([name, text]) => ({ '@type': 'Question', name, acceptedAnswer: { '@type': 'Answer', text } })) }} />
 </BaseLayout>
 
 <style>
   .faq-item { padding: 1rem 0; border-bottom: 1px solid var(--line); line-height: 1.75; }
-  .store-note, .affiliate-disclosure { color: var(--muted); }
-  .affiliate-disclosure { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); font-size: .875rem; }
+  .store-note { color: var(--muted); }
 </style>
