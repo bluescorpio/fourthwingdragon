@@ -8,10 +8,9 @@ interface Props {
   title: string;
   description: string;
   breadcrumbs?: { name: string; href: string }[];
-  noindex?: boolean;
   subscribe?: boolean;
 }
-const { title, description, breadcrumbs = [], noindex = false, subscribe = true } = Astro.props;
+const { title, description, breadcrumbs = [], subscribe = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://fourthwingdragon.com');
 const trail = [{ name: 'Home', href: '/' }, ...breadcrumbs.filter(b => b.href !== '/')];
 const breadcrumbData = {
@@ -29,7 +28,6 @@ const breadcrumbData = {
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

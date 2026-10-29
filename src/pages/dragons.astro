@@ -6,8 +6,8 @@ import { getCollection } from 'astro:content';
 import { isPublishedCharacter } from '../lib/publication';
 import { PAGE_TITLES } from '../lib/page-titles';
 const characterPages = (await getCollection('characters', isPublishedCharacter))
+  .filter(entry => entry.data.contentStatus === 'published')
   .sort((a, b) => a.data.slugName.localeCompare(b.data.slugName));
-const mira = (await getCollection('characters')).find(entry => entry.data.slugName === 'mira-sorrengail');
 const faqs=[['What does this page index?','It indexes seven color labels and six tail labels used in the site navigation.'],['Does a quiz result establish a dragon’s personality?','No. Quiz personalities are original interpretations for entertainment.']];
 ---
 <BaseLayout title={PAGE_TITLES['/dragons/']} description="Browse seven dragon color labels and six tail labels in a concise Empyrean vocabulary index." breadcrumbs={[{name:'Dragon Types',href:'/dragons/'}]}>
@@ -49,11 +49,10 @@ const faqs=[['What does this page index?','It indexes seven color labels and six
 <p>Feathertail is feather plus tail, a closed compound. Feather contributes a material or shape association to the head noun. A linguistic reading cannot establish what a fictional creature looks like, or how any story uses the label.</p>
 </section>
 <p class="source-note">Book information: <a href="https://www.entangledpublishing.com/books/fourth-wing">Entangled Publishing — Fourth Wing</a>. The publisher's book description provides series context, rather than a source for the color and tail lists.</p>
-{(mira || characterPages.length > 0) && <section aria-labelledby="related-pages">
+{characterPages.length > 0 && <section aria-labelledby="related-pages">
   <h2 id="related-pages">Related pages</h2>
   <ul>
-    {mira && <li><a href={`/characters/${mira.data.slugName}/`}>{mira.data.title}</a></li>}
-    {characterPages.map(entry => <li><a href={`/characters/${entry.data.slugName}/`}>{entry.data.title}</a></li>)}
+    {characterPages.map(entry => entry.data.contentStatus === 'published' && <li><a href={`/characters/${entry.data.slugName}/`}>{entry.data.title}</a></li>)}
   </ul>
 </section>}
 <section class="prose"><h2>Common questions</h2>{faqs.map(([q,a])=><details><summary>{q}</summary><p>{a}</p></details>)}<p>Try the <a href="/quiz/dragon-type/">dragon color quiz</a> or read the <a href="/guide-to-dragonkind/">guide to official and fan resources</a>.</p></section>

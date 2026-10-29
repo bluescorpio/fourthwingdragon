@@ -7,9 +7,6 @@ import { CADETS, CADET_COUNT, PUBLISHER } from '../data/empyrean';
 import { PAGE_TITLES } from '../lib/page-titles';
 const characters = await getCollection('characters', isPublishedCharacter);
 const profiles = new Map(characters.map(entry => [entry.data.fullName, entry]));
-const draftProfiles = new Map((await getCollection('characters'))
-  .filter(entry => entry.data.slugName === 'mira-sorrengail' || entry.data.slugName === 'garrick-tavis')
-  .map(entry => [entry.data.fullName, entry]));
 const retrievedOn = '2026-10-25';
 const publisherDescription = (label: string | null) => label?.replace(/\.$/, '') ?? '';
 ---
@@ -19,11 +16,12 @@ const publisherDescription = (label: string | null) => label?.replace(/\.$/, '')
   <table class="bordered">
     <thead><tr><th scope="col">Cadet</th><th scope="col">Publisher's description</th><th scope="col">Profile</th></tr></thead>
     <tbody>{CADETS.map(cadet => {
-      const profile = profiles.get(cadet.name) ?? draftProfiles.get(cadet.name);
+      const profile = profiles.get(cadet.name);
+      const profileHref = profile?.data.contentStatus === 'published' ? `/characters/${profile.data.slugName}/` : undefined;
       return <tr>
         <td>{cadet.name}</td>
         <td>{publisherDescription(cadet.publisherLabel)}</td>
-        <td>{profile && <a href={`/characters/${profile.data.slugName}/`}>{cadet.name} profile</a>}</td>
+        <td>{profileHref && <a href={profileHref}>{cadet.name} profile</a>}</td>
       </tr>;
     })}</tbody>
   </table>

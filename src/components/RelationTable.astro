@@ -1,19 +1,22 @@
 ---
+import { characterStatuses, hrefIfLive } from '../lib/publication';
 interface Props {
   related: { name: string; relation?: string; slug?: string }[];
-  liveSlugs: string[];
 }
-const { related = [], liveSlugs } = Astro.props;
-const people = related.filter((relation) => relation.relation);
-const live = new Set(liveSlugs);
+const { related = [] } = Astro.props;
+const statuses = await characterStatuses();
+const people = related.filter((relation) => relation.relation).map((relation) => ({
+  ...relation,
+  href: hrefIfLive(relation.slug ? `/characters/${relation.slug}/` : undefined, statuses),
+}));
 ---
 {people.length > 0 && <section aria-label="Relationships">
   <table class="bordered">
     <thead><tr><th>Character</th><th>Relationship</th><th>Read more</th></tr></thead>
     <tbody>{people.map(r => <tr>
       <td>{r.name}</td><td>{r.relation}</td>
-      <td>{r.slug && live.has(r.slug)
-        ? <a href={`/characters/${r.slug}/`}>{r.name}</a>
+      <td>{r.href
+        ? <a href={r.href}>{r.name}</a>
         : <span class="muted">no page yet</span>}</td>
     </tr>)}</tbody>
   </table>

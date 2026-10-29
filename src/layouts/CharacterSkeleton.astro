@@ -2,7 +2,7 @@
 import InfoCard from '../components/InfoCard.astro';
 import RelatedReading from '../components/RelatedReading.astro';
 import { isKnown } from '../lib/fields';
-import { isPublishedPath } from '../lib/publication';
+import { characterStatuses, hrefIfLive } from '../lib/publication';
 
 export interface CharacterProfileData {
   fullName?: string;
@@ -24,11 +24,10 @@ export interface CharacterProfileData {
 
 interface Props {
   data: CharacterProfileData;
-  liveSlugs?: string[];
   titles?: Record<string, string>;
-  includeUnpublished?: boolean;
 }
-const { data, liveSlugs = [], titles = {}, includeUnpublished = false } = Astro.props;
+const { data, titles = {} } = Astro.props;
+const statuses = await characterStatuses();
 const related = data.related ?? [];
 const appearance = data.firstAppearance?.replaceAll('-', ' ');
 const cardFields: [string, string | undefined][] = [
@@ -57,13 +56,12 @@ const dragonFields: [string, string][] = [
   ['Dragon', data.dragon],
   ['Dragon color', data.dragonColor],
 ].filter((field): field is [string, string] => isKnown(field[1]));
-const live = new Set(liveSlugs);
 const people = related.flatMap(item => {
-  const href = item.slug ? `/characters/${item.slug}/` : item.href;
-  const character = href?.match(/^\/characters\/([^/]+)\/$/);
+  const raw = item.slug ? `/characters/${item.slug}/` : item.href;
+  const character = raw?.match(/^\/characters\/([^/]+)\/$/);
   const self = character?.[1] === data.slugName;
-  const linked = Boolean(href && !self && (includeUnpublished || (isPublishedPath(href) && (!character || live.has(character[1])))));
-  return [{ name: item.name, href: linked ? href : undefined, label: (href && titles[href]) || item.name }];
+  const href = self ? undefined : hrefIfLive(raw, statuses);
+  return [{ name: item.name, href, label: (href && titles[href]) || item.name }];
 });
 const story = [
   { id: 'fourth-wing', heading: 'Fourth Wing', text: '' },
@@ -71,11 +69,11 @@ const story = [
   { id: 'onyx-storm', heading: 'Onyx Storm', text: '' },
 ].filter(section => isKnown(section.text));
 const relatedLinks = related.flatMap(item => {
-  const href = item.slug ? `/characters/${item.slug}/` : item.href;
+  const raw = item.slug ? `/characters/${item.slug}/` : item.href;
+  const href = hrefIfLive(raw, statuses);
   if (!href || !titles[href]) return [];
   const character = href.match(/^\/characters\/([^/]+)\/$/);
   if (character?.[1] === data.slugName) return [];
-  if (!includeUnpublished && (!isPublishedPath(href) || (character && !live.has(character[1])))) return [];
   return [href];
 });
 const sections = [
@@ -127,4 +125,4 @@ for (const name of omitted) console.warn(`TBD ${name} for /characters/${data.slu
   <h2 id="story-arc">Story Arc</h2>
   {story.map(section => <section aria-labelledby={section.id}><h3 id={section.id}>{section.heading}</h3><p>{section.text}</p></section>)}
 </section>}
-<RelatedReading slug={data.slugName} related={related} liveSlugs={liveSlugs} titles={titles} includeUnpublished={includeUnpublished} />
+<RelatedReading slug={data.slugName} related={related} titles={titles} />

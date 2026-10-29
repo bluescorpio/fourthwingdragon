@@ -1,20 +1,18 @@
 ---
-import { isPublishedPath } from '../lib/publication';
+import { characterStatuses, hrefIfLive } from '../lib/publication';
 interface Props {
   slug: string;
   related: { name: string; slug?: string; href?: string }[];
-  liveSlugs: string[];
   titles: Record<string, string>;
-  includeUnpublished?: boolean;
 }
-const { slug, related = [], liveSlugs, titles, includeUnpublished = false } = Astro.props;
-const live = new Set(liveSlugs);
+const { slug, related = [], titles } = Astro.props;
+const statuses = await characterStatuses();
 const picks = related.flatMap(item => {
-  const href = item.slug ? `/characters/${item.slug}/` : item.href;
+  const raw = item.slug ? `/characters/${item.slug}/` : item.href;
+  const href = hrefIfLive(raw, statuses);
   if (!href) return [];
   const character = href.match(/^\/characters\/([^/]+)\/$/);
   if (character?.[1] === slug) return [];
-  if (!includeUnpublished && (!isPublishedPath(href) || (character && !live.has(character[1])))) return [];
   const title = titles[href];
   if (!title) {
     console.warn(`TBD related title for ${href} on /characters/${slug}/`);

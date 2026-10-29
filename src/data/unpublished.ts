@@ -1,4 +1,4 @@
-// Draft routes remain accessible but are excluded from public link pools and sitemaps.
+// Kept out of sitemaps and public link pools. Draft character routes are not built.
 export const UNPUBLISHED_PATHS: string[] = [
   '/characters/violet-sorrengail/',
   '/characters/ridoc/',
