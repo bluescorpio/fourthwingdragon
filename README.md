@@ -56,6 +56,8 @@ Vercel: Astro preset, npm run build, output dist, repository root. Production or
 
 Keep public/google7898b661ebe700a1.html permanently. It contains the actual Google Search Console token and must remain at the domain root after every deploy. A successful local build does not by itself prove a production deployment; verify production responses after pushing main.
 
+IndexNow: keep the 32-character `.txt` key file in `public/` deployed at the domain root. Run `node scripts/submit-indexnow.mjs` to validate the live key and all pages in the production sitemap. Add `--submit` to notify IndexNow using one GET request per URL with `url`, `key`, and `keyLocation` parameters. HTTP 200 means accepted; 202 means received with key validation pending. Neither guarantees indexing. Run after production deployment when published pages change.
+
 ## Sources and assets
 
 The author’s public Fourth Wing introduction and the public Dragonkind entrance are linked with specific source limitations. The official entrance does not supply a complete public Threshing timetable or rulebook. Name meanings are original creative prompts, not translations or novel references. Quiz descriptions and reading instructions are original fan activities. No Amazon Associate membership is claimed without confirmation.
