@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DailyQuiz from '../../components/quiz/DailyQuiz.astro';
+import { dailyQuizQuestions, scheduledThrough, validateDailyQuiz } from '../../data/daily-quiz';
+const validationErrors = validateDailyQuiz();
+if (validationErrors.length) throw new Error(`Daily quiz content validation failed:\n${validationErrors.join('\n')}`);
+---
+<BaseLayout title="Daily Fourth Wing Quiz — 3 New Fan Trivia Questions" description="Test your Empyrean knowledge with three daily fan-made trivia questions about dragons, characters, and the world of Fourth Wing. Free, no account needed." breadcrumbs={[{name:'Daily Fourth Wing Quiz',href:'/quiz/daily-fourth-wing/'}]} subscribe={false}>
+  <p class="eyebrow">Today’s fan trivia challenge</p>
+  <h1>Daily Fourth Wing Quiz</h1>
+  <p class="lead">Three questions. One daily challenge. How well do you know the Empyrean?</p>
+  <p class="notice">A free, unofficial fan-made trivia challenge. Not affiliated with Rebecca Yarros or her publishers.</p>
+  <DailyQuiz />
+  <section class="prose source-list">
+    <h2>Question sources</h2>
+    <p>Every scheduled question is checked against a public author or publisher page. Question and explanation wording is original to FourthWingDragon.</p>
+    <ul>
+      <li><a href="https://rebeccayarros.com/fourthwing" rel="noopener noreferrer">Rebecca Yarros — Fourth Wing</a></li>
+      <li><a href="https://www.entangledpublishing.com/books/threshing-day" rel="noopener noreferrer">Entangled Publishing — Threshing Day</a></li>
+    </ul>
+    <p class="muted">The local schedule contains {dailyQuizQuestions.length} verified questions and currently runs through {scheduledThrough} UTC. Unscheduled days do not recycle earlier questions.</p>
+  </section>
+</BaseLayout>

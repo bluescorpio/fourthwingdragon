@@ -2,6 +2,18 @@
 
 An unofficial English Empyrean fan site built with Astro 5, Tailwind CSS 4 and TypeScript strict. Entirely prerendered; no backend, database, account or client framework.
 
+## Daily Fourth Wing Quiz
+
+The daily trivia page is `/quiz/daily-fourth-wing/`. Its reviewed question bank and explicit UTC schedule live in `src/data/daily-quiz.ts`. Each scheduled date must contain exactly three stable question IDs; there is no modulo fallback or automatic recycling.
+
+To extend the schedule:
+
+1. Add original questions with four options, one correct option, a concise explanation, source metadata, spoiler scope, and `reviewStatus: 'verified'`.
+2. Add future `YYYY-MM-DD` UTC entries to `dailyQuizSchedule`. Do not alter a published question ID, option order, or answer.
+3. Run `npm run check` and `npm run build`. The page build validates duplicate IDs, missing questions, option counts, sources, verification status, and three-question daily groups.
+
+The current schedule ends on **2026-11-25 UTC**. After that date the page deliberately shows a break message rather than repeating questions. Extend it before the final scheduled date. Answers and progress stay in the browser under the versioned localStorage key `fourthwing-daily-quiz:v1`; only the three most recent local records are retained.
+
 ## Current scope
 
 Seven core pages: home, dragon color/tail matrix, Dragonkind guide, dragon quiz, signet quiz, dragon name generator and the character index. Four legal pages: about, privacy, terms and disclaimer. The published character index and three published character profiles use trailing-slash URLs; Violet's draft profile remains excluded from the sitemap.

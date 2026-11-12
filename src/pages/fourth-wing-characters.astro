@@ -12,6 +12,7 @@ const publisherDescription = (label: string | null) => label?.replace(/\.$/, '')
 ---
 <BaseLayout title={PAGE_TITLES['/fourth-wing-characters/']} description="Browse the publisher's Fourth Wing cadet names and descriptions, with available character profiles, name spellings, and the original source." breadcrumbs={[{ name: 'Characters', href: '/fourth-wing-characters/' }]}>
   <h1>Fourth Wing Characters</h1>
+  <p><a href="/quiz/daily-fourth-wing/">Try today’s trivia challenge →</a></p>
   <p>Meet {CADET_COUNT} cadets from Rebecca Yarros's Empyrean series, named on Entangled Publishing's <a href={PUBLISHER.threshingDay.url}>Threshing Day page</a>. Their names and the publisher's own descriptions appear here alongside individual character profiles. The publisher's list uses Graycastle.</p>
   <table class="bordered">
     <thead><tr><th scope="col">Cadet</th><th scope="col">Publisher's description</th><th scope="col">Profile</th></tr></thead>
