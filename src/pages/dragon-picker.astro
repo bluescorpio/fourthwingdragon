@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { DRAGON_COLORS, TAIL_TYPES } from '../lib/dragons';
+const faqs = [
+ ['What is the Fourth Wing Dragon Picker?', 'A free, unofficial fan tool that combines the site’s existing color and tail labels into original creative prompts.'],
+ ['How does the Dragon Picker choose a result?', `Each click independently draws one of ${DRAGON_COLORS.length} color labels and one of ${TAIL_TYPES.length} tail labels with equal probability. There are ${DRAGON_COLORS.length * TAIL_TYPES.length} possible combinations, with no weights or rarity levels. Results are random, not matched to personality or book lore.`],
+ ['Are these dragons or combinations confirmed in the books?', 'No. A result does not establish a dragon or color–tail pairing from the novels, an official classification, ability, personality, power level, rarity or pairing rule. Golden / Iridescent is a combined site label; golden and iridescent have different meanings and are not asserted to be the same color in the books.'],
+ ['Is this the same as the Dragon Type Quiz?', 'No. The Dragon Type Quiz uses twelve questions to produce an original personality color profile. This picker asks no questions and makes a random label combination.'],
+ ['Can I pick again?', 'Yes. Every pick is independent, so the same combination can appear twice in a row. There is no limit or account requirement.'],
+ ['Is this an official Fourth Wing tool?', 'No. This independent fan activity is not affiliated with the author, publisher or official interactive experiences. A result does not mean an official dragon has chosen you.'],
+];
+const shareUrl = new URL('/dragon-picker/', Astro.site).href;
+---
+<BaseLayout title="Fourth Wing Dragon Picker — Random Fan-Made Dragon Combination" description="Use the free Fourth Wing Dragon Picker to generate a playful dragon color and tail combination. No quiz or account required." breadcrumbs={[{name:'Dragon Picker',href:'/dragon-picker/'}]} subscribe={false} analytics={false}>
+  <p class="eyebrow">A little chance. A new story.</p>
+  <h1>Fourth Wing Dragon Picker</h1>
+  <p class="lead">Pick a playful dragon color and tail combination in one click.</p>
+  <div id="picker" class="bordered picker" data-share-url={shareUrl} data-clarity-mask="true">
+    <div class="egg" aria-hidden="true"><svg viewBox="0 0 120 150" fill="none"><path d="M60 8C40 8 14 62 14 94a46 46 0 0 0 92 0C106 62 80 8 60 8Z" fill="var(--pick-color, #29252e)" stroke="#c9a227" stroke-width="2"/><path d="m62 30-14 32 22 14-23 26 15 25M28 87l19 15m23-26 23-9" stroke="#ede6d8" stroke-opacity=".45" stroke-width="2"/></svg></div>
+    <p class="eyebrow" id="pick-caption">An unwritten adventure</p>
+    <h2 id="pick-title">What will your next prompt be?</h2>
+    <div id="pick-result" hidden>
+      <p>Imagine the scene where you meet this dragon.</p>
+      <p>Color label: <strong id="pick-color"></strong><br/>Tail label: <strong id="pick-tail"></strong></p>
+      <p>This combination is a creative prompt, not a verified dragon from the books.</p>
+    </div>
+    <div class="actions"><button id="pick-button" type="button" hidden>Pick My Dragon</button><button id="copy-button" class="secondary" type="button" hidden>Copy Result</button></div>
+    <p id="pick-status" role="status" aria-live="polite" aria-atomic="true"></p>
+    <textarea id="pick-copy" aria-label="Result text to select and copy" readonly hidden></textarea>
+    <noscript>Enable JavaScript to draw a random combination.</noscript>
+    <p class="muted">No quiz, no account, just a random fan-made dragon prompt.</p>
+  </div>
+  <p class="notice">This is an unofficial fan-made picker. Results are playful combinations of color and tail labels, not verified dragons or canon pairings.</p>
+  <p>Your pick stays in this tab’s memory and is cleared on refresh. No history, account, browser storage or result upload is used.</p>
+  <section aria-labelledby="next-heading"><h2 id="next-heading">Keep the adventure going</h2><div class="grid cards">
+    <a class="bordered feature-card" href="/quiz/dragon-type/">Find your fan-made dragon profile →</a>
+    <a class="bordered feature-card" href="/quiz/signet/">Try the signet quiz →</a>
+    <a class="bordered feature-card" href="/dragon-name-generator/">Give your dragon a name →</a>
+    <a class="bordered feature-card" href="/dragons/">Explore dragon color and tail labels →</a>
+  </div></section>
+  <section class="prose"><h2>Common questions</h2>{faqs.map(([q,a]) => <details><summary>{q}</summary><p>{a}</p></details>)}</section>
+  <p class="notice">FourthWingDragon is an independent fan site and is not affiliated with the author or publisher. Dragon Picker results are original creative prompts, not official lore.</p>
+</BaseLayout>
+<style>
+.picker{text-align:center;margin-top:1.5rem;padding:clamp(1rem,4vw,2rem);border-top:3px solid var(--gold);overflow-wrap:anywhere}.picker h2{font-size:clamp(1.5rem,4vw,2.2rem);margin:.5rem 0 1rem}.picker p{line-height:1.7}.egg{width:100px;margin:auto}.egg svg{width:100%;height:125px}.actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}.actions button{min-height:48px;margin:0}.picker textarea{text-align:left;min-height:14rem}.drawing .egg{animation:reveal .8s ease-in-out}.feature-card{min-height:48px;line-height:1.6}summary{min-height:44px;line-height:1.6}@keyframes reveal{50%{transform:translateY(-8px) scale(1.08);filter:brightness(1.6)}}@media(prefers-reduced-motion:reduce){.drawing .egg{animation:none}}
+</style>
+<script>
+import { DRAGON_COLORS, TAIL_TYPES } from '../lib/dragons';
+import { pickDragon, formatPick } from '../lib/dragon-picker';
+const root = document.querySelector<HTMLElement>('#picker')!;
+const button = document.querySelector<HTMLButtonElement>('#pick-button')!;
+const copy = document.querySelector<HTMLButtonElement>('#copy-button')!;
+const status = document.querySelector<HTMLElement>('#pick-status')!;
+const fallback = document.querySelector<HTMLTextAreaElement>('#pick-copy')!;
+let current: ReturnType<typeof pickDragon<(typeof DRAGON_COLORS)[number], (typeof TAIL_TYPES)[number]>> | null = null;
+button.hidden = false;
+button.addEventListener('click', () => {
+  if (button.disabled) return;
+  const result = pickDragon(DRAGON_COLORS, TAIL_TYPES);
+  button.disabled = true;
+  copy.hidden = true;
+  fallback.hidden = true;
+  fallback.value = '';
+  status.textContent = 'Picking a combination…';
+  root.classList.add('drawing');
+  root.setAttribute('aria-busy', 'true');
+  const reveal = () => {
+    current = result;
+    document.querySelector('#pick-caption')!.textContent = 'Your Dragon Pick';
+    document.querySelector('#pick-title')!.textContent = `${result.color.name} · ${result.tail.name}`;
+    document.querySelector('#pick-color')!.textContent = result.color.name;
+    document.querySelector('#pick-tail')!.textContent = result.tail.name;
+    document.querySelector<HTMLElement>('#pick-result')!.hidden = false;
+    root.style.setProperty('--pick-color', result.color.hex);
+    root.classList.remove('drawing');
+    root.setAttribute('aria-busy', 'false');
+    button.textContent = 'Pick Again';
+    button.disabled = false;
+    copy.hidden = false;
+    status.textContent = `Your pick: ${result.color.name}, ${result.tail.name}.`;
+  };
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) reveal();
+  else window.setTimeout(reveal, 800);
+});
+copy.addEventListener('click', async () => {
+  if (!current || copy.disabled) return;
+  const snapshot = current;
+  const text = formatPick(snapshot.color.name, snapshot.tail.name, root.dataset.shareUrl!);
+  copy.disabled = true;
+  try {
+    await navigator.clipboard.writeText(text);
+    if (current !== snapshot || button.disabled) return;
+    fallback.hidden = true;
+    status.textContent = 'Result copied.';
+  } catch {
+    if (current !== snapshot || button.disabled) return;
+    status.textContent = 'Clipboard unavailable. Select and copy the text below.';
+    fallback.value = text;
+    fallback.hidden = false;
+  } finally { copy.disabled = false; }
+});
+</script>

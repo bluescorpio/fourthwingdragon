@@ -13,6 +13,7 @@ const faqs=[['What does this page index?','It indexes seven color labels and six
 <BaseLayout title={PAGE_TITLES['/dragons/']} description="Browse seven dragon color labels and six tail labels in a concise Empyrean vocabulary index." breadcrumbs={[{name:'Dragon Types',href:'/dragons/'}]}>
 <h1>Fourth Wing Dragon Color and Tail Index</h1>
 <p class="lead">Seven color words and six compounds ending in tail are vocabulary labels. The notes follow literary color tradition and English word formation. A heading here is not a verified dragon from the books.</p>
+<p class="notice"><a href="/dragon-picker/">Pick a random dragon color and tail combination →</a> An original fan-made creative prompt, with no quiz required.</p>
 <div class="grid cards"><section class="bordered"><h2>Color labels</h2><ul>{DRAGON_COLORS.map(c=><li id={c.id}>{c.name}</li>)}</ul></section><section class="bordered"><h2>Tail labels</h2><ul>{TAIL_TYPES.map(t=><li id={t.id}>{t.name}</li>)}</ul></section></div>
 <section class="prose">
 <h2>Color words in literary tradition</h2>

@@ -75,3 +75,13 @@ IndexNow: keep the 32-character `.txt` key file in `public/` deployed at the dom
 The author’s public Fourth Wing introduction and the public Dragonkind entrance are linked with specific source limitations. The official entrance does not supply a complete public Threshing timetable or rulebook. Name meanings are original creative prompts, not translations or novel references. Quiz descriptions and reading instructions are original fan activities. No Amazon Associate membership is claimed without confirmation.
 
 System fonts, local original social artwork, no official illustrations or book-cover assets. No analytics, cookies, local storage or remote answer submission are implemented.
+
+## Dragon Picker
+
+`/dragon-picker/` draws independent, uniformly distributed color and tail labels from `src/lib/dragons.ts` (currently 7 × 6 = 42). Adjust the existing arrays only after reviewing label wording; the picker and its combination count update automatically. Combined Golden / Iridescent wording is retained as a site label, not a claim that the terms mean the same thing.
+
+The picker uses rejection sampling with browser crypto and falls back to Math.random when crypto is unavailable. State stays in tab memory, with no history or result upload. Copy Result uses the canonical site URL and offers a selectable text box if clipboard access fails. Its egg illustration is original inline SVG. No new dependencies or analytics events are added. The page disables the shared analytics and recording scripts through an optional layout property; other pages retain their existing behavior.
+
+Run `npm test`, `npm run check`, `npm run build` and `npm run verify`. Preview with `npm run start`, then open `http://127.0.0.1:3000/dragon-picker/`.
+
+Optional browser regression: with preview running and Playwright available, run `node scripts/test-dragon-picker.mjs`. If Playwright is installed outside the project, set `PLAYWRIGHT_MODULE` to its absolute `index.mjs` path. Screenshots are written to `/tmp/dragon-picker-{320,390,1280}.png`.

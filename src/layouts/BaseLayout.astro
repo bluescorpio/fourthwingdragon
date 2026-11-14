@@ -9,8 +9,9 @@ interface Props {
   description: string;
   breadcrumbs?: { name: string; href: string }[];
   subscribe?: boolean;
+  analytics?: boolean;
 }
-const { title, description, breadcrumbs = [], subscribe = true } = Astro.props;
+const { title, description, breadcrumbs = [], subscribe = true, analytics = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://fourthwingdragon.com');
 const trail = [{ name: 'Home', href: '/' }, ...breadcrumbs.filter(b => b.href !== '/')];
 const breadcrumbData = {
@@ -24,6 +25,7 @@ const breadcrumbData = {
 <!doctype html>
 <html lang="en">
   <head>
+    {analytics && <>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-E1L018XWER"></script>
     <script is:inline>
@@ -40,6 +42,7 @@ const breadcrumbData = {
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "z56g8nlcey");
     </script>
+    </>}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="yandex-verification" content="28bc96bbe65ec758" />
@@ -54,7 +57,7 @@ const breadcrumbData = {
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="FourthWingDragon — Unofficial Empyrean fan reference" />
-    <script async defer data-domain="fourthwingdragon.com" src="https://plausible.io/js/script.js"></script>
+    {analytics && <script is:inline async defer data-domain="fourthwingdragon.com" src="https://plausible.io/js/script.js"></script>}
     <script type="application/ld+json" set:html={JSON.stringify(breadcrumbData).replaceAll('<', '\\u003c')} />
   </head>
   <body>

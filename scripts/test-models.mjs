@@ -67,3 +67,22 @@ for(const count of [0,-1,1.5,73])assert.throws(()=>chooseNames(DRAGON_NAMES,coun
 assert.throws(()=>chooseNames([],4),RangeError);
 assert.equal(formatNames(DRAGON_NAMES.slice(0,2)),DRAGON_NAMES.slice(0,2).map(item=>`${item.name} — ${item.meaning}`).join('\n'));
 console.log('index: 13 unique labels; names: 72 names with meanings, 6 styles, all batch sizes, unique sampling and copy text pass');
+const {randomIndex,pickDragon,formatPick}=await moduleAt('../src/lib/dragon-picker.ts');
+for(let c=0;c<DRAGON_COLORS.length;c++)for(let t=0;t<TAIL_TYPES.length;t++){
+ const indices=[c,t];const result=pickDragon(DRAGON_COLORS,TAIL_TYPES,()=>indices.shift());
+ assert.equal(result.color,DRAGON_COLORS[c]);assert.equal(result.tail,TAIL_TYPES[t]);
+}
+assert.deepEqual(pickDragon(DRAGON_COLORS,TAIL_TYPES,()=>0),pickDragon(DRAGON_COLORS,TAIL_TYPES,()=>0));
+let secureCalls=0;
+const secure={getRandomValues(buffer){secureCalls++;buffer[0]=4294967295;return buffer;}};
+assert.equal(randomIndex(1,secure,()=>{throw Error('Unexpected fallback');}),0);
+assert.equal(secureCalls,1);
+let rejected=0;
+assert.equal(randomIndex(7,{getRandomValues(buffer){buffer[0]=[4294967295,4294967292,4294967291][rejected++];return buffer;}}),6);
+assert.equal(rejected,3);
+assert.equal(randomIndex(6,null,()=>0),0);
+assert.equal(randomIndex(6,null,()=>.999999),5);
+assert.equal(randomIndex(7,{getRandomValues(){throw Error('Unavailable');}},()=>.5),3);
+for(const size of [0,-1,1.5,4294967297])assert.throws(()=>randomIndex(size),RangeError);
+assert.equal(formatPick('Black','Daggertail','https://fourthwingdragon.com/dragon-picker/'),'My Fourth Wing Dragon Picker result:\n\nBlack · Daggertail\n\nA playful fan-made dragon combination.\nPick yours:\nhttps://fourthwingdragon.com/dragon-picker/');
+console.log('picker: all 42 combinations, repeats, secure source, rejection boundaries, fallback and share text pass');
